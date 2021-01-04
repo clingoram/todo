@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// use App\Http\Controllers\Tasks\TaskController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +18,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+// Route::get('/item','TaskController@index');
+Route::get('/item',[TaskController::class,'index']);
+
+Route::prefix('/item')->group( function() {
+    // Route::post('/store','TaskController@store');
+    Route::post('/store',[TaskController::class,'store']);
+
+    Route::put('/{id}',[TaskController::class,'update']);
+    Route::delete('/{id}',[TaskController::class,'destory']);
 });
