@@ -2,44 +2,98 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 // models
-use App\Task;
+use App\Models\Task;
 
 // DB
-// use Illuminate\Support\Facades\DB;
-// use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         return DB::table('task')->orderBy('id','desc')->get();
     }
 
-    // save data
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    // public function create()
+    // {
+    //     //
+    // }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        // $newTask = new Task;
-        // $newTask->description = $request->item['name'];
-        // $newTask->save();
-        // return $newTask;
+        $newTask = new Task;
+        $newTask->description = $request->item['name'];
+        $newTask->save();
+        return $newTask;
 
-        DB::table('task')->insert([
-            'description' => $request->item['name']
-        ]);
 
+        // DB::table('task')->insert([
+        //     'description' => $request->item['name']
+        // ]);
     }
 
-    public function update()
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-
+        //
     }
 
-    public function destory()
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
+        //
+    }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }
