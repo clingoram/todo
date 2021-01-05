@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 // models
 use App\Models\Task;
 
+use Illuminate\Support\Carbon;
+
 // DB
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -58,10 +59,10 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+    // public function show($id)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -69,10 +70,10 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
+    // public function edit($id)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -83,7 +84,23 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // $findExist = DB::table('task')->find($id);
+        $findExist = Task::find($id);
+
+        if(isset($findExist)){
+            $findExist->status = $request->item['status'] ? true : false;
+            $findExist->updated_at = $request->item['status'] ? Carbon::now() : null;
+            
+            // return DB::table('task')->where('id',$id)->update(
+            //                     ['status' => $findExist->status],
+            //                     ['updated_at' => $findExist->updated_at]
+            // );
+
+            $findExist->save();
+            return $findExist;
+
+        };
+        return 'No data';
     }
 
     /**
@@ -94,6 +111,11 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $findExist = Task::find($id);
+        if(isset($findExist)){
+            $findExist->delete();
+            return "Deleted Successful.";
+        }
+        return "Not Found.";
     }
 }
