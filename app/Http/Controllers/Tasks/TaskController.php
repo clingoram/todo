@@ -9,7 +9,6 @@ use App\Models\Task;
 
 // DB
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
