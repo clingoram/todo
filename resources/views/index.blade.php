@@ -8,9 +8,9 @@
         <title>Laravel-ToDo List</title>
     </head>
     <body>
-      <div id="app">
-          <index-component></index-component>
-      </div>
+        <div id="app">
+            <index-component></index-component>
+        </div>
       <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
     </body>
 </html>
