@@ -1,12 +1,8 @@
-<template>
-  <input
-    type="text"
-    class="form-control"
-    placeholder="Username"
-    aria-label="Username"
-    aria-describedby="basic-addon1"
-  />
-</template>
+<template></template>
 <script>
-export default {};
+export default {
+  mounted() {
+    console.log("List");
+  },
+};
 </script>
