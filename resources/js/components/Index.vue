@@ -3,8 +3,8 @@
     <h1>ToDo List</h1>
     <span>Get things done</span>
     <add-task></add-task>
-    <!-- <task-list></task-list> -->
-    <task-view></task-view>
+    <task-list></task-list>
+    <!-- <task-view></task-view> -->
   </div>
 </template>
 <script>
@@ -14,7 +14,8 @@
 // add task form
 import AddTask from "./AddTask";
 // lists of task
-import TaskView from "./TaskView";
+// import TaskView from "./TaskView";
+import TaskList from "./TaskList";
 
 export default {
   mounted() {
@@ -22,7 +23,8 @@ export default {
   },
   components: {
     AddTask,
-    TaskView,
+    // TaskView,
+    TaskList,
   },
 };
 </script>
