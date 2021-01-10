@@ -12162,10 +12162,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log("List");
+    this.tasklist();
   },
   props: ["index"],
   data: function data() {
@@ -12175,25 +12175,25 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  methods: function methods() {
-    axios.get("/api/item").then(function (response) {
-      console.log(response);
-    })["catch"](function (error) {
-      console.log(error);
-    });
-  } // methods: {
-  //   tasklist: function () {
-  //     axios
-  //       .get("/api/item")
-  //       .then(function (response) {
-  //         console.log(response.data);
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //       });
-  //   },
+  // methods() {
+  //   axios
+  //     .get("/api/item")
+  //     .then(function (response) {
+  //       console.log(response);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
   // },
-
+  methods: {
+    tasklist: function tasklist() {
+      axios.get("/api/item").then(function (response) {
+        console.log(response.data);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -48581,9 +48581,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "ul",
-    _vm._l(_vm.item, function(item, index) {
-      return _c("li", { key: index }, [
-        _vm._v("\n    " + _vm._s(item) + "\n    ")
+    { staticClass: "item" },
+    _vm._l(_vm.item, function(items) {
+      return _c("li", { key: items.id }, [
+        _vm._v("\n    " + _vm._s(_vm.item.description) + "\n  ")
       ])
     }),
     0
