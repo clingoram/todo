@@ -1,8 +1,7 @@
 <template>
-  <ul>
-    <li v-for="(item, index) in item" :key="index">
-      {{ item }}
-      <!-- <p :item="tasklist()" class="item">{{ item.description }}</p> -->
+  <ul class="item">
+    <li v-for="items in item" :key="items.id">
+      {{ item.description }}
     </li>
   </ul>
 </template>
@@ -10,6 +9,7 @@
 export default {
   mounted() {
     console.log("List");
+    this.tasklist();
   },
   props: ["index"],
   data: function () {
@@ -19,27 +19,27 @@ export default {
       },
     };
   },
-  methods() {
-    axios
-      .get("/api/item")
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  },
-  // methods: {
-  //   tasklist: function () {
-  //     axios
-  //       .get("/api/item")
-  //       .then(function (response) {
-  //         console.log(response.data);
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //       });
-  //   },
+  // methods() {
+  //   axios
+  //     .get("/api/item")
+  //     .then(function (response) {
+  //       console.log(response);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
   // },
+  methods: {
+    tasklist: function () {
+      axios
+        .get("/api/item")
+        .then(function (response) {
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
