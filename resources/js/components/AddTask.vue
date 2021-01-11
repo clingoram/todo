@@ -12,9 +12,9 @@
 // this is form template,
 // add new task here.
 export default {
-  mounted() {
-    console.log("add task");
-  },
+  // mounted() {
+  //   console.log("add task");
+  // },
   data: function () {
     return {
       item: {
@@ -33,10 +33,14 @@ export default {
           // return item data on line 20
           item: this.item,
         })
-        .then(function (response) {
-          console.log(response);
+        .then((response) => {
+          if (response.statsu == 201) {
+            this.item.name = "";
+            // console.log(response);
+            this.$emit("reloadlist");
+          }
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
         });
     },

@@ -1,45 +1,75 @@
 <template>
-  <ul class="item">
-    <li v-for="items in item" :key="items.id">
-      {{ item.description }}
-    </li>
-  </ul>
+  <div class="item">
+    <input type="checkbox" @change="updateTask()" v-model="item.status" />
+    <span v-bind:class="[item.status ? 'completed' : '', 'itemText']">
+      {{ item.description }}</span
+    >
+    <button v-on:click="removeitem()" class="trash">
+      <font-awesome-icon icon="trash" />
+    </button>
+  </div>
 </template>
 <script>
 export default {
-  mounted() {
-    console.log("List");
-    this.tasklist();
-  },
-  props: ["index"],
-  data: function () {
-    return {
-      item: {
-        description: "",
-      },
-    };
-  },
-  // methods() {
-  //   axios
-  //     .get("/api/item")
-  //     .then(function (response) {
-  //       console.log(response);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
+  // mounted() {
+  //   console.log("List");
   // },
+  props: ["item"],
   methods: {
-    tasklist: function () {
+    // completed
+    updateTask: function () {
+      // console.log("update");
       axios
-        .get("/api/item")
-        .then(function (response) {
-          console.log(response.data);
+        .put("api/item/" + this.item.id, {
+          item: this.item,
         })
-        .catch(function (error) {
+        .then((response) => {
+          if (response.status == 200) {
+            this.$emit("changeddata");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    // move it to trash
+    removeitem: function () {
+      // console.log("remove");
+      axios
+        .delete("api/item/" + this.item.id, {
+          item: this.item,
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            this.$emit("changeddata");
+          }
+        })
+        .catch((error) => {
           console.log(error);
         });
     },
   },
 };
 </script>
+<style scoped>
+* {
+  font-size: 1.1rem;
+}
+.completed {
+  text-decoration: line-through;
+  color: #000000;
+}
+.itemText {
+  color: white;
+  width: 100%;
+  margin-left: 15px;
+}
+.item {
+  justify-content: center;
+  margin: 5px;
+}
+.trash {
+  border: none;
+  background: transparent;
+}
+</style>

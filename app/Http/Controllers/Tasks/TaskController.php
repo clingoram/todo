@@ -21,7 +21,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return DB::table('task')->orderBy('id','desc')->get();
+        return DB::table('task')->orderBy('created_at','desc')->get();
     }
 
     /**
