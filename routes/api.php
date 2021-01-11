@@ -24,9 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/item',[TaskController::class,'index']);
 
 Route::prefix('/item')->group( function() {
-    // Route::post('/store','TaskController@store');
     Route::post('/store',[TaskController::class,'store']);
-
     Route::put('/{id}',[TaskController::class,'update']);
     Route::delete('/{id}',[TaskController::class,'destroy']);
 });
