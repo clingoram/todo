@@ -58,7 +58,7 @@ input {
   border: 1pt;
   border-color: #000000;
   padding: 5px;
-  width: 40%;
+  width: 70%;
   background: #e5e5e5;
 }
 .active {
