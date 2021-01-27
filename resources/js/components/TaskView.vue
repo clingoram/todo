@@ -13,7 +13,7 @@
 // show view of tasks
 // import data
 import TaskList from "./TaskList";
-// import tasklist from "./TaskList.vue";
+import tasklist from "./TaskList.vue";
 
 export default {
   // mounted() {
