@@ -6,14 +6,22 @@
       v-on:click="addtask()"
       v-bind:class="item.name ? 'active' : 'plus'"
     />
+    <!-- <add-category></add-category> -->
   </form>
 </template>
 <script>
 // this is form template,
 // add new task here.
+
+// add category-modal
+// import AddCategory from "./AddCategory";
+
 export default {
   // mounted() {
   //   console.log("add task");
+  // },
+  // components: {
+  //   AddCategory,
   // },
   data: function () {
     return {
@@ -58,7 +66,7 @@ input {
   border: 1pt;
   border-color: #000000;
   padding: 5px;
-  width: 70%;
+  width: 60%;
   background: #e5e5e5;
 }
 .active {
