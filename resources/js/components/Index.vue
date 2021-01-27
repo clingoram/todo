@@ -7,6 +7,17 @@
       v-bind:tasks="item_data"
       v-on:reloadlist="getListdata()"
     ></task-view>
+
+    <!-- Button trigger modal -->
+    <add-category></add-category>
+
+    <div>
+      <b-button v-b-modal.modal-1>新增分類</b-button>
+
+      <b-modal id="modal-1" title="BootstrapVue">
+        <p class="my-4">Hello from modal!</p>
+      </b-modal>
+    </div>
   </div>
 </template>
 <script>
@@ -17,6 +28,8 @@
 import AddTask from "./AddTask";
 // lists of task
 import TaskView from "./TaskView";
+// add category
+import AddCategory from "./AddCategory";
 
 export default {
   // mounted() {
@@ -25,6 +38,7 @@ export default {
   components: {
     AddTask,
     TaskView,
+    AddCategory,
   },
   data: function () {
     return {

@@ -17,6 +17,14 @@ library.add(faTrash, faPlusSquare);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
+// Bootstrap-vue
+// Docs: https://bootstrap-vue.org/docs
+import { BootstrapVue, ModalPlugin } from 'bootstrap-vue';
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue);
+// This imports <b-modal> as well as the v-b-modal directive as a plugin:
+Vue.use(ModalPlugin);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
