@@ -7,6 +7,8 @@
       v-bind:tasks="item_data"
       v-on:reloadlist="getListdata()"
     ></task-view>
+
+    <!-- <button v-on:click="$emit('test')">6</button> -->
   </div>
 </template>
 <script>

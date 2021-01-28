@@ -70,6 +70,6 @@ input {
   background: #e5e5e5;
 }
 .active {
-  color: black;
+  color: white;
 }
 </style>
