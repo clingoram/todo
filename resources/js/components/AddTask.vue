@@ -43,7 +43,7 @@ export default {
         })
         .then((response) => {
           if (response.status == 201) {
-            this.item.name == "";
+            this.item.name = "";
             // console.log(response);
             this.$emit("reloadlist");
           }
