@@ -43,6 +43,7 @@ services:
             - 'sailmysql:/var/lib/mysql'
         networks:
             - sail
+
     redis:
         image: 'redis:alpine'
         ports:
