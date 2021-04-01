@@ -22,7 +22,8 @@ class Todo_taskFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'description' => $this->faker->text,
+            'status' => $this->faker->randomElements($array = array(1, 2, 0), $count = 1)
         ];
     }
 }
