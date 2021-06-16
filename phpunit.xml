@@ -25,7 +25,7 @@
         <!-- <server name="DB_DATABASE" value=":memory:"/> -->
 
         <!-- for test db start -->
-        <!-- <server name="DB_DATABASE" value="testDB"> -->
+        <server name="DB_DATABASE" value="testDB" />
         <!-- for test db end -->
 
         <server name="MAIL_MAILER" value="array"/>
