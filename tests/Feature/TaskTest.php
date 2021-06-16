@@ -19,4 +19,14 @@ class TaskTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    /** 
+     * For add new task
+     * 
+     * 
+     * */
+    public function add_task()
+    {
+        $response = $this->get('/api/item/store');
+    }
 }
