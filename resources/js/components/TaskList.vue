@@ -11,14 +11,10 @@
 </template>
 <script>
 export default {
-  // mounted() {
-  //   console.log("List");
-  // },
   props: ["item"],
   methods: {
     // completed
     updateTask: function () {
-      // console.log("update");
       axios
         .put("api/item/" + this.item.id, {
           item: this.item,
@@ -34,7 +30,6 @@ export default {
     },
     // move it to trash
     removeitem: function () {
-      // console.log("remove");
       axios
         .delete("api/item/" + this.item.id, {
           item: this.item,

@@ -17,14 +17,10 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/item', [TaskController::class, 'index']);
 
-Route::get('/item',[TaskController::class,'index']);
-
-Route::prefix('/item')->group( function() {
-    Route::post('/store',[TaskController::class,'store']);
-    Route::put('/{id}',[TaskController::class,'update']);
-    Route::delete('/{id}',[TaskController::class,'destroy']);
+Route::prefix('/item')->group(function () {
+    Route::post('/store', [TaskController::class, 'store']);
+    Route::put('/{id}', [TaskController::class, 'update']);
+    Route::delete('/{id}', [TaskController::class, 'destroy']);
 });

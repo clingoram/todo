@@ -10,16 +10,10 @@
   </form>
 </template>
 <script>
-// this is form template,
-// add new task here.
-
 // add category-modal
 // import AddCategory from "./AddCategory";
 
 export default {
-  // mounted() {
-  //   console.log("add task");
-  // },
   // components: {
   //   AddCategory,
   // },
@@ -35,10 +29,8 @@ export default {
       if (this.item.name == "") {
         return;
       }
-      // https://github.com/axios/axios
       axios
         .post("api/item/store", {
-          // return item data on line 20
           item: this.item,
         })
         .then((response) => {
