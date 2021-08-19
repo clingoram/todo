@@ -7,13 +7,9 @@
       v-bind:tasks="item_data"
       v-on:reloadlist="getListdata()"
     ></task-view>
-
-    <!-- <button v-on:click="$emit('test')">6</button> -->
   </div>
 </template>
 <script>
-// this is entry file.
-
 // import components
 // add task form
 import AddTask from "./AddTask";
@@ -21,9 +17,9 @@ import AddTask from "./AddTask";
 import TaskView from "./TaskView";
 
 export default {
-  // mounted() {
-  //   console.log("index reload");
-  // },
+  created() {
+    this.getListdata();
+  },
   components: {
     AddTask,
     TaskView,
@@ -39,15 +35,11 @@ export default {
         .get("api/item")
         .then((response) => {
           this.item_data = response.data;
-          // console.log(this.item_data);
         })
         .catch((error) => {
           console.log(error);
         });
     },
-  },
-  created() {
-    this.getListdata();
   },
 };
 </script>

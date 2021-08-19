@@ -13,12 +13,8 @@
 // show view of tasks
 // import data
 import TaskList from "./TaskList";
-import tasklist from "./TaskList.vue";
 
 export default {
-  // mounted() {
-  //   console.log("List View");
-  // },
   props: ["tasks"],
   components: {
     TaskList,
