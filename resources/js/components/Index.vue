@@ -7,6 +7,7 @@
       v-bind:tasks="item_data"
       v-on:reloadlist="getListdata()"
     ></task-view>
+    <show-calendar></show-calendar>
   </div>
 </template>
 <script>
@@ -16,6 +17,8 @@ import AddTask from "./AddTask";
 // lists of task
 import TaskView from "./TaskView";
 
+import ShowCalendar from "./Calendar.vue";
+
 export default {
   created() {
     this.getListdata();
@@ -23,6 +26,7 @@ export default {
   components: {
     AddTask,
     TaskView,
+    ShowCalendar,
   },
   data: function () {
     return {
