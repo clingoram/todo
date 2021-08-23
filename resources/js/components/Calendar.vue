@@ -1,5 +1,6 @@
 <template>
-  <b-row>
+  <b-button v-b-modal.my-modal>Show Modal</b-button>
+  <!-- <b-row>
     <b-col md="auto">
       <b-calendar
         v-model="value"
@@ -14,7 +15,7 @@
       <p class="mb-0">Context:</p>
       <pre class="small">{{ context }}</pre>
     </b-col>
-  </b-row>
+  </b-row> -->
 </template>
 
 <script>
@@ -22,16 +23,16 @@ export default {
   mounted() {
     console.log("calendar");
   },
-  data() {
-    return {
-      value: "",
-      context: null,
-    };
-  },
-  methods: {
-    onContext(ctx) {
-      this.context = ctx;
-    },
-  },
+  // data() {
+  //   return {
+  //     value: "",
+  //     context: null,
+  //   };
+  // },
+  // methods: {
+  //   onContext(ctx) {
+  //     this.context = ctx;
+  //   },
+  // },
 };
 </script>

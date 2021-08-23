@@ -1,13 +1,15 @@
 <template>
   <div id="todo_list">
+    <b-button v-b-modal.my-modal>Show Modal</b-button>
     <h1>ToDo List</h1>
-    <span>Get things done</span>
+    <span>Get things done!!!</span>
+    <show-calendar></show-calendar>
     <add-task v-on:reloadlist="getListdata()"> </add-task>
+
     <task-view
       v-bind:tasks="item_data"
       v-on:reloadlist="getListdata()"
     ></task-view>
-    <show-calendar></show-calendar>
   </div>
 </template>
 <script>
@@ -16,10 +18,12 @@
 import AddTask from "./AddTask";
 // lists of task
 import TaskView from "./TaskView";
-
-import ShowCalendar from "./Calendar.vue";
+import ShowCalendar from "./Calendar";
 
 export default {
+  mounted() {
+    console.log("hey");
+  },
   created() {
     this.getListdata();
   },
