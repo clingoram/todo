@@ -1,14 +1,9 @@
 <template>
   <div>
-    <!-- <b-button v-b-modal.modal-1>新增代辦事項</b-button>
-
-    <b-modal id="modal-1" title="BootstrapVue">
-      <p class="my-4">Hello from modal!</p>
-    </b-modal> -->
     <b-row>
       <b-col md="auto">
         <b-calendar
-          v-model="value"
+          v-model="item.value"
           @context="onContext"
           block
           locale="en-US"
@@ -16,6 +11,7 @@
         ></b-calendar>
       </b-col>
 
+      <!-- Modal -->
       <b-modal
         id="modal-prevent-closing"
         ref="modal"
@@ -28,18 +24,43 @@
           <b-form-group
             label="事項:"
             label-for="name-input"
-            invalid-feedback="Name is required"
-            :state="nameState"
+            invalid-feedback="必填"
+            :state="item.taskState"
           >
             <b-form-input
               id="name-input"
-              v-model="name"
-              :state="nameState"
+              v-model="item.addtask"
+              :state="item.taskState"
               required
             ></b-form-input>
           </b-form-group>
         </form>
       </b-modal>
+
+      <!-- <b-modal
+        id="modal-prevent-closing"
+        ref="modal"
+        title="新增代辦事項"
+        @show="resetModal"
+        @hidden="resetModal"
+        @ok="handleOk"
+      >
+        <form ref="form" @submit.stop.prevent="handleSubmit">
+          <b-form-group
+            label="事項:"
+            label-for="name-input"
+            invalid-feedback="必填"
+            :state="taskState"
+          >
+            <b-form-input
+              id="name-input"
+              v-model="addtask"
+              :state="taskState"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </form>
+      </b-modal> -->
     </b-row>
     <!-- <modal-info></modal-info> -->
   </div>
@@ -56,12 +77,20 @@ export default {
   props: ["dateValue"],
   data() {
     return {
-      value: "",
-      context: null,
-      name: "",
-      nameState: null,
-      submittedNames: [],
+      item: {
+        addtask: "",
+        taskState: null,
+        submittedNames: [],
+        value: "",
+      },
     };
+    // return {
+    //   value: "",
+    //   context: null,
+    //   addtask: "",
+    //   taskState: null,
+    //   submittedNames: [],
+    // };
   },
   methods: {
     onContext(ctx) {
@@ -69,31 +98,56 @@ export default {
     },
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
-      this.nameState = valid;
+      this.taskState = valid;
       return valid;
     },
+    // cancel
     resetModal() {
-      this.name = "";
-      this.nameState = null;
+      this.addtask = "";
+      this.taskState = null;
     },
     handleOk(bvModalEvt) {
       // Prevent modal from closing
       bvModalEvt.preventDefault();
       // Trigger submit handler
-      this.handleSubmit();
-    },
-    handleSubmit() {
-      // Exit when the form isn't valid
+      // this.handleSubmit();
+
+      // 沒有填上任何task就save
       if (!this.checkFormValidity()) {
         return;
+      } else {
+        this.submit();
       }
-      // Push the name to submitted names
-      this.submittedNames.push(this.name);
-      // Hide the modal manually
-      this.$nextTick(() => {
-        this.$bvModal.hide("modal-prevent-closing");
-      });
     },
+    submit() {
+      axios
+        .post("api/item/store", {
+          item: this.addtask,
+        })
+        .then((response) => {
+          if (response.status === 201) {
+            this.item.addtask = "";
+            this.$emit("reloadlist");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    // OK
+    // handleSubmit() {
+    //   alert("here");
+    //   // Exit when the form isn't valid
+    //   if (!this.checkFormValidity()) {
+    //     return;
+    //   }
+    //   // Push the name to submitted names
+    //   this.submittedNames.push(this.name);
+    //   // Hide the modal manually
+    //   this.$nextTick(() => {
+    //     this.$bvModal.hide("modal-prevent-closing");
+    //   });
+    // },
   },
 };
 </script>
