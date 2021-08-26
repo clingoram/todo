@@ -22,7 +22,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 import { BootstrapVue, ModalPlugin, LayoutPlugin } from 'bootstrap-vue';
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
-// This imports <b-modal> as well as the v-b-modal directive as a plugin:
+// This imports <b-modal> as well as the v-b-modal directive as a plugin
 Vue.use(ModalPlugin);
 // use for <b-container>, <b-row>, <b-col>
 Vue.use(LayoutPlugin);

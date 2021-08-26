@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 // models
 use App\Models\Task;
@@ -30,8 +31,20 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'itemName' => 'required|max:150',
+            'createdTime' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         $newTask = new Task;
-        $newTask->description = $request->item['name'];
+        // $newTask->description = $request->item['name'];
+
+        $newTask->description = $request->item['itemName'];
+        $newTask->created_at = $request->item['createdTime'];
         $newTask->save();
         return $newTask;
     }
