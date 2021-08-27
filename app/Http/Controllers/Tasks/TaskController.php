@@ -31,20 +31,18 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'itemName' => 'required|max:150',
-            'createdTime' => 'required',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'addtaskName' => 'bail|required|max:150|min:3',
+        //     'dateTime' => 'required',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json(['errors' => $validator->errors()], 422);
+        // }
 
         $newTask = new Task;
-        // $newTask->description = $request->item['name'];
-
-        $newTask->description = $request->item['itemName'];
-        $newTask->created_at = $request->item['createdTime'];
+        $newTask->description = $request->task['addtaskName'];
+        $newTask->created_at = $request->task['dateTime'];
         $newTask->save();
         return $newTask;
     }

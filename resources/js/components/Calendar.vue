@@ -7,14 +7,18 @@
           :date-info-fn="dateClass"
           :start-weekday="weekday"
           locale="local"
-          v-model="item.dateTime"
-          v-b-modal.modal-prevent-closing
+          :min="min"
+          :max="max"
+          v-model="task.dateTime"
+          @context="onContext"
         ></b-calendar>
       </b-col>
+      <modal></modal>
+      <!-- <button v-on:click="openModal()">Go</button> -->
 
       <!-- <b-col md="auto">
         <b-calendar
-          v-model="item.value"
+          v-model="task.value"
           @context="onContext"
           block
           locale="en-US"
@@ -23,7 +27,7 @@
       </b-col> -->
 
       <!-- Modal -->
-      <b-modal
+      <!-- <b-modal
         id="modal-prevent-closing"
         ref="modal"
         title="新增代辦事項"
@@ -36,74 +40,66 @@
             label="事項:"
             label-for="name-input"
             invalid-feedback="必填"
-            :state="item.taskState"
+            :state="task.taskState"
           >
             <b-form-input
               id="name-input"
-              v-model="item.addtaskName"
-              :state="item.taskState"
-              required
-            ></b-form-input>
-          </b-form-group>
-        </form>
-      </b-modal>
-
-      <!-- <p>
-        Value: <b>'{{ item.dateTime }}'</b>
-      </p>
-      <p class="mb-0">Context:</p>
-      <pre class="small">{{ context }}</pre> -->
-
-      <!-- <b-modal
-        id="modal-prevent-closing"
-        ref="modal"
-        title="新增代辦事項"
-        @show="resetModal"
-        @hidden="resetModal"
-        @ok="handleOk"
-      >
-        <form ref="form" @submit.stop.prevent="handleSubmit">
-          <b-form-group
-            label="事項:"
-            label-for="name-input"
-            invalid-feedback="必填"
-            :state="taskState"
-          >
-            <b-form-input
-              id="name-input"
-              v-model="addtask"
-              :state="taskState"
+              v-model="task.addtaskName"
+              :state="task.taskState"
               required
             ></b-form-input>
           </b-form-group>
         </form>
       </b-modal> -->
+
+      <!-- <more-info></more-info> -->
     </b-row>
-    <!-- <modal-info></modal-info> -->
   </div>
 </template>
 <script>
 // import Modalinfo from "./MoreInfo";
+
+import Modal from "./ModalInfo";
+
 export default {
   mounted() {
     console.log("calendar");
   },
-  // components: {
-  //   Modalinfo,
-  // },
+  created() {
+    this.getAlldatas();
+  },
+  components: {
+    Modal,
+  },
   // props: ["dateValue"],
   data() {
+    /**
+     * 設定月曆能顯示的最小日期和最大日期
+     */
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    // min
+    const minDate = new Date(today);
+    minDate.setMonth(minDate.getMonth() - 1);
+    minDate.setDate(5);
+    // max
+    const maxDate = new Date(today);
+    maxDate.setMonth(maxDate.getMonth() + 2);
+    maxDate.setDate(5);
     return {
       /* 
         calendar set
       */
+
       local: "zh-TW",
       weekday: 0,
       context: null,
+      min: minDate,
+      max: maxDate,
       /*
         insert datas into table
       */
-      item: {
+      task: {
         addtaskName: "",
         // taskState: null,
         // submittedNames: [],
@@ -114,45 +110,43 @@ export default {
       */
       each_item_data: [],
     };
-    // return {
-    //   value: "",
-    //   context: null,
-    //   addtask: "",
-    //   taskState: null,
-    //   submittedNames: [],
-    // };
   },
   methods: {
-    // onContext(ctx) {
-    //   this.context = ctx;
+    onContext(ctx) {
+      this.context = ctx;
+      // let getID = document.getElementsByClassName("col p-0 table-info");
+      // let getRole = $(this).attr("role");
+      // if (getRole === "button") {
+      //   this.openModal();
+      // }
+    },
+    // // 檢查input
+    // checkFormValidity() {
+    //   const valid = this.$refs.form.checkValidity();
+    //   this.taskState = valid;
+    //   return valid;
     // },
-    // 檢查input
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.taskState = valid;
-      return valid;
-    },
-    // cancel
-    resetModal() {
-      this.item.addtaskName = "";
-      this.item.taskState = null;
-    },
-    handleOk(bvModalEvt) {
-      // Prevent modal from closing
-      bvModalEvt.preventDefault();
-      // Trigger submit handler
-      // this.handleSubmit();
+    // // cancel
+    // resetModal() {
+    //   this.task.addtaskName = "";
+    //   this.task.taskState = null;
+    // },
+    // handleOk(bvModalEvt) {
+    //   // Prevent modal from closing
+    //   bvModalEvt.preventDefault();
+    //   // Trigger submit handler
+    //   // this.handleSubmit();
 
-      // 沒有填上任何task就save
-      if (!this.checkFormValidity()) {
-        return;
-      } else {
-        this.submitData();
-      }
-      // this.$nextTick(() => {
-      //   this.$bvModal.hide("modal-prevent-closing");
-      // });
-    },
+    //   // 沒有填上任何task就save
+    //   if (!this.checkFormValidity()) {
+    //     return;
+    //   } else {
+    //     this.submitData();
+    //   }
+    //   // this.$nextTick(() => {
+    //   //   this.$bvModal.hide("modal-prevent-closing");
+    //   // });
+    // },
     /* 
     css style
     要取得table created_at時間，並在該日期 mark
@@ -161,37 +155,43 @@ export default {
       const day = date.getDate();
       return day >= 10 && day <= 20 ? "table-info" : "";
     },
-    // 取得table所有資料
+    // 點擊日期開啟modal
+    // openModal() {
+    //   let getID = document.getElementById("__BVID__5__cell-2021-08-20_");
+    //   let getRole = getID.getAttribute("role");
+    //   if (getRole === "button") {
+    //     console.log("method");
+    //   }
+    //   // const getModalid = document.getElementById("modal-prevent-closing");
+    // },
+    // 取得table所有該月份的資料
     getAlldatas() {
       axios
         .get("api/item")
         .then((response) => {
           this.item_data = response.data;
+          console.log(this.item_data);
         })
         .catch((error) => {
           console.log(error);
         });
     },
     // save data
-    submitData() {
-      // const date = new Date();
-      // console.log(`項目名稱: ${this.item.addtaskName}`);
-      // console.log(`項目時間: ${this.item.dateTime}`);
-      axios
-        .post("api/item/store", {
-          itemName: this.item.addtaskName,
-          createdTime: this.item.dateTime,
-        })
-        .then((response) => {
-          if (response.status === 201) {
-            this.item.addtaskName = "";
-            this.$emit("reloadlist");
-          }
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
-    },
+    // submitData() {
+    //   axios
+    //     .post("api/item/store", {
+    //       task: this.task,
+    //     })
+    //     .then((response) => {
+    //       if (response.status === 201) {
+    //         this.task.addtaskName = "";
+    //         this.$emit("reloadlist");
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error.response.data);
+    //     });
+    // },
 
     // OK
     // handleSubmit() {
