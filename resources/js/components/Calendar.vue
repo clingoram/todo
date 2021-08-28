@@ -10,7 +10,7 @@
           :min="min"
           :max="max"
           v-model="task.dateTime"
-          @context="onContext"
+          @context="openModal"
         ></b-calendar>
       </b-col>
       <modal></modal>
@@ -22,6 +22,7 @@
           @context="onContext"
           block
           locale="en-US"
+          v-model="task.dateTime"
           v-b-modal.modal-prevent-closing
         ></b-calendar>
       </b-col> -->
@@ -112,14 +113,9 @@ export default {
     };
   },
   methods: {
-    onContext(ctx) {
-      this.context = ctx;
-      // let getID = document.getElementsByClassName("col p-0 table-info");
-      // let getRole = $(this).attr("role");
-      // if (getRole === "button") {
-      //   this.openModal();
-      // }
-    },
+    // onContext(ctx) {
+    //   this.context = ctx;
+    // },
     // // 檢查input
     // checkFormValidity() {
     //   const valid = this.$refs.form.checkValidity();
@@ -156,14 +152,13 @@ export default {
       return day >= 10 && day <= 20 ? "table-info" : "";
     },
     // 點擊日期開啟modal
-    // openModal() {
-    //   let getID = document.getElementById("__BVID__5__cell-2021-08-20_");
-    //   let getRole = getID.getAttribute("role");
-    //   if (getRole === "button") {
-    //     console.log("method");
-    //   }
-    //   // const getModalid = document.getElementById("modal-prevent-closing");
-    // },
+    openModal() {
+      console.log("method");
+
+      // 判斷是否有點擊日期，若有，帶入日期 call modal
+
+      // const getModalid = document.getElementById("modal-prevent-closing");
+    },
     // 取得table所有該月份的資料
     getAlldatas() {
       axios

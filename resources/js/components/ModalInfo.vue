@@ -75,12 +75,13 @@ export default {
       // });
     },
     // 點擊日期開啟modal
-    openModal() {
-      console.log("method");
-      // const getModalid = document.getElementById("modal-prevent-closing");
-    },
+    // openModal() {
+    //   console.log("method");
+    //   // const getModalid = document.getElementById("modal-prevent-closing");
+    // },
     // save data
     submitData() {
+      console.log(this.task);
       axios
         .post("api/item/store", {
           task: this.task,
