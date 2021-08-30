@@ -27,6 +27,16 @@ Vue.use(ModalPlugin);
 // use for <b-container>, <b-row>, <b-col>
 Vue.use(LayoutPlugin);
 
+
+// import "@fullcalendar/core/vdom"; // solves problem with Vite
+// import { FullCalendar } from "@fullcalendar/vue";
+// import { dayGridPlugin } from "@fullcalendar/daygrid";
+// import { interactionPlugin } from "@fullcalendar/interaction";
+// import Vue from 'vue';
+// // Vue.use(FullCalendar);
+// // Vue.use(dayGridPlugin);
+// // Vue.use(interactionPlugin);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -41,7 +51,8 @@ Vue.use(LayoutPlugin);
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('index-component', require('./components/Index.vue').default);
 
-
+// remove 'Vue Devtools extension' in console
+Vue.config.devtools = false;
 const app = new Vue({
     el: '#app',
 });

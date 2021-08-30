@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Validator;
 // models
 use App\Models\Task;
 
+// DB
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Carbon;
 
 class TaskController extends Controller
@@ -19,7 +22,23 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return Task::orderByDesc('created_at')->get();
+        // fullcalendar key只能用title,start,end
+        $data = DB::table('task')->select('description as title', 'created_at as start', 'updated_at as end from task')->get();
+        // return Task::orderByDesc('created_at')->get();
+
+        // $data = [
+        //     [
+        //         "title" => "測試資料1",
+        //         "start" => "2021-08-13",
+        //         "end" => "2021-08-17"
+        //     ],
+        //     [
+        //         "title" => "One",
+        //         "start" => "2021-08-30",
+        //         "end" => "2021-09-01"
+        //     ]
+        // ];
+        return $data;
     }
 
 
