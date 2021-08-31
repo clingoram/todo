@@ -7,8 +7,12 @@
     @show="resetModal"
     @hidden="resetModal"
     @ok="handleOk"
+    :class="show ? 'show' : ''"
+    :style="show ? 'display:block;padding-right:17px;' : ''"
+    aria-hidden="true"
   >
     <form ref="form" @submit.stop.prevent="handleOk">
+      <!-- 開始日期為在月曆上點擊到的日期 -->
       <b-form-group
         label="事項:"
         label-for="name-input"
@@ -21,6 +25,7 @@
           :state="task.taskState"
           required
         ></b-form-input>
+        <!-- 結束日期需要另外自行填寫，預設為開始日期的一整天 -->
       </b-form-group>
     </form>
   </b-modal>
@@ -29,6 +34,11 @@
 export default {
   mounted() {
     console.log("modal is ready");
+  },
+  props: {
+    show: Boolean,
+    save: Function,
+    info: Object,
   },
   data() {
     return {
@@ -39,7 +49,8 @@ export default {
         addtaskName: "",
         // taskState: null,
         // submittedNames: [],
-        dateTime: "",
+        dateTimeStart: "",
+        dateTimeEnd: "",
       },
     };
   },

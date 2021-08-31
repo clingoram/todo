@@ -3,30 +3,13 @@
     <FullCalendar :options="calendarOptions" />
 
     <!-- Modal -->
-    <b-modal
-      id="modal-prevent-closing"
-      ref="modal"
-      title="新增代辦事項"
-      @show="resetModal"
-      @hidden="resetModal"
-      @ok="handleOk"
-    >
-      <form ref="form" @submit.stop.prevent="handleOk">
-        <b-form-group
-          label="事項:"
-          label-for="name-input"
-          invalid-feedback="必填"
-          :state="task.taskState"
-        >
-          <b-form-input
-            id="name-input"
-            v-model="task.addtaskName"
-            :state="task.taskState"
-            required
-          ></b-form-input>
-        </b-form-group>
-      </form>
-    </b-modal>
+    <modal
+      v-if="showModal"
+      :info="clickEvents.info"
+      :show="showModal"
+      :save="addEvent"
+      @close="showModal = false"
+    ></modal>
   </div>
 </template>
 <script>
@@ -36,18 +19,21 @@ import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 // click date to open modal to add new task.
-// import Modal from "./ModalInfo";
+import Modal from "./ModalInfo";
 
 export default {
   components: {
     FullCalendar,
-    // Modal,
+    Modal,
   },
   created() {
     this.getAlldatas();
   },
+  // props: ["clickDate"],
   data() {
     return {
+      showModal: false,
+      clickEvents: { info: "" },
       /*
         insert datas into table
       */
@@ -55,12 +41,9 @@ export default {
         addtaskName: "",
         // taskState: null,
         // submittedNames: [],
-        dateTime: "",
+        dateTimeStart: "",
+        dateTimeEnd: "",
       },
-      /*
-        getAlldatas()的all datas
-      */
-      // item_data: [],
       /*
        FullCalendar
        */
@@ -69,8 +52,9 @@ export default {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         dateClick: this.handleDateClick,
-        // 要把getAlldatas()的資料塞進這個events，才能顯示在calendar
+        eventClick: this.handleEventClick,
         events: [],
+        // backgroundColor: "red",
         // eventSources: [
         //   {
         //     url: "api/item",
@@ -101,22 +85,30 @@ export default {
     };
   },
   methods: {
-    // 取得table所有該月份的資料
-    getAlldatas() {
-      axios
-        .get("api/item")
-        .then((response) => {
-          if (response.data.legth !== 0) {
-            this.calendarOptions.events = response.data;
-            // console.log(this.calendarOptions.events);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    handleEventClick() {
+      console.log("click");
+      this.showModal = true;
     },
+    /*  
+    觸發modal
+    並把點擊到的日期傳到modal
+    */
     handleDateClick: function (arg) {
-      alert("點到了 " + arg.dateStr);
+      // alert("點到了 " + arg.dateStr);
+
+      // 日期
+      this.dateTimeStart = arg.dateStr;
+      // console.log(this.dateTimeStart);
+
+      // 取第二個table內的tbody內的tr內的td的data-date(日期)
+      // let findModalId = document
+      //   .getElementsByClassName("fc-scrollgrid-sync-table")[0]
+      //   .getAttribute("class");
+
+      // let findModalId = $(".fc-scrollgrid-sync-table > tbody").children();
+
+      // console.log(findModalId);
+      // return this.clickDate;
     },
     // 檢查input
     checkFormValidity() {
@@ -130,10 +122,7 @@ export default {
       this.task.taskState = null;
     },
     handleOk(bvModalEvt) {
-      // Prevent modal from closing
       bvModalEvt.preventDefault();
-      // Trigger submit handler
-      // this.handleSubmit();
 
       // 沒有填上任何task就save
       if (!this.checkFormValidity()) {
@@ -141,15 +130,7 @@ export default {
       } else {
         this.submitData();
       }
-      // this.$nextTick(() => {
-      //   this.$bvModal.hide("modal-prevent-closing");
-      // });
     },
-    // 點擊日期開啟modal
-    // openModal() {
-    //   console.log("method");
-    //   // const getModalid = document.getElementById("modal-prevent-closing");
-    // },
     // save data
     submitData() {
       console.log(this.task);
@@ -165,6 +146,19 @@ export default {
         })
         .catch((error) => {
           console.log(error.response.data);
+        });
+    },
+    // 取得table所有該月份的資料
+    getAlldatas() {
+      axios
+        .get("api/item")
+        .then((response) => {
+          if (response.data.legth !== 0) {
+            this.calendarOptions.events = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
   },

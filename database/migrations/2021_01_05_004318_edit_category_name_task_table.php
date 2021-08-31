@@ -25,6 +25,10 @@ class EditCategoryNameTaskTable extends Migration
      */
     public function down()
     {
-        $table->dropColumn('category_name');
+        Schema::table('task', function (Blueprint $table) {
+            if (Schema::hasColumn('category_name')) {
+                $table->dropColumn('category_name');
+            }
+        });
     }
 }

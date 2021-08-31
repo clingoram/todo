@@ -23,22 +23,9 @@ class TaskController extends Controller
     public function index()
     {
         // fullcalendar key只能用title,start,end
-        $data = DB::table('task')->select('description as title', 'created_at as start', 'updated_at as end from task')->get();
-        // return Task::orderByDesc('created_at')->get();
+        // $data = DB::table('task')->select('description as title', 'created_at as start', 'end_at as end')->get();
 
-        // $data = [
-        //     [
-        //         "title" => "測試資料1",
-        //         "start" => "2021-08-13",
-        //         "end" => "2021-08-17"
-        //     ],
-        //     [
-        //         "title" => "One",
-        //         "start" => "2021-08-30",
-        //         "end" => "2021-09-01"
-        //     ]
-        // ];
-        return $data;
+        return Task::select('description AS title', 'created_at AS start', 'end_at AS end')->orderByDesc('created_at')->get();
     }
 
 
@@ -61,7 +48,8 @@ class TaskController extends Controller
 
         $newTask = new Task;
         $newTask->description = $request->task['addtaskName'];
-        $newTask->created_at = $request->task['dateTime'];
+        $newTask->created_at = $request->task['dateTimeStart'];
+        $newTask->end_at = $request->task['dateTimeEnd'];
         $newTask->save();
         return $newTask;
     }
