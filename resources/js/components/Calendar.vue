@@ -1,20 +1,20 @@
 <template>
   <div>
-    <FullCalendar :options="calendarOptions" />
+    <!-- FullCalendar -->
+    <FullCalendar v-bind:options="calendarOptions" />
 
     <!-- Modal -->
+    <!-- <modal v-model="showModal"></modal> -->
     <modal
       v-if="showModal"
-      :info="clickEvents.info"
-      :show="showModal"
-      :save="addEvent"
-      @close="showModal = false"
+      v-bind:show="showModal"
+      v-on:close="showModal = false"
     ></modal>
   </div>
 </template>
 <script>
 // FullCalendar
-import "@fullcalendar/core/vdom";
+// import "@fullcalendar/core/vdom";
 import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -29,21 +29,9 @@ export default {
   created() {
     this.getAlldatas();
   },
-  // props: ["clickDate"],
   data() {
     return {
       showModal: false,
-      clickEvents: { info: "" },
-      /*
-        insert datas into table
-      */
-      task: {
-        addtaskName: "",
-        // taskState: null,
-        // submittedNames: [],
-        dateTimeStart: "",
-        dateTimeEnd: "",
-      },
       /*
        FullCalendar
        */
@@ -52,43 +40,16 @@ export default {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         dateClick: this.handleDateClick,
-        eventClick: this.handleEventClick,
+        // eventClick: this.handleEventClick,
         events: [],
-        // backgroundColor: "red",
-        // eventSources: [
-        //   {
-        //     url: "api/item",
-        //     method: "GET",
-        //     dataType: "JSON",
-        //     color: "#65a9d7",
-        //     textColor: "#3c3d3d",
-        //     data: {
-        //       start: "start",
-        //       end: "end",
-        //       id: "id",
-        //       title: "title",
-        //     },
-        //     success: function (response) {
-        //       // response type is object
-        //       // let toArray = JSON.stringify(response);
-        //       // let events = [];
-        //       // events.push({
-        //       //   title: toArray.description,
-        //       // });
-        //     },
-        //     failure: function (err) {
-        //       alert(err);
-        //     },
-        //   },
-        // ],
       },
     };
   },
   methods: {
-    handleEventClick() {
-      console.log("click");
-      this.showModal = true;
-    },
+    // handleEventClick: function () {
+    //   // console.log("click");
+    //   this.modalShow = true;
+    // },
     /*  
     觸發modal
     並把點擊到的日期傳到modal
@@ -110,46 +71,8 @@ export default {
       // console.log(findModalId);
       // return this.clickDate;
     },
-    // 檢查input
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.taskState = valid;
-      return valid;
-    },
-    // cancel
-    resetModal() {
-      this.task.addtaskName = "";
-      this.task.taskState = null;
-    },
-    handleOk(bvModalEvt) {
-      bvModalEvt.preventDefault();
-
-      // 沒有填上任何task就save
-      if (!this.checkFormValidity()) {
-        return;
-      } else {
-        this.submitData();
-      }
-    },
-    // save data
-    submitData() {
-      console.log(this.task);
-      axios
-        .post("api/item/store", {
-          task: this.task,
-        })
-        .then((response) => {
-          if (response.status === 201) {
-            this.task.addtaskName = "";
-            this.$emit("reloadlist");
-          }
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
-    },
     // 取得table所有該月份的資料
-    getAlldatas() {
+    getAlldatas: function () {
       axios
         .get("api/item")
         .then((response) => {
