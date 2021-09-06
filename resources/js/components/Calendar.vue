@@ -4,12 +4,15 @@
     <FullCalendar v-bind:options="calendarOptions" />
 
     <!-- Modal -->
-    <!-- <modal v-model="showModal"></modal> -->
-    <modal
+    <modal v-model="showModal"></modal>
+
+    <!-- <modal
       v-if="showModal"
+      v-bind:info="task.info"
       v-bind:show="showModal"
+      v-bind:save="addEvent"
       v-on:close="showModal = false"
-    ></modal>
+    ></modal> -->
   </div>
 </template>
 <script>
@@ -23,7 +26,7 @@ import Modal from "./ModalInfo";
 
 export default {
   components: {
-    FullCalendar,
+    // FullCalendar,
     Modal,
   },
   created() {
@@ -32,34 +35,36 @@ export default {
   data() {
     return {
       showModal: false,
-      /*
-       FullCalendar
-       */
+      // task: { info: "" },
+      // FullCalendar
       calendarOptions: {
         timeZone: "local",
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         dateClick: this.handleDateClick,
-        // eventClick: this.handleEventClick,
+        eventClick: function () {
+          this.showModal = true;
+          console.log("eventClick");
+        }.bind(this),
         events: [],
       },
     };
   },
   methods: {
-    // handleEventClick: function () {
-    //   // console.log("click");
-    //   this.modalShow = true;
-    // },
     /*  
     觸發modal
     並把點擊到的日期傳到modal
     */
     handleDateClick: function (arg) {
       // alert("點到了 " + arg.dateStr);
-
       // 日期
       this.dateTimeStart = arg.dateStr;
       // console.log(this.dateTimeStart);
+
+      // const myElement = document.createElement("div");
+      // myElement.id = "v-modal.modal-prevent-closing";
+      // myElement.classList.add("calendar-date");
+      // document.body.appendChild(myElement);
 
       // 取第二個table內的tbody內的tr內的td的data-date(日期)
       // let findModalId = document
@@ -76,7 +81,7 @@ export default {
       axios
         .get("api/item")
         .then((response) => {
-          if (response.data.legth !== 0) {
+          if (response.data.legth !== 0 && response.status === 200) {
             this.calendarOptions.events = response.data;
           }
         })

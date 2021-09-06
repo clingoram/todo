@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Validator;
 // models
 use App\Models\Task;
 
-// DB
-use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Carbon;
 
 class TaskController extends Controller
@@ -25,7 +22,18 @@ class TaskController extends Controller
         // fullcalendar key只能用title,start,end
         // $data = DB::table('task')->select('description as title', 'created_at as start', 'end_at as end')->get();
 
-        return Task::select('description AS title', 'created_at AS start', 'end_at AS end')->orderByDesc('created_at')->get();
+        $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus')->orderByDesc('created_at')->get();
+
+        $array = [];
+        foreach ($allData as $key) {
+            $task['id'] = $key['id'];
+            $task['title'] = $key['title'];
+            $task['start'] = $key['start'];
+            $task['end'] = $key['end'];
+            $task['status'] = $key['taskStatus'];
+            array_push($array, $task);
+        }
+        return json_encode($array);
     }
 
 

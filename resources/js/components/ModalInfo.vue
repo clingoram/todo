@@ -1,16 +1,16 @@
 <template>
   <!-- Modal -->
-  <b-modal
+  <!-- <b-modal
     id="modal-prevent-closing"
     ref="modal"
     title="新增代辦事項"
     v-on:show="resetModal"
     v-on:hidden="resetModal"
     v-on:ok="handleOk"
-  >
-    <!-- <b-modal
+  > -->
+  <b-modal
     id="modal-prevent-closing"
-    ref="modal"
+    ref="my-modal"
     title="新增代辦事項"
     v-on:show="resetModal"
     v-on:hidden="resetModal"
@@ -18,7 +18,7 @@
     v-bind:class="show ? 'show' : ''"
     v-bind:style="show ? 'display:block;' : ''"
     aria-hidden="true"
-  > -->
+  >
     <form ref="form" v-on:submit.stop.prevent="handleOk">
       <!-- 開始日期為在月曆上點擊到的日期 -->
       <b-form-group
@@ -41,15 +41,17 @@
 <script>
 export default {
   mounted() {
+    this.title = "";
     console.log("Modal component is ready");
   },
-  // props: {
-  //   show: Boolean,
-  //   // save: Function,
-  //   info: Object,
-  // },
+  props: {
+    show: Boolean,
+    save: Function,
+    info: Object,
+  },
   data() {
     return {
+      title: "",
       /*
         insert datas into table
       */
