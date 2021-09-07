@@ -19,18 +19,15 @@ class TaskController extends Controller
      */
     public function index()
     {
-        // fullcalendar key只能用title,start,end
-        // $data = DB::table('task')->select('description as title', 'created_at as start', 'end_at as end')->get();
-
         $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus')->orderByDesc('created_at')->get();
 
         $array = [];
         foreach ($allData as $key) {
             $task['id'] = $key['id'];
             $task['title'] = $key['title'];
+            $task['status'] = $key['taskStatus'];
             $task['start'] = $key['start'];
             $task['end'] = $key['end'];
-            $task['status'] = $key['taskStatus'];
             array_push($array, $task);
         }
         return json_encode($array);
@@ -54,10 +51,12 @@ class TaskController extends Controller
         //     return response()->json(['errors' => $validator->errors()], 422);
         // }
 
+        // 新增成功
         $newTask = new Task;
-        $newTask->description = $request->task['addtaskName'];
-        $newTask->created_at = $request->task['dateTimeStart'];
-        $newTask->end_at = $request->task['dateTimeEnd'];
+        $newTask->description = $request->item['addtaskName'];
+        $newTask->status = $request->item['status'] ? $request->item['status'] : false;
+        $newTask->created_at = $request->item['dateTimeStart'];
+        $newTask->end_at = $request->item['dateTimeEnd'];
         $newTask->save();
         return $newTask;
     }
@@ -74,11 +73,14 @@ class TaskController extends Controller
         $findExist = Task::find($id);
 
         if (isset($findExist)) {
+            // 更新成功
             $findExist->status = $request->item['status'] ? true : false;
-            $findExist->updated_at = $request->item['status'] ? Carbon::now() : null;
+            // 更新時間要用當下更新的時間
+            $findExist->updated_at = $request->item['dateTimeStart'] ? Carbon::now() : null;
             $findExist->save();
             return $findExist;
         };
+        // 無資料
         return 'No data';
     }
 
