@@ -10,7 +10,7 @@
   > -->
   <b-modal
     id="modal-prevent-closing"
-    ref="my-modal"
+    ref="showModal"
     title="新增代辦事項"
     v-on:show="resetModal"
     v-on:hidden="resetModal"
@@ -22,7 +22,7 @@
     <form ref="form" v-on:submit.stop.prevent="handleOk">
       <!-- 開始日期為在月曆上點擊到的日期 -->
       <b-form-group
-        label="事項:"
+        label="代辦事項:"
         label-for="task-input"
         invalid-feedback="必填"
         v-bind:state="task.taskState"
@@ -41,17 +41,18 @@
 <script>
 export default {
   mounted() {
-    this.title = "";
+    // this.title = "";
     console.log("Modal component is ready");
   },
   props: {
     show: Boolean,
-    save: Function,
-    info: Object,
+    // save: Function,
+    // info: Object,
   },
   data() {
     return {
       title: "",
+
       /*
         insert datas into table
       */

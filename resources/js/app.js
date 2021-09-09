@@ -51,8 +51,6 @@ Vue.use(LayoutPlugin);
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('index-component', require('./components/Index.vue').default);
 
-// remove 'Vue Devtools extension' in console
-Vue.config.devtools = false;
 const app = new Vue({
     el: '#app',
 });

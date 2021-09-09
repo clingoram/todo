@@ -11,5 +11,7 @@
             <index-component></index-component>
         </div>
       <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
+      {{-- Vue Dev. Tools --}}
+      <script src="http://localhost:8098"></script>
     </body>
 </html>
