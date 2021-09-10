@@ -19,7 +19,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus')->orderByDesc('created_at')->get();
+        $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus')
+            ->where('status', 0)
+            ->orderByDesc('created_at')
+            ->get();
 
         $array = [];
         foreach ($allData as $key) {
@@ -53,10 +56,9 @@ class TaskController extends Controller
 
         // 新增成功
         $newTask = new Task;
-        $newTask->description = $request->item['addtaskName'];
-        $newTask->status = $request->item['status'] ? $request->item['status'] : false;
-        $newTask->created_at = $request->item['dateTimeStart'];
-        $newTask->end_at = $request->item['dateTimeEnd'];
+        $newTask->description = $request->todoTask['addtaskName'];
+        $newTask->created_at = $request->todoTask['dateTimeStart'];
+        $newTask->end_at = $request->todoTask['dateTimeEnd'];
         $newTask->save();
         return $newTask;
     }
