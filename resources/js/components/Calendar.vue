@@ -5,7 +5,7 @@
       <modal v-model="showModal"></modal>
     </div>
     <!-- <modal
-      v-if="showModal"
+      v-show="showModal"
       v-bind:show="showModal"
       v-bind:info="tasks.info"
       v-bind:save="addEvent()"
