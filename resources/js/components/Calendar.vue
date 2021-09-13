@@ -20,6 +20,7 @@
           invalid-feedback="必填"
           v-bind:state="todoTask.taskState"
         >
+          <!-- 日期:{{ calendarOptions.dateClick }} -->
           <b-form-input
             id="task-input"
             v-model="todoTask.addtaskName"
@@ -45,6 +46,8 @@ export default {
     FullCalendar,
     // Modal,
   },
+  // pass data
+  props: [],
   created() {
     this.getAlldatas();
   },
@@ -66,7 +69,7 @@ export default {
         dateClick: this.handleDateClick,
         eventClick: function (info) {
           this.showModal = true;
-          // console.log(info.event.start);
+          console.log(info.event.start);
         }.bind(this),
         // selectable: true,
       },
@@ -100,8 +103,10 @@ export default {
     handleDateClick: function (arg) {
       // 日期
       this.dateTimeStart = arg.dateStr;
+      console.log(this.dateTimeStart);
       this.showModal = true;
-      // console.log(this.dateTimeStart);
+
+      return this.dateTimeStart;
     },
     // 取得table所有該月份的資料
     getAlldatas: function () {
@@ -119,19 +124,19 @@ export default {
     // save data
     submitData() {
       console.log(this.todoTask);
-      axios
-        .post("api/item/store", {
-          todoTask: this.todoTask,
-        })
-        .then((response) => {
-          if (response.status === 201) {
-            this.todoTask.addtaskName = "";
-            this.$emit("reloadlist");
-          }
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
+      // axios
+      //   .post("api/item/store", {
+      //     todoTask: this.todoTask,
+      //   })
+      //   .then((response) => {
+      //     if (response.status === 201) {
+      //       this.todoTask.addtaskName = "";
+      //       this.$emit("reloadlist");
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log(error.response.data);
+      //   });
     },
   },
 };
