@@ -4,7 +4,7 @@
     <!-- <modal v-model="showModal"></modal> -->
     <!-- <modal></modal> -->
 
-    <b-modal
+    <!-- <b-modal
       id="modal-prevent-closing"
       ref="showModal"
       v-model="showModal"
@@ -20,7 +20,6 @@
           invalid-feedback="必填"
           v-bind:state="todoTask.taskState"
         >
-          <!-- 日期:{{ calendarOptions.dateClick }} -->
           <b-form-input
             id="task-input"
             v-model="todoTask.addtaskName"
@@ -29,7 +28,7 @@
           ></b-form-input>
         </b-form-group>
       </form>
-    </b-modal>
+    </b-modal> -->
   </div>
 </template>
 <script>
