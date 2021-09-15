@@ -8,21 +8,9 @@
     v-on:show="resetModal"
     v-on:hidden="resetModal"
     v-on:ok="handleOk"
-    @click="toOpenModal()"
+    v-on:click="toOpenModal()"
   >
-    <!-- <b-modal
-    id="modal-prevent-closing"
-    ref="showModal"
-    title="新增代辦事項"
-    v-on:show="resetModal"
-    v-on:hidden="resetModal"
-    v-on:ok="handleOk"
-    v-bind:class="show ? 'show' : ''"
-    v-bind:style="show ? 'display:block;' : ''"
-    aria-hidden="true"
-  > -->
     <form ref="form" v-on:submit.stop.prevent="handleOk">
-      <!-- 開始日期為在月曆上點擊到的日期 -->
       <b-form-group
         label="代辦事項:"
         label-for="task-input"
@@ -35,7 +23,6 @@
           v-bind:state="task.taskState"
           required
         ></b-form-input>
-        <!-- 結束日期需要另外自行填寫，預設為開始日期的一整天 -->
       </b-form-group>
     </form>
   </b-modal>
@@ -43,18 +30,11 @@
 <script>
 export default {
   mounted() {
-    // this.title = "";
     console.log("Modal component is ready");
   },
-  // props: {
-  // show: Boolean,
-  // save: Function,
-  // info: Object,
-  // },
   data() {
     return {
-      // title: "",
-      // showModal: false,
+      showModal: false,
       /*
         insert datas into table
       */
@@ -67,15 +47,12 @@ export default {
       },
     };
   },
-  computed: {
-    // toOpenModal: function () {
-    //   // this.showModal = true;
-    //   console.log("open");
-    // },
-  },
+  computed: {},
   methods: {
     toOpenModal: function () {
-      // this.showModal = true;
+      if (this.taskEvents) {
+        this.showModal = true;
+      }
       console.log("open");
     },
     // onContext(ctx) {

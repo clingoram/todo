@@ -1,10 +1,10 @@
 <template>
   <div>
-    <FullCalendar v-bind:options="calendarOptions" />
+    <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" />
     <!-- <modal v-model="showModal"></modal> -->
-    <!-- <modal></modal> -->
+    <!-- <modal :dateStart="dateStart" :taskEvents="taskEvents"></modal> -->
 
-    <!-- <b-modal
+    <b-modal
       id="modal-prevent-closing"
       ref="showModal"
       v-model="showModal"
@@ -14,21 +14,23 @@
       v-on:ok="handleOk"
     >
       <form ref="form" v-on:submit.stop.prevent="handleOk">
-        <b-form-group
-          label="代辦事項:"
-          label-for="task-input"
-          invalid-feedback="必填"
-          v-bind:state="todoTask.taskState"
-        >
-          <b-form-input
-            id="task-input"
-            v-model="todoTask.addtaskName"
+        <b-form-group label="日期:" v-bind:start="calendarOptions.dateClick">
+          <b-form-group
+            label="代辦事項:"
+            label-for="task-input"
+            invalid-feedback="必填"
             v-bind:state="todoTask.taskState"
-            required
-          ></b-form-input>
+          >
+            <b-form-input
+              id="task-input"
+              v-model="todoTask.addtaskName"
+              v-bind:state="todoTask.taskState"
+              required
+            ></b-form-input>
+          </b-form-group>
         </b-form-group>
       </form>
-    </b-modal> -->
+    </b-modal>
   </div>
 </template>
 <script>
@@ -45,34 +47,48 @@ export default {
     FullCalendar,
     // Modal,
   },
-  // pass data
-  props: [],
-  created() {
-    this.getAlldatas();
-  },
+  // Pass data
+  props: ["dateStart", "taskEvents"],
   data() {
     return {
       showModal: false,
-      // insert todo task
+      // Insert todo task
       todoTask: {
         addtaskName: "",
         dateTimeStart: "",
         dateTimeEnd: "",
       },
-      // full calendar
+      // Full calendar
       calendarOptions: {
         timeZone: "local",
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         events: [],
-        dateClick: this.handleDateClick,
-        eventClick: function (info) {
+        dateClick: function (arg) {
           this.showModal = true;
-          console.log(info.event.start);
+          this.dateTimeStart = arg.dateStr;
+          // console.log(this.dateTimeStart);
         }.bind(this),
-        // selectable: true,
+        eventClick: function () {
+          this.showModal = true;
+        }.bind(this),
       },
     };
+  },
+  computed: {
+    // 取得table所有該月份的資料
+    getAlldatas: function () {
+      axios
+        .get("api/item")
+        .then((response) => {
+          if (response.data.legth !== 0 && response.status === 200) {
+            this.calendarOptions.events = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   methods: {
     checkFormValidity: function () {
@@ -94,31 +110,6 @@ export default {
       } else {
         this.submitData();
       }
-    },
-    /*  
-    觸發modal
-    並把點擊到的日期傳到modal
-    */
-    handleDateClick: function (arg) {
-      // 日期
-      this.dateTimeStart = arg.dateStr;
-      console.log(this.dateTimeStart);
-      this.showModal = true;
-
-      return this.dateTimeStart;
-    },
-    // 取得table所有該月份的資料
-    getAlldatas: function () {
-      axios
-        .get("api/item")
-        .then((response) => {
-          if (response.data.legth !== 0 && response.status === 200) {
-            this.calendarOptions.events = response.data;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
     // save data
     submitData() {
