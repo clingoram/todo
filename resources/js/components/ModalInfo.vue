@@ -2,13 +2,11 @@
   <!-- Modal -->
   <b-modal
     id="modal-prevent-closing"
-    ref="showModal"
     title="新增代辦事項"
     v-model="showModal"
     v-on:show="resetModal"
     v-on:hidden="resetModal"
     v-on:ok="handleOk"
-    v-on:click="toOpenModal()"
   >
     <form ref="form" v-on:submit.stop.prevent="handleOk">
       <b-form-group
@@ -51,7 +49,7 @@ export default {
   methods: {
     toOpenModal: function () {
       if (this.taskEvents) {
-        this.showModal = true;
+        this.modalOpen = true;
       }
       console.log("open");
     },

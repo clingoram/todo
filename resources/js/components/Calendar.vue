@@ -2,7 +2,7 @@
   <div>
     <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" />
     <!-- <modal v-model="showModal"></modal> -->
-    <!-- <modal :dateStart="dateStart" :taskEvents="taskEvents"></modal> -->
+    <!-- <modal></modal> -->
 
     <b-modal
       id="modal-prevent-closing"
@@ -45,10 +45,8 @@ import Modal from "./ModalInfo";
 export default {
   components: {
     FullCalendar,
-    // Modal,
+    Modal,
   },
-  // Pass data
-  props: ["dateStart", "taskEvents"],
   data() {
     return {
       showModal: false,
@@ -64,10 +62,11 @@ export default {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         events: [],
+        // dateClick: this.dateClick(),
         dateClick: function (arg) {
           this.showModal = true;
           this.dateTimeStart = arg.dateStr;
-          // console.log(this.dateTimeStart);
+          console.log(this.dateTimeStart);
         }.bind(this),
         eventClick: function () {
           this.showModal = true;
@@ -91,6 +90,11 @@ export default {
     },
   },
   methods: {
+    // dateClick: function (arg) {
+    //   this.showModal = true;
+    //   this.dateTimeStart = arg.dateStr;
+    //   console.log(this.dateTimeStart);
+    // },
     checkFormValidity: function () {
       const valid = this.$refs.form.checkValidity();
       this.taskState = valid;
