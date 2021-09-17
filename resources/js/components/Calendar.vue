@@ -14,7 +14,7 @@
       v-on:ok="handleOk"
     >
       <form ref="form" v-on:submit.stop.prevent="handleOk">
-        <b-form-group label="日期:" v-bind:start="calendarOptions.dateClick">
+        <b-form-group label="日期:">
           <b-form-group
             label="代辦事項:"
             label-for="task-input"
@@ -47,6 +47,11 @@ export default {
     FullCalendar,
     Modal,
   },
+  props: {
+    clickDate: {
+      type: Date,
+    },
+  },
   data() {
     return {
       showModal: false,
@@ -66,7 +71,7 @@ export default {
         dateClick: function (arg) {
           this.showModal = true;
           this.dateTimeStart = arg.dateStr;
-          console.log(this.dateTimeStart);
+          // console.log(this.dateTimeStart);
         }.bind(this),
         eventClick: function () {
           this.showModal = true;
