@@ -19,13 +19,17 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 // Bootstrap-vue
 // Docs: https://bootstrap-vue.org/docs
-import { BootstrapVue, ModalPlugin, LayoutPlugin } from 'bootstrap-vue';
+import { BootstrapVue, ModalPlugin, LayoutPlugin, CalendarPlugin, FormSelectPlugin } from 'bootstrap-vue';
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
-// This imports <b-modal> as well as the v-b-modal directive as a plugin
+// <b-modal> 
 Vue.use(ModalPlugin);
-// use for <b-container>, <b-row>, <b-col>
+// <b-container>, <b-row>, <b-col>
 Vue.use(LayoutPlugin);
+// b-calendar
+Vue.use(CalendarPlugin);
+// b-select
+Vue.use(FormSelectPlugin);
 
 
 // import "@fullcalendar/core/vdom"; // solves problem with Vite

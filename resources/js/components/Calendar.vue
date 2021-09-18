@@ -6,7 +6,6 @@
 
     <b-modal
       id="modal-prevent-closing"
-      ref="showModal"
       v-model="showModal"
       title="新增代辦事項"
       v-on:show="resetModal"
@@ -14,20 +13,28 @@
       v-on:ok="handleOk"
     >
       <form ref="form" v-on:submit.stop.prevent="handleOk">
-        <b-form-group label="日期:">
-          <b-form-group
-            label="代辦事項:"
-            label-for="task-input"
-            invalid-feedback="必填"
+        <label>開始日期: {{ clickChecked }}</label>
+        <br />
+        <label for="endDate-datepicker">結束日期:</label>
+        <b-form-datepicker
+          id="endDate-datepicker"
+          v-model="todoTask.dateTimeEnd"
+          class="md-2"
+        ></b-form-datepicker>
+
+        <b-form-group
+          label="代辦事項:"
+          label-for="task-input"
+          invalid-feedback="必填"
+          v-bind:state="todoTask.taskState"
+        >
+          <b-form-input
+            id="task-input"
+            v-model="todoTask.addtaskName"
             v-bind:state="todoTask.taskState"
-          >
-            <b-form-input
-              id="task-input"
-              v-model="todoTask.addtaskName"
-              v-bind:state="todoTask.taskState"
-              required
-            ></b-form-input>
-          </b-form-group>
+            placeholder="輸入代辦事項"
+            required
+          ></b-form-input>
         </b-form-group>
       </form>
     </b-modal>
@@ -47,20 +54,21 @@ export default {
     FullCalendar,
     Modal,
   },
-  props: {
-    clickDate: {
-      type: Date,
-    },
-  },
   data() {
     return {
       showModal: false,
       // Insert todo task
       todoTask: {
+        // 項目名稱
         addtaskName: "",
+        // 開始時間
         dateTimeStart: "",
+        // 結束時間
         dateTimeEnd: "",
+        // 待辦事項分類選項
+        selectCategory: null,
       },
+
       // Full calendar
       calendarOptions: {
         timeZone: "local",
@@ -70,8 +78,7 @@ export default {
         // dateClick: this.dateClick(),
         dateClick: function (arg) {
           this.showModal = true;
-          this.dateTimeStart = arg.dateStr;
-          // console.log(this.dateTimeStart);
+          this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
         eventClick: function () {
           this.showModal = true;
@@ -93,13 +100,14 @@ export default {
           console.log(error);
         });
     },
+    // 檢查月曆上的日期是否有點擊
+    clickChecked: function () {
+      return this.todoTask.dateTimeStart !== null
+        ? this.todoTask.dateTimeStart
+        : "";
+    },
   },
   methods: {
-    // dateClick: function (arg) {
-    //   this.showModal = true;
-    //   this.dateTimeStart = arg.dateStr;
-    //   console.log(this.dateTimeStart);
-    // },
     checkFormValidity: function () {
       const valid = this.$refs.form.checkValidity();
       this.taskState = valid;
