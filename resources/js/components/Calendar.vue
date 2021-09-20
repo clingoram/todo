@@ -7,23 +7,25 @@
     <b-modal
       id="modal-prevent-closing"
       v-model="showModal"
-      title="新增代辦事項"
+      title="新增待辦事項"
       v-on:show="resetModal"
       v-on:hidden="resetModal"
       v-on:ok="handleOk"
     >
       <form ref="form" v-on:submit.stop.prevent="handleOk">
-        <label>開始日期: {{ clickChecked }}</label>
+        <label>開始日期: {{ clickDateChecked }}</label>
         <br />
-        <label for="endDate-datepicker">結束日期:</label>
-        <b-form-datepicker
-          id="endDate-datepicker"
-          v-model="todoTask.dateTimeEnd"
-          class="md-2"
-        ></b-form-datepicker>
+        <b-form-group>
+          <label for="endDate-datepicker">結束日期:</label>
+          <b-form-datepicker
+            id="endDate-datepicker"
+            v-model="todoTask.dateTimeEnd"
+            class="md-2"
+          ></b-form-datepicker>
+        </b-form-group>
 
         <b-form-group
-          label="代辦事項:"
+          label="待辦事項:"
           label-for="task-input"
           invalid-feedback="必填"
           v-bind:state="todoTask.taskState"
@@ -32,7 +34,7 @@
             id="task-input"
             v-model="todoTask.addtaskName"
             v-bind:state="todoTask.taskState"
-            placeholder="輸入代辦事項"
+            placeholder="輸入待辦事項"
             required
           ></b-form-input>
         </b-form-group>
@@ -101,7 +103,7 @@ export default {
         });
     },
     // 檢查月曆上的日期是否有點擊
-    clickChecked: function () {
+    clickDateChecked: function () {
       return this.todoTask.dateTimeStart !== null
         ? this.todoTask.dateTimeStart
         : "";
