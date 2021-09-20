@@ -15,14 +15,13 @@
       <form ref="form" v-on:submit.stop.prevent="handleOk">
         <label>開始日期: {{ clickDateChecked }}</label>
         <br />
-        <b-form-group>
-          <label for="endDate-datepicker">結束日期:</label>
-          <b-form-datepicker
-            id="endDate-datepicker"
-            v-model="todoTask.dateTimeEnd"
-            class="md-2"
-          ></b-form-datepicker>
-        </b-form-group>
+
+        <label for="endDate-datepicker">結束日期:</label>
+        <b-form-datepicker
+          id="endDate-datepicker"
+          v-model="todoTask.dateTimeEnd"
+          class="md-2"
+        ></b-form-datepicker>
 
         <b-form-group
           label="待辦事項:"
