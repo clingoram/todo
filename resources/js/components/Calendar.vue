@@ -13,16 +13,17 @@
       v-on:ok="handleOk"
     >
       <form ref="form" v-on:submit.stop.prevent="handleOk">
-        <label>開始日期: {{ clickDateChecked }}</label>
+        <label>在 {{ clickDateChecked }}新增待辦事項</label>
         <br />
 
         <label for="endDate-datepicker">結束日期:</label>
         <b-form-datepicker
           id="endDate-datepicker"
           v-model="todoTask.dateTimeEnd"
-          class="md-2"
+          class="col-8"
+          menu-class="w-100"
+          calendar-width="100%"
         ></b-form-datepicker>
-
         <b-form-group
           label="待辦事項:"
           label-for="task-input"
@@ -58,6 +59,7 @@ export default {
   data() {
     return {
       showModal: false,
+      showEventModal: false,
       // Insert todo task
       todoTask: {
         // 項目名稱
@@ -81,8 +83,10 @@ export default {
           this.showModal = true;
           this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
-        eventClick: function () {
+        eventClick: function (info) {
           this.showModal = true;
+          console.log(info.event._def.title);
+          this.showEventModal = true;
         }.bind(this),
       },
     };
