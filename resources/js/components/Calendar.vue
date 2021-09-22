@@ -2,9 +2,11 @@
   <div>
     <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" />
     <!-- <modal v-model="showModal"></modal> -->
-    <!-- <modal></modal> -->
-
-    <b-modal
+    <open-modal
+      v-bind:start="todoTask.dateTimeStart"
+      v-bind:watchToOpenModal="todoTask.dateTimeStart"
+    ></open-modal>
+    <!-- <b-modal
       id="modal-prevent-closing"
       v-model="showModal"
       title="新增待辦事項"
@@ -39,7 +41,7 @@
           ></b-form-input>
         </b-form-group>
       </form>
-    </b-modal>
+    </b-modal> -->
   </div>
 </template>
 <script>
@@ -49,23 +51,23 @@ import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 // click date to open modal to add new task.
-import Modal from "./ModalInfo";
+import OpenModal from "./ModalInfo";
 
 export default {
   components: {
     FullCalendar,
-    Modal,
+    OpenModal,
   },
+  props: ["start"],
   data() {
     return {
-      showModal: false,
-      showEventModal: false,
+      // showModal: false,
       // Insert todo task
       todoTask: {
         // 項目名稱
         addtaskName: "",
         // 開始時間
-        dateTimeStart: "",
+        dateTimeStart: this.start ? this.start : "",
         // 結束時間
         dateTimeEnd: "",
         // 待辦事項分類選項
@@ -85,8 +87,7 @@ export default {
         }.bind(this),
         eventClick: function (info) {
           this.showModal = true;
-          console.log(info.event._def.title);
-          this.showEventModal = true;
+          // console.log(info.event._def.title);
         }.bind(this),
       },
     };
@@ -112,44 +113,50 @@ export default {
         : "";
     },
   },
+  watch: {
+    // Watch watchToOpenModal in the child component and call toOpenModal
+    watchToOpenModal: function () {
+      this.toOpenModal();
+    },
+  },
   methods: {
-    checkFormValidity: function () {
-      const valid = this.$refs.form.checkValidity();
-      this.taskState = valid;
-      return valid;
-    },
-    // cancel
-    resetModal: function () {
-      this.todoTask.addtaskName = "";
-      this.todoTask.taskState = null;
-    },
-    handleOk: function (bvModalEvt) {
-      bvModalEvt.preventDefault();
-
-      // 沒有填上任何task就save
-      if (!this.checkFormValidity()) {
-        return;
-      } else {
-        this.submitData();
-      }
-    },
-    // save data
-    submitData() {
-      console.log(this.todoTask);
-      // axios
-      //   .post("api/item/store", {
-      //     todoTask: this.todoTask,
-      //   })
-      //   .then((response) => {
-      //     if (response.status === 201) {
-      //       this.todoTask.addtaskName = "";
-      //       this.$emit("reloadlist");
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log(error.response.data);
-      //   });
-    },
+    // checkFormValidity: function () {
+    //   const valid = this.$refs.form.checkValidity();
+    //   this.taskState = valid;
+    //   return valid;
+    // },
+    // // cancel
+    // resetModal: function () {
+    //   this.todoTask.addtaskName = "";
+    //   this.todoTask.taskState = null;
+    // },
+    // handleOk: function (bvModalEvt) {
+    //   bvModalEvt.preventDefault();
+    //   // 沒有填上任何task就save
+    //   if (!this.checkFormValidity()) {
+    //     return;
+    //   } else {
+    //     this.submitData();
+    //   }
+    // },
+    // // save data
+    // submitData() {
+    // console.log(this.todoTask);
+    // axios
+    //   .post("api/item/store", {
+    //     todoTask: this.todoTask,
+    //   })
+    //   .then((response) => {
+    //     if (response.status === 201) {
+    //       // this.todoTask.addtaskName = "";
+    //       // this.$emit("reloadlist");
+    //       this.resetModal();
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.response.data);
+    //   });
+    // },
   },
 };
 </script>

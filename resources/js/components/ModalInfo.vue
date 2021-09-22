@@ -2,8 +2,8 @@
   <!-- Modal -->
   <b-modal
     id="modal-prevent-closing"
-    v-model="showModal"
     title="新增待辦事項"
+    v-model="showModal"
     v-on:show="resetModal"
     v-on:hidden="resetModal"
     v-on:ok="handleOk"
@@ -38,35 +38,40 @@
   </b-modal>
 </template>
 <script>
+// child component
 export default {
   mounted() {
     console.log("Modal component is ready");
   },
+
+  props: ["start"],
   data() {
     return {
       showModal: false,
       /*
         insert datas into table
       */
-      task: {
+      todoTask: {
         addtaskName: "",
         // taskState: null,
         // submittedNames: [],
-        dateTimeStart: "",
+        dateTimeStart: this.start,
         dateTimeEnd: "",
       },
     };
   },
-  computed: {},
-  methods: {
-    toOpenModal: function () {
-      if (this.taskEvents) {
-        this.modalOpen = true;
-      }
-      console.log("open");
+  computed: {
+    // 檢查月曆上的日期是否有點擊
+    clickDateChecked: function () {
+      // this.toOpenModal();
+      return this.start !== null ? this.start : "";
     },
-    // onContext(ctx) {
-    //   this.context = ctx;
+  },
+  methods: {
+    // toOpenModal() {
+    //   if (this.start !== null) {
+    //     this.showModal = true;
+    //   }
     // },
     // 檢查input
     checkFormValidity() {
