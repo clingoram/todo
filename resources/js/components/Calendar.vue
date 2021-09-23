@@ -3,9 +3,18 @@
     <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" />
     <!-- <modal v-model="showModal"></modal> -->
     <open-modal
+      v-bind:id="todoTask.id"
       v-bind:start="todoTask.dateTimeStart"
-      v-bind:watchToOpenModal="todoTask.dateTimeStart"
+      v-bind:openmodal="modalOpen"
     ></open-modal>
+
+    <!-- <open-modal
+      v-bind:start="todoTask.dateTimeStart"
+      v-bind:title="todoTask.addtaskName"
+      v-bind:openmodal="modalOpen"
+      v-bind:watchToOpenModal="todoTask.dateTimeStart"
+    ></open-modal> -->
+
     <!-- <b-modal
       id="modal-prevent-closing"
       v-model="showModal"
@@ -58,22 +67,31 @@ export default {
     FullCalendar,
     OpenModal,
   },
-  props: ["start"],
+  props: {
+    id: {
+      tpye: Number,
+    },
+    // title: {
+    //   type: String,
+    // },
+    start: {
+      type: String,
+    },
+    openmodal: {
+      type: Boolean,
+    },
+  },
   data() {
     return {
       // showModal: false,
-      // Insert todo task
+      modalOpen: this.openmodal,
       todoTask: {
+        id: this.id ? this.id : "",
         // 項目名稱
-        addtaskName: "",
+        title: this.title ? this.title : "",
         // 開始時間
         dateTimeStart: this.start ? this.start : "",
-        // 結束時間
-        dateTimeEnd: "",
-        // 待辦事項分類選項
-        selectCategory: null,
       },
-
       // Full calendar
       calendarOptions: {
         timeZone: "local",
@@ -82,12 +100,16 @@ export default {
         events: [],
         // dateClick: this.dateClick(),
         dateClick: function (arg) {
-          this.showModal = true;
+          // this.showModal = true;
+          this.modalOpen = true;
           this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
         eventClick: function (info) {
-          this.showModal = true;
-          // console.log(info.event._def.title);
+          // this.showModal = true;
+
+          this.modalOpen = true;
+          this.todoTask.id = info.event._def.publicId;
+          this.todoTask.title = info.event._def.title;
         }.bind(this),
       },
     };
@@ -107,18 +129,18 @@ export default {
         });
     },
     // 檢查月曆上的日期是否有點擊
-    clickDateChecked: function () {
-      return this.todoTask.dateTimeStart !== null
-        ? this.todoTask.dateTimeStart
-        : "";
-    },
+    // clickDateChecked: function () {
+    //   return this.todoTask.dateTimeStart !== null
+    //     ? this.todoTask.dateTimeStart
+    //     : "";
+    // },
   },
-  watch: {
-    // Watch watchToOpenModal in the child component and call toOpenModal
-    watchToOpenModal: function () {
-      this.toOpenModal();
-    },
-  },
+  // watch: {
+  //   // Watch watchToOpenModal in the child component and call toOpenModal
+  //   watchToOpenModal: function () {
+  //     this.toOpenModal();
+  //   },
+  // },
   methods: {
     // checkFormValidity: function () {
     //   const valid = this.$refs.form.checkValidity();

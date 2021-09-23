@@ -15,7 +15,7 @@
       <label for="endDate-datepicker">結束日期:</label>
       <b-form-datepicker
         id="endDate-datepicker"
-        v-model="todoTask.dateTimeEnd"
+        v-model="todoTask.end"
         class="col-8"
         menu-class="w-100"
         calendar-width="100%"
@@ -24,12 +24,12 @@
         label="待辦事項:"
         label-for="task-input"
         invalid-feedback="必填"
-        v-bind:state="todoTask.taskState"
+        v-bind:state="todoTask.state"
       >
         <b-form-input
           id="task-input"
-          v-model="todoTask.addtaskName"
-          v-bind:state="todoTask.taskState"
+          v-model="todoTask.name"
+          v-bind:state="todoTask.state"
           placeholder="輸入待辦事項"
           required
         ></b-form-input>
@@ -40,11 +40,7 @@
 <script>
 // child component
 export default {
-  mounted() {
-    console.log("Modal component is ready");
-  },
-
-  props: ["start"],
+  props: ["id", "start", "openmodal"],
   data() {
     return {
       showModal: false,
@@ -52,37 +48,42 @@ export default {
         insert datas into table
       */
       todoTask: {
-        addtaskName: "",
-        // taskState: null,
-        // submittedNames: [],
-        dateTimeStart: this.start,
-        dateTimeEnd: "",
+        id: "",
+        // 項目名稱
+        name: "",
+        // 開始時間
+        start: this.start,
+        // 結束時間
+        end: "",
+        // 待辦事項分類選項
+        category: null,
+        // 狀態
+        state: "",
       },
     };
   },
   computed: {
     // 檢查月曆上的日期是否有點擊
     clickDateChecked: function () {
-      // this.toOpenModal();
+      if (this.openmodal === true || this.id !== "") {
+        this.showModal = true;
+      } else {
+        this.showModal = false;
+      }
       return this.start !== null ? this.start : "";
     },
   },
   methods: {
-    // toOpenModal() {
-    //   if (this.start !== null) {
-    //     this.showModal = true;
-    //   }
-    // },
     // 檢查input
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
-      this.taskState = valid;
+      this.todoTask.state = valid;
       return valid;
     },
     // cancel
     resetModal() {
-      this.task.addtaskName = "";
-      this.task.taskState = null;
+      this.todoTask.name = "";
+      this.todoTask.state = null;
     },
     handleOk(bvModalEvt) {
       // Prevent modal from closing
@@ -102,20 +103,37 @@ export default {
     },
     // save data
     submitData() {
-      console.log(this.task);
+      console.log(this.todoTask);
       axios
         .post("api/item/store", {
-          task: this.task,
+          todoTask: this.todoTask,
         })
         .then((response) => {
           if (response.status === 201) {
-            this.task.addtaskName = "";
+            this.todoTask.name = "";
             this.$emit("reloadlist");
           }
         })
         .catch((error) => {
           console.log(error.response.data);
         });
+    },
+    // 把現有特定的代辦顯示在modal內
+    getSpecificTask: function (id) {
+      if (this.todoTask.id !== "") {
+        axios
+          .get("api/item/", {
+            todoTask: this.todoTask.id,
+          })
+          .then((response) => {
+            console.log(response);
+            // if (response.data.legth !== 0 && response.status === 200) {
+            // }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
   },
 };
