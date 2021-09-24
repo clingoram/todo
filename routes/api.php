@@ -17,10 +17,11 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::get('/item', [TaskController::class, 'index']);
+Route::get('/items', [TaskController::class, 'index']);
 
 Route::prefix('/item')->group(function () {
-    Route::post('/store', [TaskController::class, 'store']);
+    // Route::post('/store', [TaskController::class, 'store']);
+    Route::post('/', [TaskController::class, 'store']);
     Route::get('/{id}', [TaskController::class, 'find']);
     Route::put('/{id}', [TaskController::class, 'update']);
     Route::delete('/{id}', [TaskController::class, 'destroy']);

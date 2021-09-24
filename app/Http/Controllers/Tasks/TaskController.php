@@ -45,6 +45,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+
         // $validator = Validator::make($request->all(), [
         //     'name' => 'bail|required|max:150|min:3',
         //     'dateTime' => 'required',
@@ -57,7 +58,7 @@ class TaskController extends Controller
         // 新增成功
         $newTask = new Task;
         $newTask->description = $request->todoTask['name'];
-        $newTask->created_at = $request->todoTask['start'];
+        $newTask->created_at = $request->start;
         $newTask->end_at = $request->todoTask['end'];
         // $newTask->end_at = $request->todoTask['category'];
 
@@ -67,11 +68,15 @@ class TaskController extends Controller
 
     /**
      * Find specific data
+     * @param int $id
+     * @return json
      */
-    public function find(Request $id)
+    public function find($id)
     {
         $find = Task::find($id);
-        return json_encode($find);
+        if (isset($find)) {
+            return json_encode($find);
+        }
     }
 
     /**

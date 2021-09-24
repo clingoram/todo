@@ -9,7 +9,7 @@
     v-on:ok="handleOk"
   >
     <form ref="form" v-on:submit.stop.prevent="handleOk">
-      <label>在 {{ clickDateChecked }}新增待辦事項</label>
+      <label>在{{ clickDateChecked }}新增待辦事項</label>
       <br />
 
       <label for="endDate-datepicker">結束日期:</label>
@@ -52,7 +52,7 @@ export default {
         // 項目名稱
         name: "",
         // 開始時間
-        start: this.start,
+        // start: this.start,
         // 結束時間
         end: "",
         // 待辦事項分類選項
@@ -65,11 +65,9 @@ export default {
   computed: {
     // 檢查月曆上的日期是否有點擊
     clickDateChecked: function () {
-      if (this.openmodal === true || this.id !== "") {
-        this.showModal = true;
-      } else {
-        this.showModal = false;
-      }
+      this.openmodal === true
+        ? (this.showModal = true)
+        : (this.showModal = false);
       return this.start !== null ? this.start : "";
     },
   },
@@ -103,10 +101,10 @@ export default {
     },
     // save data
     submitData() {
-      console.log(this.todoTask);
       axios
-        .post("api/item/store", {
+        .post("api/item/", {
           todoTask: this.todoTask,
+          start: this.start,
         })
         .then((response) => {
           if (response.status === 201) {
@@ -119,11 +117,12 @@ export default {
         });
     },
     // 把現有特定的代辦顯示在modal內
-    getSpecificTask: function (id) {
-      if (this.todoTask.id !== "") {
+    getSpecificTask: function () {
+      console.log(this.id);
+      if (this.id !== "") {
         axios
           .get("api/item/", {
-            todoTask: this.todoTask.id,
+            id: this.id,
           })
           .then((response) => {
             console.log(response);

@@ -71,9 +71,6 @@ export default {
     id: {
       tpye: Number,
     },
-    // title: {
-    //   type: String,
-    // },
     start: {
       type: String,
     },
@@ -85,6 +82,7 @@ export default {
     return {
       // showModal: false,
       modalOpen: this.openmodal,
+
       todoTask: {
         id: this.id ? this.id : "",
         // 項目名稱
@@ -98,7 +96,6 @@ export default {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         events: [],
-        // dateClick: this.dateClick(),
         dateClick: function (arg) {
           // this.showModal = true;
           this.modalOpen = true;
@@ -118,7 +115,7 @@ export default {
     // 取得table所有該月份的資料
     getAlldatas: function () {
       axios
-        .get("api/item")
+        .get("api/items")
         .then((response) => {
           if (response.data.legth !== 0 && response.status === 200) {
             this.calendarOptions.events = response.data;
@@ -141,44 +138,5 @@ export default {
   //     this.toOpenModal();
   //   },
   // },
-  methods: {
-    // checkFormValidity: function () {
-    //   const valid = this.$refs.form.checkValidity();
-    //   this.taskState = valid;
-    //   return valid;
-    // },
-    // // cancel
-    // resetModal: function () {
-    //   this.todoTask.addtaskName = "";
-    //   this.todoTask.taskState = null;
-    // },
-    // handleOk: function (bvModalEvt) {
-    //   bvModalEvt.preventDefault();
-    //   // 沒有填上任何task就save
-    //   if (!this.checkFormValidity()) {
-    //     return;
-    //   } else {
-    //     this.submitData();
-    //   }
-    // },
-    // // save data
-    // submitData() {
-    // console.log(this.todoTask);
-    // axios
-    //   .post("api/item/store", {
-    //     todoTask: this.todoTask,
-    //   })
-    //   .then((response) => {
-    //     if (response.status === 201) {
-    //       // this.todoTask.addtaskName = "";
-    //       // this.$emit("reloadlist");
-    //       this.resetModal();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.response.data);
-    //   });
-    // },
-  },
 };
 </script>
