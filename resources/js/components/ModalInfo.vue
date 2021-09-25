@@ -65,6 +65,7 @@ export default {
   computed: {
     // 檢查月曆上的日期是否有點擊
     clickDateChecked: function () {
+      // console.log("clicked date");
       this.openmodal === true
         ? (this.showModal = true)
         : (this.showModal = false);

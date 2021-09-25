@@ -82,7 +82,6 @@ export default {
     return {
       // showModal: false,
       modalOpen: this.openmodal,
-
       todoTask: {
         id: this.id ? this.id : "",
         // 項目名稱
@@ -96,6 +95,15 @@ export default {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         events: [],
+        eventColor: "antiquewhite",
+        eventTextColor: "#000000",
+        // 事件顯示時間格式
+        eventTimeFormat: {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        },
         dateClick: function (arg) {
           // this.showModal = true;
           this.modalOpen = true;
@@ -103,7 +111,6 @@ export default {
         }.bind(this),
         eventClick: function (info) {
           // this.showModal = true;
-
           this.modalOpen = true;
           this.todoTask.id = info.event._def.publicId;
           this.todoTask.title = info.event._def.title;
