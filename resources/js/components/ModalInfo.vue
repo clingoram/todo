@@ -65,12 +65,18 @@ export default {
   computed: {
     // 檢查月曆上的日期是否有點擊
     clickDateChecked: function () {
-      // console.log("clicked date");
       this.openmodal === true
         ? (this.showModal = true)
         : (this.showModal = false);
+
       return this.start !== null ? this.start : "";
     },
+    // 判斷事件
+    // checkEvent: function () {
+    //   if (this.id !== "") {
+    //     return this.getSpecificTask(this.id);
+    //   }
+    // },
   },
   methods: {
     // 檢查input
@@ -102,38 +108,40 @@ export default {
     },
     // save data
     submitData() {
-      axios
-        .post("api/item/", {
-          todoTask: this.todoTask,
-          start: this.start,
-        })
-        .then((response) => {
-          if (response.status === 201) {
-            this.todoTask.name = "";
-            this.$emit("reloadlist");
-          }
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
+      console.log(this.todoTask);
+      // axios
+      //   .post("api/item/", {
+      //     todoTask: this.todoTask,
+      //     start: this.start,
+      //   })
+      //   .then((response) => {
+      //     if (response.status === 201) {
+      //       this.todoTask.name = "";
+      //       this.$emit("reloadlist");
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log(error.response.data);
+      //   });
     },
     // 把現有特定的代辦顯示在modal內
-    getSpecificTask: function () {
-      console.log(this.id);
-      if (this.id !== "") {
-        axios
-          .get("api/item/", {
-            id: this.id,
-          })
-          .then((response) => {
-            console.log(response);
-            // if (response.data.legth !== 0 && response.status === 200) {
-            // }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
+    getSpecificTask: function (id) {
+      console.log(id);
+      // if (this.id !== "") {
+      //   axios
+      //     .get("api/item/", {
+      //       id: this.id,
+      //     })
+      //     .then((response) => {
+      //       console.log(response);
+      //       this.todoTask.name = response;
+      //       // if (response.data.legth !== 0 && response.status === 200) {
+      //       // }
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //     });
+      // }
     },
   },
 };

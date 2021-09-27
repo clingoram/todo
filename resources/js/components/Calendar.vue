@@ -12,7 +12,7 @@
       v-bind:start="todoTask.dateTimeStart"
       v-bind:title="todoTask.addtaskName"
       v-bind:openmodal="modalOpen"
-      v-bind:watchToOpenModal="todoTask.dateTimeStart"
+      v-bind:watchEventIsset="todoTask.id"
     ></open-modal> -->
 
     <!-- <b-modal
@@ -95,25 +95,24 @@ export default {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         events: [],
-        eventColor: "antiquewhite",
-        eventTextColor: "#000000",
-        // 事件顯示時間格式
-        eventTimeFormat: {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: false,
-        },
+        // eventColor: "antiquewhite",
+        // eventTextColor: "#000000",
+        // // 事件顯示時間格式
+        // eventTimeFormat: {
+        //   hour: "2-digit",
+        //   minute: "2-digit",
+        //   second: "2-digit",
+        //   hour12: false,
+        // },
         dateClick: function (arg) {
-          // this.showModal = true;
           this.modalOpen = true;
           this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
         eventClick: function (info) {
-          // this.showModal = true;
           this.modalOpen = true;
           this.todoTask.id = info.event._def.publicId;
           this.todoTask.title = info.event._def.title;
+          // console.log(info);
         }.bind(this),
       },
     };
@@ -139,11 +138,13 @@ export default {
     //     : "";
     // },
   },
-  // watch: {
-  //   // Watch watchToOpenModal in the child component and call toOpenModal
-  //   watchToOpenModal: function () {
-  //     this.toOpenModal();
-  //   },
-  // },
+  watch: {
+    // Watch watchToOpenModal in the child component and call toOpenModal
+    watchEventIsset: function () {
+      if (this.id !== "") {
+        this.getSpecificTask(this.id);
+      }
+    },
+  },
 };
 </script>
