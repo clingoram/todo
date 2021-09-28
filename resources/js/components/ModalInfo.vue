@@ -52,7 +52,7 @@ export default {
         // 項目名稱
         name: "",
         // 開始時間
-        // start: this.start,
+        start: this.start,
         // 結束時間
         end: "",
         // 待辦事項分類選項
@@ -69,14 +69,12 @@ export default {
         ? (this.showModal = true)
         : (this.showModal = false);
 
+      // 若有ID，拿ID做搜尋
+      if (this.id !== "") {
+        this.getSpecificTask(this.id);
+      }
       return this.start !== null ? this.start : "";
     },
-    // 判斷事件
-    // checkEvent: function () {
-    //   if (this.id !== "") {
-    //     return this.getSpecificTask(this.id);
-    //   }
-    // },
   },
   methods: {
     // 檢查input
@@ -85,6 +83,8 @@ export default {
       this.todoTask.state = valid;
       return valid;
     },
+    // 離開modal就清除input
+    clearInputs() {},
     // cancel
     resetModal() {
       this.todoTask.name = "";
@@ -126,22 +126,19 @@ export default {
     },
     // 把現有特定的代辦顯示在modal內
     getSpecificTask: function (id) {
-      console.log(id);
-      // if (this.id !== "") {
-      //   axios
-      //     .get("api/item/", {
-      //       id: this.id,
-      //     })
-      //     .then((response) => {
-      //       console.log(response);
-      //       this.todoTask.name = response;
-      //       // if (response.data.legth !== 0 && response.status === 200) {
-      //       // }
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //     });
-      // }
+      axios
+        .get("api/item/" + this.id)
+        .then((response) => {
+          // console.log(response);
+          this.todoTask.name = response.data.description;
+          this.todoTask.start = response.data.created_at;
+          this.todoTask.end = response.data.end_at;
+          // this.todoTask.state = response.data.status;
+          this.todoTask.category = response.data.category_name;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

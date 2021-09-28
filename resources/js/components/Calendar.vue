@@ -6,6 +6,7 @@
       v-bind:id="todoTask.id"
       v-bind:start="todoTask.dateTimeStart"
       v-bind:openmodal="modalOpen"
+      v-bind:watchEventIsset="todoTask.id"
     ></open-modal>
 
     <!-- <open-modal
@@ -74,6 +75,9 @@ export default {
     start: {
       type: String,
     },
+    end: {
+      type: String,
+    },
     openmodal: {
       type: Boolean,
     },
@@ -88,6 +92,8 @@ export default {
         title: this.title ? this.title : "",
         // 開始時間
         dateTimeStart: this.start ? this.start : "",
+        //
+        dateTimeEnd: this.end ? this.end : "",
       },
       // Full calendar
       calendarOptions: {
@@ -109,10 +115,20 @@ export default {
           this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
         eventClick: function (info) {
-          this.modalOpen = true;
-          this.todoTask.id = info.event._def.publicId;
-          this.todoTask.title = info.event._def.title;
-          // console.log(info);
+          // console.log(
+          //   `ID: ${info.event.id}; Start: ${info.event.startStr}; Title: ${info.event.title}`
+          // );
+
+          if (info.event.id !== "") {
+            this.modalOpen = true;
+            this.todoTask.id = info.event.id;
+            // remove part of datetime
+            const findStrPosition = info.event.startStr.indexOf("T");
+            this.todoTask.dateTimeStart = info.event.startStr.substr(
+              0,
+              findStrPosition
+            );
+          }
         }.bind(this),
       },
     };
