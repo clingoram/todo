@@ -87,6 +87,7 @@ export default {
     clearInputs() {},
     // cancel
     resetModal() {
+      console.log("reset");
       this.todoTask.name = "";
       this.todoTask.state = null;
     },
