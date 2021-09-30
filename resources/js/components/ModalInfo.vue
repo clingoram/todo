@@ -1,6 +1,7 @@
 <template>
   <!-- Modal -->
   <b-modal
+    size="xl"
     id="modal-prevent-closing"
     title="新增待辦事項"
     v-model="showModal"
@@ -12,7 +13,16 @@
       <label>在{{ clickDateChecked }}新增待辦事項</label>
       <br />
 
-      <label for="endDate-datepicker">結束日期:</label>
+      <label for="startDate-datepicker">開始:</label>
+      <b-form-datepicker
+        id="startDate-datepicker"
+        v-model="todoTask.start"
+        class="col-8"
+        menu-class="w-100"
+        calendar-width="100%"
+      ></b-form-datepicker>
+
+      <label for="endDate-datepicker">結束:</label>
       <b-form-datepicker
         id="endDate-datepicker"
         v-model="todoTask.end"
@@ -20,6 +30,7 @@
         menu-class="w-100"
         calendar-width="100%"
       ></b-form-datepicker>
+
       <b-form-group
         label="待辦事項:"
         label-for="task-input"
@@ -37,6 +48,12 @@
     </form>
   </b-modal>
 </template>
+<style scoped>
+#modal-prevent-closing {
+  background: black;
+  color: white;
+}
+</style>
 <script>
 // child component
 export default {
