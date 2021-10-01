@@ -154,13 +154,13 @@ export default {
     //     : "";
     // },
   },
-  watch: {
-    // Watch watchToOpenModal in the child component and call toOpenModal
-    watchEventIsset: function () {
-      if (this.id !== "") {
-        this.getSpecificTask(this.id);
-      }
-    },
-  },
+  // watch: {
+  //   // Watch watchToOpenModal in the child component and call toOpenModal
+  //   watchEventIsset: function () {
+  //     if (this.id !== "") {
+  //       this.getSpecificTask(this.id);
+  //     }
+  //   },
+  // },
 };
 </script>

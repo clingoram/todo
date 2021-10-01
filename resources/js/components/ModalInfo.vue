@@ -48,12 +48,6 @@
     </form>
   </b-modal>
 </template>
-<style scoped>
-#modal-prevent-closing {
-  background: black;
-  color: white;
-}
-</style>
 <script>
 // child component
 export default {
@@ -101,10 +95,16 @@ export default {
       return valid;
     },
     // 離開modal就清除input
-    clearInputs() {},
+    clearInputs(target) {
+      // console.log(target);
+      // if (target !== "") {
+      //   console.log(`ID != null`);
+      //   this.todoTask.name = "";
+      //   this.todoTask.state = null;
+      // }
+    },
     // cancel
     resetModal() {
-      console.log("reset");
       this.todoTask.name = "";
       this.todoTask.state = null;
     },
@@ -119,10 +119,10 @@ export default {
         return;
       } else {
         this.submitData();
+        this.$nextTick(() => {
+          this.$bvModal.hide("modal-prevent-closing");
+        });
       }
-      // this.$nextTick(() => {
-      //   this.$bvModal.hide("modal-prevent-closing");
-      // });
     },
     // save data
     submitData() {
@@ -144,15 +144,20 @@ export default {
     },
     // 把現有特定的代辦顯示在modal內
     getSpecificTask: function (id) {
+      // console.log(typeof id);
       axios
         .get("api/item/" + this.id)
         .then((response) => {
           // console.log(response);
-          this.todoTask.name = response.data.description;
-          this.todoTask.start = response.data.created_at;
-          this.todoTask.end = response.data.end_at;
-          // this.todoTask.state = response.data.status;
-          this.todoTask.category = response.data.category_name;
+          // 點擊到的日期跟task的ID日期符合
+          if (response.data.id === Number(this.id)) {
+            this.todoTask.name = response.data.description;
+            this.todoTask.start = response.data.created_at;
+            this.todoTask.end = response.data.end_at;
+            // this.todoTask.state = response.data.status;
+            this.todoTask.category = response.data.category_name;
+          }
+          this.clearInputs(id);
         })
         .catch((error) => {
           console.log(error);
@@ -161,3 +166,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+#modal-prevent-closing {
+  background: black;
+  color: white;
+}
+</style>
