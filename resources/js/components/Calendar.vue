@@ -111,13 +111,14 @@ export default {
         //   hour12: false,
         // },
         dateClick: function (arg) {
+          console.log(`Date: ${arg.dateStr}`);
           this.modalOpen = true;
           this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
         eventClick: function (info) {
-          // console.log(
-          //   `ID: ${info.event.id}; Start: ${info.event.startStr}; Title: ${info.event.title}`
-          // );
+          console.log(
+            `ID: ${info.event.id}; Start: ${info.event.startStr}; Title: ${info.event.title}`
+          );
 
           if (info.event.id !== "") {
             this.modalOpen = true;
@@ -128,6 +129,9 @@ export default {
               0,
               findStrPosition
             );
+          }
+          if (info.event.title === "") {
+            this.clearId(this.todoTask.dateTimeStart);
           }
         }.bind(this),
       },
@@ -153,6 +157,14 @@ export default {
     //     ? this.todoTask.dateTimeStart
     //     : "";
     // },
+  },
+  methods: {
+    clearId(event) {
+      if (this.start !== event) {
+        console.log("clear");
+        this.todoTask.id = "";
+      }
+    },
   },
   // watch: {
   //   // Watch watchToOpenModal in the child component and call toOpenModal
