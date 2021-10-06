@@ -28,7 +28,7 @@ class TaskController extends Controller
         foreach ($allData as $key) {
             $task['id'] = $key['id'];
             $task['title'] = $key['title'];
-            $task['status'] = $key['taskStatus'];
+            $task['status'] = $key['taskStatus'] ? false : true;
             $task['start'] = $key['start'];
             $task['end'] = $key['end'];
             array_push($array, $task);
@@ -91,10 +91,12 @@ class TaskController extends Controller
         $findExist = Task::find($id);
 
         if (isset($findExist)) {
-            // 更新成功
-            $findExist->status = $request->item['status'] ? true : false;
+            $findExist->description = $request->todoTask['name'];
+            $findExist->created_at = $request->todoTask['start'];
+            $findExist->end_at = $request->todoTask['end'];
+            $findExist->status = $request->todoTask['state'] ? false : true;
             // 更新時間要用當下更新的時間
-            $findExist->updated_at = $request->item['dateTimeStart'] ? Carbon::now() : null;
+            $findExist->updated_at = Carbon::now();
             $findExist->save();
             return $findExist;
         };

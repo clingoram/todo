@@ -1,12 +1,18 @@
 <template>
   <div>
-    <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" />
+    <!-- <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" /> -->
+    <FullCalendar
+      v-bind:options="calendarOptions"
+      v-bind:class="getAlldatas"
+      v-on:changeddata="$emit('reloadlist')"
+    />
+
     <!-- <modal v-model="showModal"></modal> -->
     <open-modal
       v-bind:id="todoTask.id"
       v-bind:start="todoTask.dateTimeStart"
       v-bind:openmodal="modalOpen"
-      v-bind:watchEventIsset="todoTask.id"
+      v-bind:eventisset="checkEventIsset"
     ></open-modal>
 
     <!-- <open-modal
@@ -15,43 +21,6 @@
       v-bind:openmodal="modalOpen"
       v-bind:watchEventIsset="todoTask.id"
     ></open-modal> -->
-
-    <!-- <b-modal
-      id="modal-prevent-closing"
-      v-model="showModal"
-      title="新增待辦事項"
-      v-on:show="resetModal"
-      v-on:hidden="resetModal"
-      v-on:ok="handleOk"
-    >
-      <form ref="form" v-on:submit.stop.prevent="handleOk">
-        <label>在 {{ clickDateChecked }}新增待辦事項</label>
-        <br />
-
-        <label for="endDate-datepicker">結束日期:</label>
-        <b-form-datepicker
-          id="endDate-datepicker"
-          v-model="todoTask.dateTimeEnd"
-          class="col-8"
-          menu-class="w-100"
-          calendar-width="100%"
-        ></b-form-datepicker>
-        <b-form-group
-          label="待辦事項:"
-          label-for="task-input"
-          invalid-feedback="必填"
-          v-bind:state="todoTask.taskState"
-        >
-          <b-form-input
-            id="task-input"
-            v-model="todoTask.addtaskName"
-            v-bind:state="todoTask.taskState"
-            placeholder="輸入待辦事項"
-            required
-          ></b-form-input>
-        </b-form-group>
-      </form>
-    </b-modal> -->
   </div>
 </template>
 <script>
@@ -81,18 +50,23 @@ export default {
     openmodal: {
       type: Boolean,
     },
+    eventisset: {
+      type: Boolean,
+    },
   },
   data() {
     return {
-      // showModal: false,
+      // modal
       modalOpen: this.openmodal,
+      // 確認是點擊到event還是date，若是event，則顯示該event資訊(update);反之，則顯示新增待辦事項(insert)
+      checkEventIsset: this.eventisset,
       todoTask: {
         id: this.id ? this.id : "",
         // 項目名稱
         title: this.title ? this.title : "",
         // 開始時間
         dateTimeStart: this.start ? this.start : "",
-        //
+        // 結束時間
         dateTimeEnd: this.end ? this.end : "",
       },
       // Full calendar
@@ -111,17 +85,19 @@ export default {
         //   hour12: false,
         // },
         dateClick: function (arg) {
-          console.log(`Date: ${arg.dateStr}`);
+          // console.log(`Date: ${arg.dateStr}`);
           this.modalOpen = true;
+          this.checkEventIsset = false;
           this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
         eventClick: function (info) {
-          console.log(
-            `ID: ${info.event.id}; Start: ${info.event.startStr}; Title: ${info.event.title}`
-          );
+          // console.log(
+          //   `ID: ${info.event.id}; Start: ${info.event.startStr}; Title: ${info.event.title}`
+          // );
 
           if (info.event.id !== "") {
             this.modalOpen = true;
+            this.checkEventIsset = true;
             this.todoTask.id = info.event.id;
             // remove part of datetime
             const findStrPosition = info.event.startStr.indexOf("T");
@@ -130,16 +106,13 @@ export default {
               findStrPosition
             );
           }
-          if (info.event.title === "") {
-            this.clearId(this.todoTask.dateTimeStart);
-          }
         }.bind(this),
       },
     };
   },
   computed: {
     // 取得table所有該月份的資料
-    getAlldatas: function () {
+    getAlldatas() {
       axios
         .get("api/items")
         .then((response) => {
@@ -150,20 +123,6 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    },
-    // 檢查月曆上的日期是否有點擊
-    // clickDateChecked: function () {
-    //   return this.todoTask.dateTimeStart !== null
-    //     ? this.todoTask.dateTimeStart
-    //     : "";
-    // },
-  },
-  methods: {
-    clearId(event) {
-      if (this.start !== event) {
-        console.log("clear");
-        this.todoTask.id = "";
-      }
     },
   },
   // watch: {
