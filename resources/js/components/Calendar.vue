@@ -1,11 +1,7 @@
 <template>
   <div>
     <!-- <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" /> -->
-    <FullCalendar
-      v-bind:options="calendarOptions"
-      v-bind:class="getAlldatas"
-      v-on:changeddata="$emit('reloadlist')"
-    />
+    <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" />
 
     <!-- <modal v-model="showModal"></modal> -->
     <open-modal
@@ -13,6 +9,7 @@
       v-bind:start="todoTask.dateTimeStart"
       v-bind:openmodal="modalOpen"
       v-bind:eventisset="checkEventIsset"
+      @button-click="parentClicked"
     ></open-modal>
 
     <!-- <open-modal
@@ -123,6 +120,11 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+  },
+  methods: {
+    parentClicked() {
+      console.log("button clicked");
     },
   },
   // watch: {

@@ -45,16 +45,23 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+            'start' => ['required', 'date'],
+            'end' => ['required'],
+            // 'state' => ['Boolean']
+        ]);
 
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'bail|required|max:150|min:3',
-        //     'dateTime' => 'required',
-        // ]);
+        // $messages = [
+        //     'same' => 'The :attribute and :other must match.',
+        //     'size' => 'The :attribute must be exactly :size.',
+        //     'between' => 'The :attribute value :input is not between :min - :max.',
+        //     'in' => 'The :attribute must be one of the following types: :values',
+        // ];
 
-        // if ($validator->fails()) {
-        //     return response()->json(['errors' => $validator->errors()], 422);
-        // }
-
+        if ($validator->fails()) {
+            return response()->json(['Errors' => $validator->errors()], 422);
+        }
         // 新增成功
         $newTask = new Task;
         $newTask->description = $request->todoTask['name'];

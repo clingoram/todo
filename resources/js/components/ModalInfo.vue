@@ -125,6 +125,9 @@ export default {
     // Insert
     insertData() {
       console.log("insert");
+      console.log(this.todoTask.name);
+      console.log(this.todoTask.end);
+
       axios
         .post("api/item/", {
           todoTask: this.todoTask,
@@ -132,8 +135,8 @@ export default {
         })
         .then((response) => {
           if (response.status === 201) {
-            this.todoTask.name = "";
-            this.$emit("reloadlist");
+            // this.todoTask.name = "";
+            // this.$emit("reloadlist");
           }
         })
         .catch((error) => {
@@ -167,9 +170,10 @@ export default {
           todoTask: this.todoTask,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.status === 200) {
-            this.$emit("changeddata");
+            // this.$emit("changeddata");
+            this.$emit("button-click");
           }
         })
         .catch((error) => {
