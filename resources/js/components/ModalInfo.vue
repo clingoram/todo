@@ -8,8 +8,9 @@
     v-on:show="resetModal"
     v-on:hidden="resetModal"
     v-on:ok="handleOk"
+    ok-title="Save"
   >
-    <form ref="form" v-on:submit.stop.prevent="handleOk">
+    <form ref="form" v-on:submit.stop.prevent="handleSubmit">
       <label>{{ clickDateChecked }}</label>
       <br />
 
@@ -107,8 +108,9 @@ export default {
       // Prevent modal from closing
       bvModalEvt.preventDefault();
       // Trigger submit handler
-      // this.handleSubmit();
-
+      this.handleSubmit();
+    },
+    handleSubmit() {
       // 沒有填上任何task就save
       if (!this.checkFormValidity()) {
         return;

@@ -1,7 +1,11 @@
 <template>
   <div>
     <!-- <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" /> -->
-    <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" />
+    <FullCalendar
+      v-bind:options="calendarOptions"
+      v-bind:class="getAlldatas"
+      v-on:changedata="$emit('reloadlist')"
+    />
 
     <!-- <modal v-model="showModal"></modal> -->
     <open-modal
@@ -9,8 +13,14 @@
       v-bind:start="todoTask.dateTimeStart"
       v-bind:openmodal="modalOpen"
       v-bind:eventisset="checkEventIsset"
-      @button-click="parentClicked"
     ></open-modal>
+    <!-- <open-modal
+      v-bind:id="todoTask.id"
+      v-bind:start="todoTask.dateTimeStart"
+      v-bind:openmodal="modalOpen"
+      v-bind:eventisset="checkEventIsset"
+      @button-click="parentClicked"
+    ></open-modal> -->
 
     <!-- <open-modal
       v-bind:start="todoTask.dateTimeStart"
@@ -109,23 +119,43 @@ export default {
   },
   computed: {
     // 取得table所有該月份的資料
-    getAlldatas() {
-      axios
-        .get("api/items")
-        .then((response) => {
-          if (response.data.legth !== 0 && response.status === 200) {
-            this.calendarOptions.events = response.data;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    //    getAlldatas() {
+    //   axios
+    //     .get("api/items")
+    //     .then((response) => {
+    //       if (response.data.legth !== 0 && response.status === 200) {
+    //         this.calendarOptions.events = response.data;
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
+    getAlldatas: {
+      // 讀取
+      get() {
+        axios
+          .get("api/items")
+          .then((response) => {
+            if (response.data.legth !== 0 && response.status === 200) {
+              this.calendarOptions.events = response.data;
+              this.$emit("changedata");
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
+      // 寫入
+      set(value) {
+        return (this.calendarOptions.events = value);
+      },
     },
   },
   methods: {
-    parentClicked() {
-      console.log("button clicked");
-    },
+    // parentClicked() {
+    //   console.log("button clicked");
+    // },
   },
   // watch: {
   //   // Watch watchToOpenModal in the child component and call toOpenModal
