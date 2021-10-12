@@ -37,7 +37,7 @@ import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 // click date to open modal to add new task.
-import OpenModal from "./ModalInfo";
+import OpenModal from "./Modal";
 
 export default {
   components: {
@@ -84,13 +84,13 @@ export default {
         events: [],
         // eventColor: "antiquewhite",
         // eventTextColor: "#000000",
-        // // 事件顯示時間格式
-        // eventTimeFormat: {
-        //   hour: "2-digit",
-        //   minute: "2-digit",
-        //   second: "2-digit",
-        //   hour12: false,
-        // },
+        // 事件顯示時間格式
+        eventTimeFormat: {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        },
         dateClick: function (arg) {
           // console.log(`Date: ${arg.dateStr}`);
           this.modalOpen = true;
@@ -152,18 +152,13 @@ export default {
       },
     },
   },
-  methods: {
-    // parentClicked() {
-    //   console.log("button clicked");
+  watch: {
+    // Watch watchToOpenModal in the child component and call toOpenModal
+    // watchEventIsset: function () {
+    //   if (this.id !== "") {
+    //     this.getSpecificTask(this.id);
+    //   }
     // },
   },
-  // watch: {
-  //   // Watch watchToOpenModal in the child component and call toOpenModal
-  //   watchEventIsset: function () {
-  //     if (this.id !== "") {
-  //       this.getSpecificTask(this.id);
-  //     }
-  //   },
-  // },
 };
 </script>

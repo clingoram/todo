@@ -10,9 +10,6 @@
 import ShowCalendar from "./Calendar";
 
 export default {
-  // mounted() {
-  //   console.log("index");
-  // },
   components: {
     ShowCalendar,
   },
