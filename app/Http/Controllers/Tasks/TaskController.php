@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,6 +13,7 @@ use Illuminate\Support\Carbon;
 
 class TaskController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -29,6 +31,7 @@ class TaskController extends Controller
             $task['id'] = $key['id'];
             $task['title'] = $key['title'];
             $task['status'] = $key['taskStatus'] ? false : true;
+            $tesk['category'] = $key['classification'];
             $task['start'] = $key['start'];
             $task['end'] = $key['end'];
             array_push($array, $task);
@@ -45,12 +48,12 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-            'start' => ['required', 'date'],
-            'end' => ['required'],
-            // 'state' => ['Boolean']
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required'],
+        //     // 'state' => ['Boolean']
+        // ]);
 
         // $messages = [
         //     'same' => 'The :attribute and :other must match.',
@@ -59,15 +62,15 @@ class TaskController extends Controller
         //     'in' => 'The :attribute must be one of the following types: :values',
         // ];
 
-        if ($validator->fails()) {
-            return response()->json(['Errors' => $validator->errors()], 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json(['Errors' => $validator->errors()], 422);
+        // }
         // 新增成功
         $newTask = new Task;
         $newTask->description = $request->todoTask['name'];
         $newTask->created_at = $request->start;
         $newTask->end_at = $request->todoTask['end'];
-        // $newTask->end_at = $request->todoTask['category'];
+        // $newTask->end_at = $request->todoTask['classification'];
 
         $newTask->save();
         return $newTask;
@@ -81,7 +84,13 @@ class TaskController extends Controller
     public function find($id)
     {
         $find = Task::find($id);
+
+        // $getClassification = Category::select('id', 'name', 'created_at')->orderByDesc('created_at')
+        //     ->get();
+        // var_dump($getClassification);
+        // die();
         if (isset($find)) {
+            // return $find;
             return json_encode($find);
         }
     }

@@ -70,6 +70,11 @@
         </b-input-group-append>
       </b-input-group>
 
+      <b-form-select
+        v-model="selected"
+        v-bind:options="todoTask.category"
+      ></b-form-select>
+
       <b-form-group
         label="待辦事項:"
         label-for="task-input"
@@ -111,11 +116,15 @@ export default {
     maxDate.setDate(20);
 
     return {
+      // 是否顯示modal
       showModal: false,
+      // 月曆，最小、最大可選日期
       min: minDate,
       max: maxDate,
+      // 分類，下拉式選單
+      selected: null,
       /*
-        insert datas into table
+        儲存與顯示資料
       */
       todoTask: {
         id: this.id ? this.id : "",
@@ -183,8 +192,8 @@ export default {
     // Insert
     insertData() {
       console.log("insert");
-      console.log(this.todoTask.name);
-      console.log(this.todoTask.end);
+      // console.log(this.todoTask.name);
+      // console.log(this.todoTask.end);
 
       axios
         .post("api/item/", {
@@ -206,10 +215,8 @@ export default {
       axios
         .get("api/item/" + this.id)
         .then((response) => {
-          console.log(response.data.created_at);
+          console.log(response.data.classification);
           // 點擊到的日期跟task的ID日期符合
-          // if (response.data.id === Number(this.id)) {
-
           this.todoTask.name = response.data.description;
           // this.todoTask.start = response.data.created_at;
           const findStrPosition = response.data.created_at.indexOf("T");
@@ -219,8 +226,8 @@ export default {
           );
           this.todoTask.end = response.data.end_at;
           this.todoTask.state = response.data.status ? false : true;
-          this.todoTask.category = response.data.category_name;
-          // }
+          // this.todoTask.category = response.data.category_name;
+          this.options = response.data.classification;
         })
         .catch((error) => {
           console.log(error.response.data);

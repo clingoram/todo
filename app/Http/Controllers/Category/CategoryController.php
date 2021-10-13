@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 // DB
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -16,7 +17,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return DB::table('category')->orderBy('created_at', 'desc')->get();
+        // return DB::table('category')->orderBy('created_at', 'desc')->get();
+        return Category::select('id', 'name', 'created_at')->orderByDesc('created_at')
+            ->get();
     }
 
     /**
