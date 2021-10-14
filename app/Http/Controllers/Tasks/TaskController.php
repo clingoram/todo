@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Support\Facades\DB;
+
 // models
 use App\Models\Task;
+use App\Models\Category;
 
 use Illuminate\Support\Carbon;
 
@@ -77,6 +79,17 @@ class TaskController extends Controller
     }
 
     /**
+     * 取得分類
+     */
+    public function getClassification($id = null)
+    {
+        $getClassification = Category::select('id', 'name', 'created_at')->where('id', $id)->orderByDesc('created_at')
+            ->get();
+        // var_dump($getClassification);
+        return $getClassification;
+    }
+
+    /**
      * Find specific data
      * @param int $id
      * @return json
@@ -85,12 +98,24 @@ class TaskController extends Controller
     {
         $find = Task::find($id);
 
+        /**
+         * SELECT 
+         * t.id,t.description,t.status,t.created_at,t.classification,
+         * c.name
+         * FROM task as t,category as c
+         * group by t.id
+         */
+
         // $getClassification = Category::select('id', 'name', 'created_at')->orderByDesc('created_at')
         //     ->get();
-        // var_dump($getClassification);
-        // die();
+
+        // $find = Task::joinSub($getClassification, 'classification.id', function ($join) {
+        //     $join->on('task.classification', '=', 'classification.id');
+        // })->where('task.id', $id)->get();
+
         if (isset($find)) {
             // return $find;
+            // $classification = $this->getClassification($find->classification);
             return json_encode($find);
         }
     }

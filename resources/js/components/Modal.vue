@@ -134,8 +134,8 @@ export default {
         start: this.start ? this.start : "",
         // 結束時間
         end: "",
-        // 待辦事項分類選項
-        category: null,
+        // 待辦事項分類
+        category: this.category ? this.category : [],
         // 狀態
         state: this.status,
       },
@@ -192,8 +192,6 @@ export default {
     // Insert
     insertData() {
       console.log("insert");
-      // console.log(this.todoTask.name);
-      // console.log(this.todoTask.end);
 
       axios
         .post("api/item/", {
@@ -210,6 +208,16 @@ export default {
           console.log(error.response.data);
         });
     },
+    // getAllClassification() {
+    //   axios
+    //     .get("api/item/" + this.id)
+    //     .then((response) => {
+    //       this.todoTask.category = response.data.classification;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error.response.data);
+    //     });
+    // },
     // Read
     getSpecificTask() {
       axios
@@ -226,8 +234,7 @@ export default {
           );
           this.todoTask.end = response.data.end_at;
           this.todoTask.state = response.data.status ? false : true;
-          // this.todoTask.category = response.data.category_name;
-          this.options = response.data.classification;
+          this.todoTask.category = response.data.classification;
         })
         .catch((error) => {
           console.log(error.response.data);
@@ -247,6 +254,7 @@ export default {
             // this.$emit("changeddata");
             // this.$emit("button-click");
             confirm("儲存成功");
+            // window.location.reload();
           }
         })
         .catch((error) => {
