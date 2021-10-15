@@ -10,4 +10,9 @@ class Task extends Model
     // use HasFactory;
     protected $table = 'task';
 
+
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'id');
+    }
 }
