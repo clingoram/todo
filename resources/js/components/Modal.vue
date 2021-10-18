@@ -223,7 +223,7 @@ export default {
       axios
         .get("api/item/" + this.id)
         .then((response) => {
-          console.log(response.data.classification);
+          // console.log(response.data.classification);
           // 點擊到的日期跟task的ID日期符合
           this.todoTask.name = response.data.description;
           // this.todoTask.start = response.data.created_at;
@@ -234,7 +234,7 @@ export default {
           );
           this.todoTask.end = response.data.end_at;
           this.todoTask.state = response.data.status ? false : true;
-          this.todoTask.category = response.data.classification;
+          // this.todoTask.category = response.data.classification;
         })
         .catch((error) => {
           console.log(error.response.data);

@@ -106,6 +106,7 @@ class TaskController extends Controller
          * group by t.id
          */
 
+
         // $getClassification = Category::select('id', 'name', 'created_at')->orderByDesc('created_at')
         //     ->get();
 
@@ -115,7 +116,13 @@ class TaskController extends Controller
 
         if (isset($find)) {
             // return $find;
-            // $classification = $this->getClassification($find->classification);
+
+            // $getClassification = Category::find($find->classification);
+            // // return $getClassification;
+            // $data = [
+            //     'classification' => $getClassification,
+            //     'list' => $find
+            // ];
             return json_encode($find);
         }
     }
