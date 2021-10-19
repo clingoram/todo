@@ -96,33 +96,24 @@ class TaskController extends Controller
      */
     public function find($id)
     {
-        $find = Task::find($id);
+        // $find = Task::find($id);
 
-        /**
-         * SELECT 
-         * t.id,t.description,t.status,t.created_at,t.classification,
-         * c.name
-         * FROM task as t,category as c
-         * group by t.id
-         */
-
-
-        // $getClassification = Category::select('id', 'name', 'created_at')->orderByDesc('created_at')
+        // $find = DB::table('task')
+        //     ->join('category', 'task.classification', '=', 'category.id')
+        //     ->where('task.id', '=', $id)
+        //     ->orderByDesc('task.id')
         //     ->get();
 
-        // $find = Task::joinSub($getClassification, 'classification.id', function ($join) {
-        //     $join->on('task.classification', '=', 'classification.id');
-        // })->where('task.id', $id)->get();
+        // $find = Task::where(function ($query) {
+        //     $query->select('*')->from('task')->join('category', 'task.classification', '=', 'category.id')->where('task.id', '=', 71)->orderByDesc('task.id');
+        // })->get();
+
+        $find = Task::join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->get();
+        // $find = Task::find($id)->join('category', 'task.classification', '=', 'category.id')->where('task.id', '=', $id)->orderByDesc('task.id')->get();
+
 
         if (isset($find)) {
-            // return $find;
-
-            // $getClassification = Category::find($find->classification);
-            // // return $getClassification;
-            // $data = [
-            //     'classification' => $getClassification,
-            //     'list' => $find
-            // ];
+            // var_dump(gettype($find));
             return json_encode($find);
         }
     }
