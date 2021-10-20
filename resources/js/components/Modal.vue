@@ -123,6 +123,7 @@ export default {
       max: maxDate,
       // 分類，下拉式選單
       selected: null,
+      options: [],
       /*
         儲存與顯示資料
       */
@@ -135,7 +136,7 @@ export default {
         // 結束時間
         end: "",
         // 待辦事項分類
-        category: this.category ? this.category : [],
+        category: this.category ? this.category : "",
         // 狀態
         state: this.status,
       },
@@ -208,25 +209,12 @@ export default {
           console.log(error.response.data);
         });
     },
-    // getAllClassification() {
-    //   axios
-    //     .get("api/item/" + this.id)
-    //     .then((response) => {
-    //       this.todoTask.category = response.data.classification;
-    //     })
-    //     .catch((error) => {
-    //       console.log(error.response.data);
-    //     });
-    // },
     // Read
     getSpecificTask() {
-      // console.log(this.id);
       axios
         .get("api/item/" + this.id)
         .then((response) => {
-          // 點擊到的日期跟task的ID日期符合
           this.todoTask.name = response.data.description;
-          // this.todoTask.start = response.data.created_at;
           const findStrPosition = response.data.created_at.indexOf("T");
           this.todoTask.start = response.data.created_at.substr(
             0,
@@ -237,7 +225,8 @@ export default {
           this.todoTask.category = response.data.name;
         })
         .catch((error) => {
-          console.log(`Error: ${error.response.data}`);
+          console.log("Error");
+          console.log(error.response.data);
         });
     },
     // Update
@@ -262,7 +251,18 @@ export default {
         });
     },
     // Delete
-    deleteData() {},
+    deleteData() {
+      axios
+        .delete("api/item/" + this.id)
+        .then((response) => {
+          if (response.status === 200) {
+            alert("deleted");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>

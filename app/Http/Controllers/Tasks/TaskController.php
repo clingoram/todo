@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 // models
 use App\Models\Task;
 use App\Models\Category;
 
-use Illuminate\Support\Carbon;
 
 class TaskController extends Controller
 {
@@ -33,7 +32,7 @@ class TaskController extends Controller
             $task['id'] = $key['id'];
             $task['title'] = $key['title'];
             $task['status'] = $key['taskStatus'] ? false : true;
-            $tesk['category'] = $key['classification'];
+            $task['category'] = $key['classification'];
             $task['start'] = $key['start'];
             $task['end'] = $key['end'];
             array_push($array, $task);
@@ -79,17 +78,6 @@ class TaskController extends Controller
     }
 
     /**
-     * 取得分類
-     */
-    public function getClassification($id = null)
-    {
-        $getClassification = Category::select('id', 'name', 'created_at')->where('id', $id)->orderByDesc('created_at')
-            ->get();
-        // var_dump($getClassification);
-        return $getClassification;
-    }
-
-    /**
      * Find specific data
      * @param int $id
      * @return json
@@ -98,22 +86,16 @@ class TaskController extends Controller
     {
         // $find = Task::find($id);
 
-        // $find = DB::table('task')
-        //     ->join('category', 'task.classification', '=', 'category.id')
-        //     ->where('task.id', '=', $id)
-        //     ->orderByDesc('task.id')
-        //     ->get();
-
-        // $find = Task::where(function ($query) {
-        //     $query->select('*')->from('task')->join('category', 'task.classification', '=', 'category.id')->where('task.id', '=', 71)->orderByDesc('task.id');
-        // })->get();
-
-        $find = Task::join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->get();
-        // $find = Task::find($id)->join('category', 'task.classification', '=', 'category.id')->where('task.id', '=', $id)->orderByDesc('task.id')->get();
-
+        $find = Task::select(
+            'task.id',
+            'task.description',
+            'task.status',
+            'task.created_at',
+            'task.end_at',
+            'category.name'
+        )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
         if (isset($find)) {
-            // var_dump(gettype($find));
             return json_encode($find);
         }
     }
@@ -154,7 +136,10 @@ class TaskController extends Controller
         $findExist = Task::find($id);
         if (isset($findExist)) {
             $findExist->delete();
-            return "Deleted Successful.";
+
+            if ($findExist->trashed()) {
+                return "Deleted Successful.";
+            }
         }
         return "Not Found.";
     }
