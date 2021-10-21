@@ -72,7 +72,7 @@
 
       <b-form-select
         v-model="selected"
-        v-bind:options="todoTask.category"
+        v-bind:options="options"
       ></b-form-select>
 
       <b-form-group
@@ -123,7 +123,11 @@ export default {
       max: maxDate,
       // 分類，下拉式選單
       selected: null,
-      options: [],
+      options: [
+        { value: null, text: "請選擇分類。" },
+        { text: "Item 1", value: "one" },
+        { text: "Item 2", value: "second" },
+      ],
       /*
         儲存與顯示資料
       */
@@ -149,6 +153,9 @@ export default {
         ? (this.showModal = true)
         : (this.showModal = false);
 
+      if (this.showModal === true && this.openmodal === true) {
+        this.getAllClassification();
+      }
       // 若有ID，拿ID做搜尋以及確認是否有點擊到event
       if (this.id !== "" && this.eventisset === true) {
         this.getSpecificTask(this.id);
@@ -198,6 +205,7 @@ export default {
         .post("api/item/", {
           todoTask: this.todoTask,
           start: this.start,
+          // options: this.value
         })
         .then((response) => {
           if (response.status === 201) {
@@ -207,6 +215,20 @@ export default {
         })
         .catch((error) => {
           console.log(error.response.data);
+        });
+    },
+    // Read all category
+    getAllClassification() {
+      console.log("classifiaction");
+      axios
+        .get("api/item/category")
+        .then((response) => {
+          console.log(response.data);
+          this.options.value = response.data.id;
+          this.options.text = response.data.name;
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
     // Read
@@ -222,7 +244,8 @@ export default {
           );
           this.todoTask.end = response.data.end_at;
           this.todoTask.state = response.data.status ? false : true;
-          this.todoTask.category = response.data.name;
+          this.todoTask.category = response.data.cId;
+          // this.todoTask.category = response.data.name;
         })
         .catch((error) => {
           console.log("Error");
@@ -236,6 +259,7 @@ export default {
       axios
         .put("api/item/" + this.id, {
           todoTask: this.todoTask,
+          // options: this.value
         })
         .then((response) => {
           // console.log(response);

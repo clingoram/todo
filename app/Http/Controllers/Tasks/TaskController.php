@@ -82,7 +82,7 @@ class TaskController extends Controller
      * @param int $id
      * @return json
      */
-    public function find($id)
+    public function show($id)
     {
         // $find = Task::find($id);
 
@@ -92,7 +92,8 @@ class TaskController extends Controller
             'task.status',
             'task.created_at',
             'task.end_at',
-            'category.name'
+            'category.name',
+            'category.id as cId'
         )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
         if (isset($find)) {

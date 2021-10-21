@@ -18,6 +18,10 @@ class Task extends Model
     // primary key
     protected $primaryKey = 'id';
     public $incrementing = true;
+    // 白名單
+    protected $fillable = ['description', 'status', 'classification'];
+    // 黑名單
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be mutated to dates.
