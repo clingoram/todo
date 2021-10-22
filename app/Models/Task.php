@@ -18,9 +18,20 @@ class Task extends Model
     // primary key
     protected $primaryKey = 'id';
     public $incrementing = true;
-    // 白名單
-    protected $fillable = ['description', 'status', 'classification'];
-    // 黑名單
+
+    /**
+     * 白名單可以被批量賦值的屬性。
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'description',
+        'created_at',
+        'status',
+        'end_at',
+        'classification'
+    ];
+    // 黑名單(無法修改)
     protected $guarded = ['id'];
 
     /**
@@ -30,6 +41,9 @@ class Task extends Model
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * 取得分類
+     */
     public function category()
     {
         return $this->hasOne(Category::class, 'id');

@@ -17,7 +17,6 @@
       <b-button lg="4" class="pb-2" variant="outline-primary" @click="cancel()"
         >取消</b-button
       >
-      <!-- Button with custom close trigger value -->
       <b-button lg="4" class="pb-2" variant="danger" @click="hide(id)">
         刪除
       </b-button>
@@ -70,10 +69,15 @@
         </b-input-group-append>
       </b-input-group>
 
-      <b-form-select
-        v-model="selected"
-        v-bind:options="options"
-      ></b-form-select>
+      <!-- <b-form-select v-model="selected" v-bind:options="options"> -->
+      <b-form-select v-model="selected">
+        <b-form-select-option v-bind:value="null"
+          >請選擇分類。</b-form-select-option
+        >
+        <b-form-select-option v-for="cate in options" v-bind:key="cate.value">
+          {{ cate.text }}
+        </b-form-select-option>
+      </b-form-select>
 
       <b-form-group
         label="待辦事項:"
@@ -124,9 +128,8 @@ export default {
       // 分類，下拉式選單
       selected: null,
       options: [
-        { value: null, text: "請選擇分類。" },
-        { text: "Item 1", value: "one" },
-        { text: "Item 2", value: "second" },
+        // { text: "Item 1", value: "one" },
+        // { text: "Item 2", value: "second" },
       ],
       /*
         儲存與顯示資料
@@ -139,7 +142,7 @@ export default {
         start: this.start ? this.start : "",
         // 結束時間
         end: "",
-        // 待辦事項分類
+        // 待辦事項分類(value ID)
         category: this.category ? this.category : "",
         // 狀態
         state: this.status,
@@ -153,9 +156,6 @@ export default {
         ? (this.showModal = true)
         : (this.showModal = false);
 
-      if (this.showModal === true && this.openmodal === true) {
-        this.getAllClassification();
-      }
       // 若有ID，拿ID做搜尋以及確認是否有點擊到event
       if (this.id !== "" && this.eventisset === true) {
         this.getSpecificTask(this.id);
@@ -163,6 +163,20 @@ export default {
         this.resetModal();
       }
       return this.start !== null ? this.start : "";
+    },
+    // Get All category
+    getAllClassification: function () {
+      console.log("classifiaction");
+      axios
+        .get("api/items/categories")
+        .then((response) => {
+          console.log(response.data);
+          this.options.value = response.data.id;
+          this.options.text = response.data.name;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   methods: {
@@ -175,11 +189,15 @@ export default {
     // 離開modal就清除input
     resetModal() {
       this.todoTask.name = "";
+      this.todoTask.start = "";
+      this.todoTask.end = "";
       this.todoTask.state = null;
+      this.todoTask.category = "";
     },
     handleOk(bvModalEvt) {
       // Prevent modal from closing
       bvModalEvt.preventDefault();
+
       // Trigger submit handler
       this.handleSubmit();
     },
@@ -200,12 +218,11 @@ export default {
     // Insert
     insertData() {
       console.log("insert");
-
+      // console.log(this.todoTask);
       axios
-        .post("api/item/", {
+        .post("api/items/", {
           todoTask: this.todoTask,
           start: this.start,
-          // options: this.value
         })
         .then((response) => {
           if (response.status === 201) {
@@ -217,25 +234,13 @@ export default {
           console.log(error.response.data);
         });
     },
-    // Read all category
-    getAllClassification() {
-      console.log("classifiaction");
-      axios
-        .get("api/item/category")
-        .then((response) => {
-          console.log(response.data);
-          this.options.value = response.data.id;
-          this.options.text = response.data.name;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     // Read
+    // Specific task
     getSpecificTask() {
       axios
-        .get("api/item/" + this.id)
+        .get("api/items/" + this.id)
         .then((response) => {
+          // this.todoTask.id = response.data.id;
           this.todoTask.name = response.data.description;
           const findStrPosition = response.data.created_at.indexOf("T");
           this.todoTask.start = response.data.created_at.substr(
@@ -245,7 +250,6 @@ export default {
           this.todoTask.end = response.data.end_at;
           this.todoTask.state = response.data.status ? false : true;
           this.todoTask.category = response.data.cId;
-          // this.todoTask.category = response.data.name;
         })
         .catch((error) => {
           console.log("Error");
@@ -257,9 +261,8 @@ export default {
       console.log("update");
       // console.log(this.todoTask);
       axios
-        .put("api/item/" + this.id, {
+        .put("api/items/" + this.id, {
           todoTask: this.todoTask,
-          // options: this.value
         })
         .then((response) => {
           // console.log(response);
@@ -277,7 +280,7 @@ export default {
     // Delete
     deleteData() {
       axios
-        .delete("api/item/" + this.id)
+        .delete("api/items/" + this.id)
         .then((response) => {
           if (response.status === 200) {
             alert("deleted");

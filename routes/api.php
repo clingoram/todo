@@ -18,12 +18,12 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::get('/items', [TaskController::class, 'index']);
 
-Route::prefix('/item')->group(function () {
+Route::prefix('/items')->group(function () {
     // category
-    Route::get('/category', [CategoryController::class, 'index']);
+    Route::get('/categories', [CategoryController::class, 'index']);
     // task
+    Route::get('', [TaskController::class, 'index']);
     Route::post('/', [TaskController::class, 'store']);
     Route::get('/{id}', [TaskController::class, 'show']);
     Route::put('/{id}', [TaskController::class, 'update']);

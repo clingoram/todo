@@ -14,20 +14,6 @@
       v-bind:openmodal="modalOpen"
       v-bind:eventisset="checkEventIsset"
     ></open-modal>
-    <!-- <open-modal
-      v-bind:id="todoTask.id"
-      v-bind:start="todoTask.dateTimeStart"
-      v-bind:openmodal="modalOpen"
-      v-bind:eventisset="checkEventIsset"
-      @button-click="parentClicked"
-    ></open-modal> -->
-
-    <!-- <open-modal
-      v-bind:start="todoTask.dateTimeStart"
-      v-bind:title="todoTask.addtaskName"
-      v-bind:openmodal="modalOpen"
-      v-bind:watchEventIsset="todoTask.id"
-    ></open-modal> -->
   </div>
 </template>
 <script>
@@ -92,16 +78,11 @@ export default {
           hour12: false,
         },
         dateClick: function (arg) {
-          // console.log(`Date: ${arg.dateStr}`);
           this.modalOpen = true;
           this.checkEventIsset = false;
           this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
         eventClick: function (info) {
-          // console.log(
-          //   `ID: ${info.event.id}; Start: ${info.event.startStr}; Title: ${info.event.title}`
-          // );
-
           if (info.event.id !== "") {
             this.modalOpen = true;
             this.checkEventIsset = true;
@@ -119,18 +100,6 @@ export default {
   },
   computed: {
     // 取得table所有該月份的資料
-    //    getAlldatas() {
-    //   axios
-    //     .get("api/items")
-    //     .then((response) => {
-    //       if (response.data.legth !== 0 && response.status === 200) {
-    //         this.calendarOptions.events = response.data;
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
     getAlldatas: {
       // 讀取
       get() {
@@ -152,13 +121,6 @@ export default {
       },
     },
   },
-  watch: {
-    // Watch watchToOpenModal in the child component and call toOpenModal
-    // watchEventIsset: function () {
-    //   if (this.id !== "") {
-    //     this.getSpecificTask(this.id);
-    //   }
-    // },
-  },
+  watch: {},
 };
 </script>

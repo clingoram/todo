@@ -6,11 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 // use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Symfony\Component\HttpFoundation\Response;
 
-// models
+// model
 use App\Models\Task;
-use App\Models\Category;
-
 
 class TaskController extends Controller
 {
@@ -24,6 +23,7 @@ class TaskController extends Controller
     {
         $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus')
             ->where('status', 0)
+            ->orWhere('deleted_at', null)
             ->orderByDesc('created_at')
             ->get();
 
@@ -53,16 +53,16 @@ class TaskController extends Controller
         //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
         //     'start' => ['required', 'date'],
         //     'end' => ['required'],
-        //     // 'state' => ['Boolean']
+        //     // 'state' => ['Boolean'],
+        //     // 'category' => ['required']
         // ]);
-
-        // $messages = [
-        //     'same' => 'The :attribute and :other must match.',
-        //     'size' => 'The :attribute must be exactly :size.',
-        //     'between' => 'The :attribute value :input is not between :min - :max.',
-        //     'in' => 'The :attribute must be one of the following types: :values',
-        // ];
-
+        $this->validate($request, [
+            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+            'start' => ['required', 'date'],
+            'end' => ['required'],
+            'category' => ['required'],
+            // 'state' => ['Boolean'],
+        ]);
         // if ($validator->fails()) {
         //     return response()->json(['Errors' => $validator->errors()], 422);
         // }
@@ -71,7 +71,7 @@ class TaskController extends Controller
         $newTask->description = $request->todoTask['name'];
         $newTask->created_at = $request->start;
         $newTask->end_at = $request->todoTask['end'];
-        // $newTask->end_at = $request->todoTask['classification'];
+        $newTask->classification = $request->todoTask['category'];
 
         $newTask->save();
         return $newTask;
@@ -84,8 +84,6 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        // $find = Task::find($id);
-
         $find = Task::select(
             'task.id',
             'task.description',
@@ -93,7 +91,7 @@ class TaskController extends Controller
             'task.created_at',
             'task.end_at',
             'category.name',
-            'category.id as cId'
+            'category.id AS cId'
         )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
         if (isset($find)) {
@@ -110,6 +108,14 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // $this->validate($request, [
+        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required'],
+        //     'category' => ['required'],
+        //     // 'state' => ['Boolean'],
+        // ]);
+
         $findExist = Task::find($id);
 
         if (isset($findExist)) {
@@ -117,10 +123,12 @@ class TaskController extends Controller
             $findExist->created_at = $request->todoTask['start'];
             $findExist->end_at = $request->todoTask['end'];
             $findExist->status = $request->todoTask['state'] ? false : true;
+            $findExist->classification = $request->todoTask['category'];
             // 更新時間要用當下更新的時間
             $findExist->updated_at = Carbon::now();
             $findExist->save();
-            return $findExist;
+            // return $findExist;
+            return response($findExist, Response::HTTP_OK);
         };
         // 無資料
         return 'No data';
@@ -139,7 +147,8 @@ class TaskController extends Controller
             $findExist->delete();
 
             if ($findExist->trashed()) {
-                return "Deleted Successful.";
+                // return "Deleted Successful.";
+                return response(null, Response::HTTP_NO_CONTENT);
             }
         }
         return "Not Found.";
