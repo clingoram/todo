@@ -18,7 +18,7 @@ class CategoryController extends Controller
     public function index()
     {
         // return DB::table('category')->orderBy('created_at', 'desc')->get();
-        $classification = Category::select('id', 'name', 'created_at')->orderByDesc('created_at')
+        $classification = Category::select('id', 'name')->orderByDesc('created_at')
             ->get();
         return json_encode($classification);
     }

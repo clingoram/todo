@@ -5,6 +5,7 @@
     id="modal-prevent-closing"
     title="新增待辦事項"
     v-model="showModal"
+    v-bind:class="getAllClassification"
     v-on:show="resetModal"
     v-on:hidden="resetModal"
     v-on:ok="handleOk"
@@ -69,14 +70,10 @@
         </b-input-group-append>
       </b-input-group>
 
-      <!-- <b-form-select v-model="selected" v-bind:options="options"> -->
-      <b-form-select v-model="selected">
-        <b-form-select-option v-bind:value="null"
-          >請選擇分類。</b-form-select-option
-        >
-        <b-form-select-option v-for="cate in options" v-bind:key="cate.value">
-          {{ cate.text }}
-        </b-form-select-option>
+      <b-form-select v-model="selected" v-bind:options="myOptions">
+        <template v-slot:first>
+          <option value="null" disabled>- 請選擇分類-</option>
+        </template>
       </b-form-select>
 
       <b-form-group
@@ -104,6 +101,9 @@ export default {
   //   taskdata,
   // },
   props: ["id", "start", "openmodal", "eventisset"],
+  created() {
+    this.getAllClassification();
+  },
   data() {
     // modal calendar
     const now = new Date();
@@ -127,10 +127,8 @@ export default {
       max: maxDate,
       // 分類，下拉式選單
       selected: null,
-      options: [
-        // { text: "Item 1", value: "one" },
-        // { text: "Item 2", value: "second" },
-      ],
+      categoryOptions: [],
+      myOptions: [],
       /*
         儲存與顯示資料
       */
@@ -142,8 +140,8 @@ export default {
         start: this.start ? this.start : "",
         // 結束時間
         end: "",
-        // 待辦事項分類(value ID)
-        category: this.category ? this.category : "",
+        // 待辦事項分類(value:id;show:text)
+        // category: this.category ? this.category : [],
         // 狀態
         state: this.status,
       },
@@ -163,20 +161,6 @@ export default {
         this.resetModal();
       }
       return this.start !== null ? this.start : "";
-    },
-    // Get All category
-    getAllClassification: function () {
-      console.log("classifiaction");
-      axios
-        .get("api/items/categories")
-        .then((response) => {
-          console.log(response.data);
-          this.options.value = response.data.id;
-          this.options.text = response.data.name;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
   },
   methods: {
@@ -235,6 +219,28 @@ export default {
         });
     },
     // Read
+    // Get All category
+    getAllClassification: function () {
+      axios
+        .get("api/items/categories")
+        .then((response) => {
+          this.categoryOptions = response.data;
+          for (let i = 0; i < this.categoryOptions.length; i++) {
+            let option = [];
+            for (var key in this.categoryOptions[i]) {
+              if (key === "id") {
+                option["value"] = this.categoryOptions[i][key];
+              } else if (key === "name") {
+                option["text"] = this.categoryOptions[i][key];
+              }
+            }
+            this.myOptions.push(Object.assign({}, option));
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     // Specific task
     getSpecificTask() {
       axios
@@ -249,10 +255,10 @@ export default {
           );
           this.todoTask.end = response.data.end_at;
           this.todoTask.state = response.data.status ? false : true;
-          this.todoTask.category = response.data.cId;
+          this.selected = response.data.cId;
         })
         .catch((error) => {
-          console.log("Error");
+          console.log("Error!!!");
           console.log(error.response.data);
         });
     },
@@ -260,6 +266,7 @@ export default {
     updateData() {
       console.log("update");
       // console.log(this.todoTask);
+
       axios
         .put("api/items/" + this.id, {
           todoTask: this.todoTask,
