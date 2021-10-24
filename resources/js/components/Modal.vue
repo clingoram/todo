@@ -3,7 +3,7 @@
   <b-modal
     size="xl"
     id="modal-prevent-closing"
-    title="新增待辦事項"
+    title="待辦事項"
     v-model="showModal"
     v-bind:class="getAllClassification"
     v-on:show="resetModal"
@@ -28,13 +28,13 @@
     <form ref="form" v-on:submit.stop.prevent="handleSubmit">
       <label>{{ clickDateChecked }}</label>
       <br />
-      <label for="startDate-datepicker">開始:</label>
+      <label for="startDate-datepicker">開始(24小時制):</label>
       <b-input-group class="mb-3">
         <b-form-input
           id="datestart-input"
           v-model="todoTask.start"
           type="text"
-          placeholder="YYYY-MM-DD"
+          placeholder="YYYY-MM-DD HH:mm:ss"
           autocomplete="off"
         ></b-form-input>
         <b-input-group-append>
@@ -49,13 +49,13 @@
         </b-input-group-append>
       </b-input-group>
 
-      <label for="endDate-datepicker">結束:</label>
+      <label for="endDate-datepicker">結束(24小時制):</label>
       <b-input-group class="mb-3">
         <b-form-input
           id="endDate-input"
           v-model="todoTask.end"
           type="text"
-          placeholder="YYYY-MM-DD"
+          placeholder="YYYY-MM-DD HH:mm:ss"
           autocomplete="off"
         ></b-form-input>
         <b-input-group-append>
@@ -177,6 +177,7 @@ export default {
       this.todoTask.end = "";
       this.todoTask.state = null;
       this.todoTask.category = "";
+      this.selected = null;
     },
     handleOk(bvModalEvt) {
       // Prevent modal from closing
@@ -203,10 +204,12 @@ export default {
     insertData() {
       console.log("insert");
       // console.log(this.todoTask);
+      // console.log(this.start);
       axios
         .post("api/items/", {
           todoTask: this.todoTask,
           start: this.start,
+          classification: this.selected,
         })
         .then((response) => {
           if (response.status === 201) {
@@ -219,7 +222,7 @@ export default {
         });
     },
     // Read
-    // Get All category
+    // Get all category
     getAllClassification: function () {
       axios
         .get("api/items/categories")
@@ -241,7 +244,7 @@ export default {
           console.log(error);
         });
     },
-    // Specific task
+    // Get specific task
     getSpecificTask() {
       axios
         .get("api/items/" + this.id)
@@ -270,6 +273,7 @@ export default {
       axios
         .put("api/items/" + this.id, {
           todoTask: this.todoTask,
+          classification: this.selected,
         })
         .then((response) => {
           // console.log(response);

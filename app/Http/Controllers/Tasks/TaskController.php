@@ -56,13 +56,13 @@ class TaskController extends Controller
         //     // 'state' => ['Boolean'],
         //     // 'category' => ['required']
         // ]);
-        $this->validate($request, [
-            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-            'start' => ['required', 'date'],
-            'end' => ['required'],
-            'category' => ['required'],
-            // 'state' => ['Boolean'],
-        ]);
+        // $this->validate($request, [
+        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required'],
+        //     'category' => ['required'],
+        //     // 'state' => ['Boolean'],
+        // ]);
         // if ($validator->fails()) {
         //     return response()->json(['Errors' => $validator->errors()], 422);
         // }
@@ -71,7 +71,8 @@ class TaskController extends Controller
         $newTask->description = $request->todoTask['name'];
         $newTask->created_at = $request->start;
         $newTask->end_at = $request->todoTask['end'];
-        $newTask->classification = $request->todoTask['category'];
+        $newTask->classification = $request->classification;
+
 
         $newTask->save();
         return $newTask;
@@ -123,7 +124,8 @@ class TaskController extends Controller
             $findExist->created_at = $request->todoTask['start'];
             $findExist->end_at = $request->todoTask['end'];
             $findExist->status = $request->todoTask['state'] ? false : true;
-            $findExist->classification = $request->todoTask['category'];
+            $findExist->classification = $request->classification;
+
             // 更新時間要用當下更新的時間
             $findExist->updated_at = Carbon::now();
             $findExist->save();

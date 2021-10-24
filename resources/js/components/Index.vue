@@ -2,6 +2,7 @@
   <div id="area">
     <h1>ToDo List</h1>
     <span>Get things done!!!</span>
+
     <show-calendar></show-calendar>
   </div>
 </template>
