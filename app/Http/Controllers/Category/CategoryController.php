@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Carbon;
 
 // DB
 // use Illuminate\Support\Facades\DB;
@@ -17,7 +19,6 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        // return DB::table('category')->orderBy('created_at', 'desc')->get();
         $classification = Category::select('id', 'name')->orderByDesc('created_at')
             ->get();
         return json_encode($classification);
@@ -41,6 +42,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $data = ['name' => $request->name, 'created_at' => Carbon::now()];
+
+        return response()->noContent(Response::HTTP_CREATED); //回傳201狀態碼
     }
 
     /**

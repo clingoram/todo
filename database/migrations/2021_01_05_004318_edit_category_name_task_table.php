@@ -14,7 +14,7 @@ class EditCategoryNameTaskTable extends Migration
     public function up()
     {
         Schema::table('task', function (Blueprint $table) {
-            $table->string('category_name')->comment('分類名稱')->nullable()->change();
+            $table->string('classification')->comment('分類名稱')->nullable()->change();
         });
     }
 
@@ -26,8 +26,8 @@ class EditCategoryNameTaskTable extends Migration
     public function down()
     {
         Schema::table('task', function (Blueprint $table) {
-            if (Schema::hasColumn('category_name')) {
-                $table->dropColumn('category_name');
+            if (Schema::hasColumn('classification')) {
+                $table->dropColumn('classification');
             }
         });
     }

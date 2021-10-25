@@ -14,7 +14,7 @@ class AddCategorynameTaskTable extends Migration
     public function up()
     {
         Schema::table('task', function (Blueprint $table) {
-            $table->string('category_name')->comment('分類名稱');
+            $table->string('classification')->comment('分類名稱');
         });
     }
 
@@ -24,13 +24,11 @@ class AddCategorynameTaskTable extends Migration
      * @return void
      */
     public function down()
-    {   
-        if (Schema::hasColumn('category_name'))
-        {
+    {
+        if (Schema::hasColumn('classification')) {
             Schema::table('task', function (Blueprint $table) {
-                $table->dropColumn('category_name');
+                $table->dropColumn('classification');
             });
         };
-
     }
 }

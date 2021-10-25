@@ -75,7 +75,8 @@ class TaskController extends Controller
 
 
         $newTask->save();
-        return $newTask;
+        // return $newTask;
+        return response()->noContent(Response::HTTP_CREATED);
     }
 
     /**

@@ -18,14 +18,15 @@
         </include>
     </coverage>
     <php>
-        <server name="APP_ENV" value="testing"/>
+    <!-- 確認APP_ENV是testing，再跑測試時才會去吃.env.testing -->
+        <!-- <server name="APP_ENV" value="testing"/> -->
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
         <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
         <!-- <server name="DB_DATABASE" value=":memory:"/> -->
 
         <!-- for test db start -->
-        <server name="DB_DATABASE" value="testDB" />
+        <!-- <server name="DB_DATABASE" value="testDB" /> -->
         <!-- for test db end -->
 
         <server name="MAIL_MAILER" value="array"/>

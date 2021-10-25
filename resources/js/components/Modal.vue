@@ -148,7 +148,7 @@ export default {
         // 開始時間
         start: this.start ? this.start : "",
         // 結束時間
-        end: "",
+        end: this.end ? this.end : "",
         // 待辦事項分類(value:id;show:text)
         // category: this.category ? this.category : [],
         // 狀態

@@ -11,6 +11,7 @@
     <open-modal
       v-bind:id="todoTask.id"
       v-bind:start="todoTask.dateTimeStart"
+      v-bind:end="todoTask.dateTimeEnd"
       v-bind:openmodal="modalOpen"
       v-bind:eventisset="checkEventIsset"
     ></open-modal>
@@ -106,7 +107,7 @@ export default {
         axios
           .get("api/items")
           .then((response) => {
-            if (response.data.legth !== 0 && response.status === 200) {
+            if (response.data.legth !== 0) {
               this.calendarOptions.events = response.data;
               this.$emit("changedata");
             }
