@@ -11,14 +11,23 @@
     v-on:ok="handleOk"
     modal-footer
   >
-    <template #modal-footer="{ ok, cancel, hide }">
-      <b-button lg="4" class="pb-2" variant="success" @click="ok()"
+    <template #modal-footer="{ ok, cancel, deleteData }">
+      <b-button lg="4" class="pb-2" variant="success" v-on:click="ok()"
         >儲存</b-button
       >
-      <b-button lg="4" class="pb-2" variant="outline-primary" @click="cancel()"
+      <b-button
+        lg="4"
+        class="pb-2"
+        variant="outline-primary"
+        v-on:click="cancel()"
         >取消</b-button
       >
-      <b-button lg="4" class="pb-2" variant="danger" @click="hide(id)">
+      <b-button
+        lg="4"
+        class="pb-2"
+        variant="danger"
+        v-on:click="deleteData(id)"
+      >
         刪除
       </b-button>
     </template>

@@ -21,7 +21,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus')
+        $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus', 'classification')
             ->where('status', 0)
             ->orWhere('deleted_at', null)
             ->orderByDesc('created_at')
@@ -150,7 +150,7 @@ class TaskController extends Controller
 
             if ($findExist->trashed()) {
                 // return "Deleted Successful.";
-                return response(null, Response::HTTP_NO_CONTENT);
+                return response()->json(null, Response::HTTP_NO_CONTENT);
             }
         }
         return "Not Found.";
