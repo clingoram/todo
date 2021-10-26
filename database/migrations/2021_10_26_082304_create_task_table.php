@@ -16,7 +16,10 @@ class CreateTaskTable extends Migration
         Schema::create('task', function (Blueprint $table) {
             $table->id();
             $table->string('description')->comment('描述');
-            $table->string('status')->comment('狀態，已完成1;未完成2、刪除0')->default(2);
+            $table->boolean('status')->comment('狀態，已完成true;未完成false')->default(false);
+            $table->timestamp('end_at', 0)->comment('結束時間');
+            $table->string('classification')->comment('分類名稱');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +31,9 @@ class CreateTaskTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task');
+        // Schema::dropIfExists('task');
+        if (Schema::hasTable('task')) {
+            Schema::drop('task');
+        }
     }
 }

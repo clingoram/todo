@@ -67,7 +67,6 @@ return [
     |
     */
 
-    // 'timezone' => 'UTC',
     'timezone' => 'Asia/Taipei',
 
     /*

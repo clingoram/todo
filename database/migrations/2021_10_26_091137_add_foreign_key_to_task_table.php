@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCategorynameTaskTable extends Migration
+class AddForeignKeyToTaskTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class AddCategorynameTaskTable extends Migration
     public function up()
     {
         Schema::table('task', function (Blueprint $table) {
-            $table->string('classification')->comment('分類名稱');
+            $table->unsignedBigInteger('classification')->change();
+            $table->foreign('classification')->references('id')->on('category');
         });
     }
 
@@ -25,10 +26,8 @@ class AddCategorynameTaskTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasColumn('classification')) {
-            Schema::table('task', function (Blueprint $table) {
-                $table->dropColumn('classification');
-            });
-        };
+        Schema::table('task', function (Blueprint $table) {
+            $table->dropForeign('classification');
+        });
     }
 }

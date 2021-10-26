@@ -44,8 +44,8 @@ class Task extends Model
     /**
      * 取得分類
      */
-    public function category()
-    {
-        return $this->hasOne(Category::class, 'id');
-    }
+    // public function category()
+    // {
+    //     return $this->hasOne(Category::class, 'id');
+    // }
 }

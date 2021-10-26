@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddEndAtToTask extends Migration
+class EditColumnTaskTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddEndAtToTask extends Migration
     public function up()
     {
         Schema::table('task', function (Blueprint $table) {
-            $table->timestamp('end_at', 0)->after('created_at')->comment('結束時間');
+            $table->string('classification')->comment('分類名稱')->nullable()->change();
         });
     }
 
@@ -26,8 +26,8 @@ class AddEndAtToTask extends Migration
     public function down()
     {
         Schema::table('task', function (Blueprint $table) {
-            if (Schema::hasColumn('end_at')) {
-                $table->dropColumn('end_at');
+            if (Schema::hasColumn('classification')) {
+                $table->dropColumn('classification');
             }
         });
     }

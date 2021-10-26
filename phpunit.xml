@@ -19,7 +19,7 @@
     </coverage>
     <php>
     <!-- 確認APP_ENV是testing，再跑測試時才會去吃.env.testing -->
-        <!-- <server name="APP_ENV" value="testing"/> -->
+        <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
         <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
