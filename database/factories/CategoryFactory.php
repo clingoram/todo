@@ -22,8 +22,8 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->text,
-            'created_at' => $this->faker->dateTimeAD($max = 'now', $timezone = 'Asia/Tapei'),
+            'name' => $this->faker->text($maxNbChars = 5),
+            'created_at' => now(),
         ];
     }
 }

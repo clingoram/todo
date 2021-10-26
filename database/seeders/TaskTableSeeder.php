@@ -22,5 +22,8 @@ class TaskTableSeeder extends Seeder
     {
         //清除表格所有資料，並將流水號計數器歸零
         Task::truncate();
+
+        // create 10 datas each time
+        Task::factory()->count(10)->create();
     }
 }

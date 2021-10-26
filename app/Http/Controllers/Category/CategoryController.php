@@ -25,16 +25,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -42,9 +32,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = ['name' => $request->name, 'created_at' => Carbon::now()];
-
-        return response()->noContent(Response::HTTP_CREATED); //回傳201狀態碼
+        $data = Category::create($request->all());
+        return response()->json($data, 201);
     }
 
     /**

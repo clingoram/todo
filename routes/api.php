@@ -1,11 +1,10 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TaskController;
-
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +21,8 @@ use App\Http\Controllers\TaskController;
 Route::prefix('/items')->group(function () {
     // category
     Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories/', [CategoryController::class, 'store']);
+
     // task
     Route::get('', [TaskController::class, 'index']);
     Route::post('/', [TaskController::class, 'store']);
