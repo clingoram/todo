@@ -30,11 +30,10 @@ class CategoryTest extends TestCase
     /**
      * Insert test
      */
-    public function test_insert()
-    {
-        // $data = Category::factory()->create();
-        // $response = $this->post('api/items/categories');
+    // public function test_insert()
+    // {
+    //     $response = $this->post('api/items/categories');
 
-        // $response->assertStatus(200); //確認狀態碼
-    }
+    //     $response->assertStatus(200); //確認狀態碼
+    // }
 }

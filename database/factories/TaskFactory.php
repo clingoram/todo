@@ -27,7 +27,7 @@ class TaskFactory extends Factory
             'description' => $this->faker->realText($maxNbChars = 50, $indexSize = 2),
             'status' => $this->faker->boolean($chanceOfGettingTrue = 50),
             'created_at' => $this->faker->dateTime($max = 'now', $timezone = 'Asia/Taipei'),
-            'end_at' => $this->faker->dateTimeBetween($startDate = '-30 years', $endDate = '+5 days', $timezone = 'Asia/Taipei'),
+            'end_at' => $this->faker->dateTime($max = '+5 days', $timezone = 'Asia/Taipei'),
             'classification' => Category::all()->random()->id
         ];
     }

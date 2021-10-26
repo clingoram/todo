@@ -24,6 +24,6 @@ class TaskTableSeeder extends Seeder
         Task::truncate();
 
         // create 10 datas each time
-        Task::factory()->count(10)->create();
+        Task::factory()->count(6)->create();
     }
 }
