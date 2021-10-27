@@ -24,7 +24,7 @@ class TaskFactory extends Factory
     {
         // 依據table欄位，塞進對應的假資料
         return [
-            'description' => $this->faker->realText($maxNbChars = 50, $indexSize = 2),
+            'description' => $this->faker->word,
             'status' => $this->faker->boolean($chanceOfGettingTrue = 50),
             'created_at' => $this->faker->dateTime($max = 'now', $timezone = 'Asia/Taipei'),
             'end_at' => $this->faker->dateTime($max = '+5 days', $timezone = 'Asia/Taipei'),

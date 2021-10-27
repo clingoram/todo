@@ -73,7 +73,6 @@ class TaskController extends Controller
         $newTask->end_at = $request->todoTask['end'];
         $newTask->classification = $request->classification;
 
-
         $newTask->save();
         // return $newTask;
         return response()->noContent(Response::HTTP_CREATED);
@@ -84,7 +83,7 @@ class TaskController extends Controller
      * @param int $id
      * @return json
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $find = Task::select(
             'task.id',

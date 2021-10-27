@@ -21,12 +21,14 @@ use App\Http\Controllers\CategoryController;
 Route::prefix('/items')->group(function () {
     // category
     Route::get('/categories', [CategoryController::class, 'index']);
-    Route::post('/categories/', [CategoryController::class, 'store']);
+    // Route::post('/categories/', [CategoryController::class, 'store']);
 
     // task
     Route::get('', [TaskController::class, 'index']);
     Route::post('/', [TaskController::class, 'store']);
-    Route::get('/{id}', [TaskController::class, 'show']);
+    // Route::get('/{id}', [TaskController::class, 'show']);
+    Route::match(['get', 'post'], '/{id}', [TaskController::class, 'show']);
+
     Route::put('/{id}', [TaskController::class, 'update']);
     Route::delete('/{id}', [TaskController::class, 'destroy']);
 });
