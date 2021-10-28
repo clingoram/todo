@@ -28,12 +28,25 @@ class CategoryTest extends TestCase
     }
 
     /**
-     * Insert test
+     * Get all categories
      */
-    // public function test_insert()
-    // {
-    //     $response = $this->post('api/items/categories');
+    public function testAllCategories()
+    {
+        $response = $this->get('api/items/categories');
+        $response->assertStatus(200);
+    }
 
-    //     $response->assertStatus(200); //確認狀態碼
-    // }
+    /**
+     * Insert
+     */
+    public function testCategoryInsert()
+    {
+        $data = Category::make();
+        $response = $this->post('api/items/categories', [
+            'name' => $data['name'],
+            'created_at' => $data['created_at']
+        ]);
+
+        $response->assertStatus(200);
+    }
 }

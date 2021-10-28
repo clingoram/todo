@@ -8,11 +8,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 // model
 use App\Models\Task;
+use App\Models\Category;
 
 class TaskTest extends TestCase
 {
 
     // use RefreshDatabase; //每次執行測試時都要重整資料庫
+    // use DatabaseMigrations;
     use WithFaker;
 
     /**
@@ -27,7 +29,7 @@ class TaskTest extends TestCase
     }
 
     /**
-     * Task JSON結構
+     * Task
      */
     public function testTaskStructure()
     {
@@ -47,13 +49,12 @@ class TaskTest extends TestCase
     }
 
     /** 
-     * 新增資料
-     * */
+     * 新增
+     */
     public function testAddTask()
     {
-        // 500 = server出現問題
-        $data = Task::get();
-        $response = $this->post('/api/items/store', [
+        $data = Task::make();
+        $response = $this->post('/api/items', [
             'description' => $data['description'],
             'status' => $data['status'],
             'created_at' => $data['created_at'],
@@ -70,14 +71,24 @@ class TaskTest extends TestCase
     public function testSpecificTask()
     {
         $data = Task::first();
-        $response = $this->get("/api/item/{$data->id}");
-        $response->assertStatus(200);
+        $response = $this->get("/api/items/{$data['id']}");
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     /**
-     * Update
+     * 更新
      */
-    // public function testUpdate(){
+    public function testUpdateTask()
+    {
+        $data = [
+            'description' => $this->faker->word,
+            'status' => $this->faker->boolean($chanceOfGettingTrue = 50),
+            'created_at' => $this->faker->dateTime($max = 'now', $timezone = 'Asia/Taipei'),
+            'end_at' => $this->faker->dateTime($max = '+5 days', $timezone = 'Asia/Taipei'),
+            'classification' => Category::all()->random()->id
+        ];
 
-    // }
+        $response = $this->put("/api/items/{$data}");
+        $this->assertEquals(200, $response->getStatusCode());
+    }
 }

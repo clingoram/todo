@@ -49,31 +49,24 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-        //     'start' => ['required', 'date'],
-        //     'end' => ['required'],
-        //     // 'state' => ['Boolean'],
-        //     // 'category' => ['required']
-        // ]);
-        // $this->validate($request, [
-        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-        //     'start' => ['required', 'date'],
-        //     'end' => ['required'],
-        //     'category' => ['required'],
-        //     // 'state' => ['Boolean'],
-        // ]);
-        // if ($validator->fails()) {
-        //     return response()->json(['Errors' => $validator->errors()], 422);
-        // }
-        // 新增成功
-        $newTask = new Task;
-        $newTask->description = $request->todoTask['name'];
-        $newTask->created_at = $request->start;
-        $newTask->end_at = $request->todoTask['end'];
-        $newTask->classification = $request->classification;
+        $validator = Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+            'start' => ['required', 'date'],
+            'end' => ['required'],
+            'state' => ['Boolean'],
+            'category' => ['required']
+        ]);
 
-        $newTask->save();
+        Task::created($validator);
+
+        // 新增成功
+        // $newTask = new Task;
+        // $newTask->description = $request->todoTask['name'];
+        // $newTask->created_at = $request->start;
+        // $newTask->end_at = $request->todoTask['end'];
+        // $newTask->classification = $request->classification;
+
+        // $newTask->save();
         // return $newTask;
         return response()->noContent(Response::HTTP_CREATED);
     }
@@ -83,7 +76,7 @@ class TaskController extends Controller
      * @param int $id
      * @return json
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
         $find = Task::select(
             'task.id',
@@ -96,7 +89,8 @@ class TaskController extends Controller
         )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
         if (isset($find)) {
-            return json_encode($find);
+            // return json_encode($find);
+            return json_encode($find, JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -109,13 +103,13 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $this->validate($request, [
-        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-        //     'start' => ['required', 'date'],
-        //     'end' => ['required'],
-        //     'category' => ['required'],
-        //     // 'state' => ['Boolean'],
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+            'start' => ['required', 'date'],
+            'end' => ['required'],
+            'state' => ['Boolean'],
+            'category' => ['required']
+        ]);
 
         $findExist = Task::find($id);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 
 // DB
@@ -32,7 +33,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = Category::create($request->all());
+        $validator = Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+            'created_at' => ['required', 'date']
+        ]);
+        $data = Category::create($validator);
         return response()->json($data, 201);
     }
 

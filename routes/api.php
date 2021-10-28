@@ -19,11 +19,11 @@ use App\Http\Controllers\CategoryController;
 
 
 Route::prefix('/items')->group(function () {
-    // category
+    // Category
     Route::get('/categories', [CategoryController::class, 'index']);
     // Route::post('/categories/', [CategoryController::class, 'store']);
 
-    // task
+    // Task
     Route::get('', [TaskController::class, 'index']);
     Route::post('/', [TaskController::class, 'store']);
     // Route::get('/{id}', [TaskController::class, 'show']);
