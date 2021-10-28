@@ -1,6 +1,6 @@
 ## Laravel ToDo-list
-<p>使用Laradock建置Laravel的環境，MySQL建DB，兩張table，但目前只有用到1張表。</p>
-<p>之前都是由controller從model再跟DB那裡(好繞舌)拿回來資料後，再傳到blade(view)顯示出來，</p>
+<p>使用Laradock建置Laravel的環境，資料庫:MySQL</p>
+<p>之前都是由controller從model再跟DB那裡拿回來資料後，再傳到blade(view)顯示出來，</p>
 <p>變得不管是更新或刪除都用controller來做處理，又很想知道要如何在Laravel檔案中用JS(例如ajax)，所以找到了axios、Vue，所以這次的todo list小作品想試著用Vue+axios來做做看。</p>
 <h3>外觀</h3>
 
