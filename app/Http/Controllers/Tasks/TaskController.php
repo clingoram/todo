@@ -89,8 +89,8 @@ class TaskController extends Controller
         )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
         if (isset($find)) {
-            // return json_encode($find);
-            return json_encode($find, JSON_UNESCAPED_UNICODE);
+            return json_encode($find);
+            // return json_encode($find, JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -103,13 +103,13 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-            'start' => ['required', 'date'],
-            'end' => ['required'],
-            'state' => ['Boolean'],
-            'category' => ['required']
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required'],
+        //     'state' => ['Boolean'],
+        //     'category' => ['required']
+        // ]);
 
         $findExist = Task::find($id);
 

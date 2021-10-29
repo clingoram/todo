@@ -58,7 +58,7 @@ class TaskTest extends TestCase
             'description' => $data['description'],
             'status' => $data['status'],
             'created_at' => $data['created_at'],
-            'end_at' => $data['ens_at'],
+            'end_at' => $data['end_at'],
             'category' => $data['classification']
         ]);
 
@@ -80,15 +80,28 @@ class TaskTest extends TestCase
      */
     public function testUpdateTask()
     {
+        $getOne = Task::first();
         $data = [
             'description' => $this->faker->word,
             'status' => $this->faker->boolean($chanceOfGettingTrue = 50),
             'created_at' => $this->faker->dateTime($max = 'now', $timezone = 'Asia/Taipei'),
             'end_at' => $this->faker->dateTime($max = '+5 days', $timezone = 'Asia/Taipei'),
-            'classification' => Category::all()->random()->id
+            // 'classification' => $this->faker->numberBetween($min = 1, $max = 5)
+            'classification' => Category::all()->random()->id,
+            'updated_at' => now()
         ];
 
-        $response = $this->put("/api/items/{$data}");
+        $response = $this->put("/api/items/{$getOne['id']}", $data);
         $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * 刪除
+     */
+    public function testDeleteTask()
+    {
+        $data = Task::first();
+        $response = $this->delete("api/items/{$data['id']}");
+        $response->assertStatus(200);
     }
 }
