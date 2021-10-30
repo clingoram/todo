@@ -103,31 +103,33 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-        //     'start' => ['required', 'date'],
-        //     'end' => ['required'],
-        //     'state' => ['Boolean'],
-        //     'category' => ['required']
-        // ]);
+        $findExist = Task::findOrFail($id);
 
-        $findExist = Task::find($id);
+        $validator = Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+            'start' => ['required', 'date'],
+            'end' => ['required'],
+            'state' => ['Boolean'],
+            'category' => ['required']
+        ])->validate();
 
-        if (isset($findExist)) {
-            $findExist->description = $request->todoTask['name'];
-            $findExist->created_at = $request->todoTask['start'];
-            $findExist->end_at = $request->todoTask['end'];
-            $findExist->status = $request->todoTask['state'] ? false : true;
-            $findExist->classification = $request->classification;
+        // if (isset($findExist)) {
+        // $findExist->update($findExist);
 
-            // 更新時間要用當下更新的時間
-            $findExist->updated_at = Carbon::now();
-            $findExist->save();
-            // return $findExist;
-            return response($findExist, Response::HTTP_OK);
-        };
+        $findExist->description = $request->todoTask['name'];
+        $findExist->created_at = $request->todoTask['start'];
+        $findExist->end_at = $request->todoTask['end'];
+        $findExist->status = $request->todoTask['state'] ? false : true;
+        $findExist->classification = $request->classification;
+
+        // 更新時間要用當下更新的時間
+        $findExist->updated_at = Carbon::now();
+        $findExist->save();
+        // return $findExist;
+        return response($findExist, Response::HTTP_OK);
+        // };
         // 無資料
-        return 'No data';
+        // return 'No data';
     }
 
     /**
