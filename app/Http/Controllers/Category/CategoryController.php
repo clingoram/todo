@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
 
 // DB
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -16,17 +20,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return DB::table('category')->orderBy('created_at', 'desc')->get();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $classification = Category::select('id', 'name')->orderByDesc('created_at')
+            ->get();
+        return json_encode($classification);
     }
 
     /**
@@ -37,7 +33,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $validator = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
+        //     'created_at' => ['required', 'date']
+        // ]);
+        // $data = Category::create($validator);
+
+        $data = new Category();
+        $data->name = $request->category['name'];
+        $data->save();
+        return response()->json($data, 201);
     }
 
     /**
@@ -48,7 +53,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        return Category::find($id);
     }
 
     /**
@@ -82,6 +87,15 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // $findExist = Category::find($id);
+        // if (isset($findExist)) {
+        //     $findExist->delete();
+
+        //     if ($findExist->trashed()) {
+        //         // return "Deleted Successful.";
+        //         return response()->json(null, Response::HTTP_NO_CONTENT);
+        //     }
+        // }
+        // return "Not Found.";
     }
 }

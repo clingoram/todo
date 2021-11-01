@@ -1,45 +1,34 @@
 <template>
-  <div id="todo_list">
+  <div id="area">
+    <b-button variant="primary" id="add_category_button" v-b-modal.category_area
+      >分類</b-button
+    >
+    <add-category v-bind:openCategoryModal="cmodalOpen"></add-category>
+
     <h1>ToDo List</h1>
-    <span>Get things done</span>
-    <add-task v-on:reloadlist="getListdata()"> </add-task>
-    <task-view
-      v-bind:tasks="item_data"
-      v-on:reloadlist="getListdata()"
-    ></task-view>
+    <span>Get things done!!!</span>
+    <show-calendar></show-calendar>
   </div>
 </template>
 <script>
 // import components
-// add task form
-import AddTask from "./AddTask";
-// lists of task
-import TaskView from "./TaskView";
+import ShowCalendar from "./Calendar";
+import AddCategory from "./CategoryModal";
 
 export default {
-  created() {
-    this.getListdata();
-  },
   components: {
-    AddTask,
-    TaskView,
+    ShowCalendar,
+    AddCategory,
   },
-  data: function () {
-    return {
-      item_data: [],
-    };
-  },
-  methods: {
-    getListdata() {
-      axios
-        .get("api/item")
-        .then((response) => {
-          this.item_data = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  props: {
+    openCategoryModal: {
+      type: Boolean,
     },
+  },
+  data() {
+    return {
+      cmodalOpen: this.openCategoryModal,
+    };
   },
 };
 </script>
@@ -56,17 +45,11 @@ body {
   font-family: sans-serif;
   height: 100%;
 }
-#todo_list {
-  margin: 4rem auto;
-  padding: 2rem 3rem 3rem;
-  max-width: 500px;
-  background: #ff6666;
-  color: #000000;
+#area {
+  padding: 15px;
+  width: 100%;
 }
-#todo_list h1 {
-  font-weight: normal;
-  font-size: 2.6rem;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid #e5e5e5;
+#add_category_button {
+  padding: 5px;
 }
 </style>

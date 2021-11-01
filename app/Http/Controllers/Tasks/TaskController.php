@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-// models
-use App\Models\Task;
-
+use Illuminate\Support\Facades\Validator;
+// use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Symfony\Component\HttpFoundation\Response;
+
+// model
+use App\Models\Task;
 
 class TaskController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +21,23 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return Task::orderByDesc('created_at')->get();
+        $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus', 'classification')
+            ->where('status', 0)
+            ->orWhere('deleted_at', null)
+            ->orderByDesc('created_at')
+            ->get();
+
+        $array = [];
+        foreach ($allData as $key) {
+            $task['id'] = $key['id'];
+            $task['title'] = $key['title'];
+            $task['status'] = $key['taskStatus'] ? false : true;
+            $task['category'] = $key['classification'];
+            $task['start'] = $key['start'];
+            $task['end'] = $key['end'];
+            array_push($array, $task);
+        }
+        return json_encode($array);
     }
 
 
@@ -30,10 +49,49 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        // $validator = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required'],
+        //     'state' => ['Boolean'],
+        //     'category' => ['required']
+        // ]);
+
+        // Task::created($validator);
+
+        // 新增成功
         $newTask = new Task;
-        $newTask->description = $request->item['name'];
+        $newTask->description = $request->todoTask['name'];
+        $newTask->created_at = $request->start;
+        $newTask->end_at = $request->todoTask['end'];
+        $newTask->classification = $request->classification;
+
         $newTask->save();
-        return $newTask;
+        // return $newTask;
+        return response()->noContent(Response::HTTP_CREATED);
+    }
+
+    /**
+     * Find specific data
+     * @param int $id
+     * @return json
+     */
+    public function show($id)
+    {
+        $find = Task::select(
+            'task.id',
+            'task.description',
+            'task.status',
+            'task.created_at',
+            'task.end_at',
+            'category.name',
+            'category.id AS cId'
+        )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
+
+        if (isset($find)) {
+            return json_encode($find);
+            // return json_encode($find, JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**
@@ -45,15 +103,33 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $findExist = Task::find($id);
+        $findExist = Task::findOrFail($id);
 
-        if (isset($findExist)) {
-            $findExist->status = $request->item['status'] ? true : false;
-            $findExist->updated_at = $request->item['status'] ? Carbon::now() : null;
-            $findExist->save();
-            return $findExist;
-        };
-        return 'No data';
+        $validator = Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+            'start' => ['required', 'date'],
+            'end' => ['required'],
+            'state' => ['Boolean'],
+            'category' => ['required']
+        ])->validate();
+
+        // if (isset($findExist)) {
+        // $findExist->update($findExist);
+
+        $findExist->description = $request->todoTask['name'];
+        $findExist->created_at = $request->todoTask['start'];
+        $findExist->end_at = $request->todoTask['end'];
+        $findExist->status = $request->todoTask['state'] ? false : true;
+        $findExist->classification = $request->classification;
+
+        // 更新時間要用當下更新的時間
+        $findExist->updated_at = Carbon::now();
+        $findExist->save();
+        // return $findExist;
+        return response($findExist, Response::HTTP_OK);
+        // };
+        // 無資料
+        // return 'No data';
     }
 
     /**
@@ -67,7 +143,11 @@ class TaskController extends Controller
         $findExist = Task::find($id);
         if (isset($findExist)) {
             $findExist->delete();
-            return "Deleted Successful.";
+
+            if ($findExist->trashed()) {
+                // return "Deleted Successful.";
+                return response()->json(null, Response::HTTP_NO_CONTENT);
+            }
         }
         return "Not Found.";
     }

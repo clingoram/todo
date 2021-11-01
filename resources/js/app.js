@@ -19,11 +19,27 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 // Bootstrap-vue
 // Docs: https://bootstrap-vue.org/docs
-import { BootstrapVue, ModalPlugin } from 'bootstrap-vue';
+import { BootstrapVue, ModalPlugin, LayoutPlugin, CalendarPlugin, FormSelectPlugin } from 'bootstrap-vue';
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
-// This imports <b-modal> as well as the v-b-modal directive as a plugin:
+// <b-modal> 
 Vue.use(ModalPlugin);
+// <b-container>, <b-row>, <b-col>
+Vue.use(LayoutPlugin);
+// b-calendar
+Vue.use(CalendarPlugin);
+// b-select
+Vue.use(FormSelectPlugin);
+
+
+// import "@fullcalendar/core/vdom"; // solves problem with Vite
+// import { FullCalendar } from "@fullcalendar/vue";
+// import { dayGridPlugin } from "@fullcalendar/daygrid";
+// import { interactionPlugin } from "@fullcalendar/interaction";
+// import Vue from 'vue';
+// // Vue.use(FullCalendar);
+// // Vue.use(dayGridPlugin);
+// // Vue.use(interactionPlugin);
 
 /**
  * The following block of code may be used to automatically register your
@@ -38,13 +54,6 @@ Vue.use(ModalPlugin);
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('index-component', require('./components/Index.vue').default);
-
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
 const app = new Vue({
     el: '#app',
