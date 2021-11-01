@@ -1,13 +1,11 @@
 <template>
   <div>
-    <!-- <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" /> -->
     <FullCalendar
       v-bind:options="calendarOptions"
       v-bind:class="getAlldatas"
       v-on:changedata="$emit('reloadlist')"
     />
 
-    <!-- <modal v-model="showModal"></modal> -->
     <open-modal
       v-bind:id="todoTask.id"
       v-bind:start="todoTask.dateTimeStart"
@@ -24,7 +22,7 @@ import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 // click date to open modal to add new task.
-import OpenModal from "./Modal";
+import OpenModal from "./TaskModal";
 
 export default {
   components: {

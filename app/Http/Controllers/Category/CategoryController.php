@@ -33,11 +33,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-            'created_at' => ['required', 'date']
-        ]);
-        $data = Category::create($validator);
+        // $validator = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
+        //     'created_at' => ['required', 'date']
+        // ]);
+        // $data = Category::create($validator);
+
+        $data = new Category();
+        $data->name = $request->category['name'];
+        $data->save();
         return response()->json($data, 201);
     }
 

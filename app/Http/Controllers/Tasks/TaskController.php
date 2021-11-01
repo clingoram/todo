@@ -49,24 +49,24 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-            'start' => ['required', 'date'],
-            'end' => ['required'],
-            'state' => ['Boolean'],
-            'category' => ['required']
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required'],
+        //     'state' => ['Boolean'],
+        //     'category' => ['required']
+        // ]);
 
-        Task::created($validator);
+        // Task::created($validator);
 
         // 新增成功
-        // $newTask = new Task;
-        // $newTask->description = $request->todoTask['name'];
-        // $newTask->created_at = $request->start;
-        // $newTask->end_at = $request->todoTask['end'];
-        // $newTask->classification = $request->classification;
+        $newTask = new Task;
+        $newTask->description = $request->todoTask['name'];
+        $newTask->created_at = $request->start;
+        $newTask->end_at = $request->todoTask['end'];
+        $newTask->classification = $request->classification;
 
-        // $newTask->save();
+        $newTask->save();
         // return $newTask;
         return response()->noContent(Response::HTTP_CREATED);
     }

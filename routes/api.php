@@ -21,7 +21,7 @@ use App\Http\Controllers\CategoryController;
 Route::prefix('/items')->group(function () {
     // Category
     Route::get('/categories', [CategoryController::class, 'index']);
-    // Route::post('/categories/', [CategoryController::class, 'store']);
+    Route::post('/categories', [CategoryController::class, 'store']);
 
     // Task
     Route::get('', [TaskController::class, 'index']);
