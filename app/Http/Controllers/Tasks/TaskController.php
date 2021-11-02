@@ -72,9 +72,10 @@ class TaskController extends Controller
     }
 
     /**
-     * Find specific data
-     * @param int $id
-     * @return json
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
