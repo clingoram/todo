@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-// use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -106,13 +105,13 @@ class TaskController extends Controller
     {
         $findExist = Task::findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-            'start' => ['required', 'date'],
-            'end' => ['required'],
-            'state' => ['Boolean'],
-            'category' => ['required']
-        ])->validate();
+        // $validator = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required'],
+        //     'state' => ['Boolean'],
+        //     'category' => ['required']
+        // ])->validate();
 
         // if (isset($findExist)) {
         // $findExist->update($findExist);

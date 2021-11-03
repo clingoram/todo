@@ -1,10 +1,6 @@
 <template>
   <div>
-    <FullCalendar
-      v-bind:options="calendarOptions"
-      v-bind:class="getAlldatas"
-      v-on:changedata="$emit('reloadlist')"
-    />
+    <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" />
 
     <open-modal
       v-bind:id="todoTask.id"
@@ -107,7 +103,7 @@ export default {
           .then((response) => {
             if (response.data.legth !== 0) {
               this.calendarOptions.events = response.data;
-              this.$emit("changedata");
+              // this.$emit("changedata");
             }
           })
           .catch((error) => {

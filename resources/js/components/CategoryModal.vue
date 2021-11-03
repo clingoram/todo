@@ -112,7 +112,8 @@ export default {
         })
         .then((response) => {
           if (response.status === 201) {
-            alert("新增成功");
+            confirm("新增成功");
+            window.location.reload();
           }
         })
         .catch((error) => {
@@ -135,7 +136,10 @@ export default {
       axios
         .delete("api/items/categories/" + this.id)
         .then((response) => {
-          alert("已刪除!");
+          if (response.status === 200) {
+            confirm("已刪除!");
+            window.location.reload();
+          }
         })
         .catch((error) => {
           console.log(error);

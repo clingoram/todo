@@ -81,7 +81,7 @@
 
       <b-form-select v-model="selected" v-bind:options="myOptions">
         <template v-slot:first>
-          <option value="null" disabled>- 請選擇分類-</option>
+          <option value="null" disabled>- 請選擇分類 -</option>
         </template>
       </b-form-select>
 
@@ -143,8 +143,6 @@ export default {
         start: this.start ? this.start : "",
         // 結束時間
         end: this.end ? this.end : "",
-        // 待辦事項分類(value:id;show:text)
-        // category: this.category ? this.category : [],
         // 狀態
         state: this.status,
       },
@@ -213,8 +211,8 @@ export default {
         })
         .then((response) => {
           if (response.status === 201) {
-            // this.todoTask.name = "";
-            // this.$emit("reloadlist");
+            confirm("新增成功!");
+            window.location.reload();
           }
         })
         .catch((error) => {
@@ -275,10 +273,8 @@ export default {
         .then((response) => {
           // console.log(response);
           if (response.status === 200) {
-            // this.$emit("changeddata");
-            // this.$emit("button-click");
             confirm("儲存成功");
-            // window.location.reload();
+            window.location.reload();
           }
         })
         .catch((error) => {
@@ -291,7 +287,8 @@ export default {
         .delete("api/items/" + this.id)
         .then((response) => {
           if (response.status === 200) {
-            alert("deleted");
+            confirm("已刪除!");
+            window.location.reload();
           }
         })
         .catch((error) => {
