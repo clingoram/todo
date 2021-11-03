@@ -88,6 +88,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $findExist = Category::find($id);
+
         if (isset($findExist)) {
             $findExist->delete();
 

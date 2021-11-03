@@ -107,7 +107,7 @@ export default {
     // Create
     addCategory() {
       axios
-        .post("/api/items/categories", {
+        .post("api/items/categories", {
           category: this.category,
         })
         .then((response) => {
@@ -122,7 +122,7 @@ export default {
     // Read
     allCategories() {
       axios
-        .get("/api/items/categories")
+        .get("api/items/categories")
         .then((response) => {
           this.categoryNameList = response.data;
         })
@@ -133,7 +133,7 @@ export default {
     // Delete
     deleteCategory(id) {
       axios
-        .delete("/api/items/categories/" + this.id)
+        .delete("api/items/categories/" + this.id)
         .then((response) => {
           alert("已刪除!");
         })
