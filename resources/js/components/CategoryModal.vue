@@ -29,11 +29,19 @@
             variant="outline-primary"
             :id="'tag_' + index.id"
             v-bind:style="styleObject"
+          >
+            {{ index.name }}
+          </b-button>
+
+          <!-- <b-button
+            variant="outline-primary"
+            :id="'tag_' + index.id"
+            v-bind:style="styleObject"
             v-on:click="deleteCategory(index.id)"
             title="刪除"
           >
             {{ index.name }}
-          </b-button>
+          </b-button> -->
         </div>
       </div>
     </b-modal>
@@ -133,17 +141,19 @@ export default {
     },
     // Delete
     deleteCategory(id) {
-      axios
-        .delete("api/items/categories/" + this.id)
-        .then((response) => {
-          if (response.status === 200) {
-            confirm("已刪除!");
-            window.location.reload();
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (confirm("該分類確定要刪除嗎?若刪除")) {
+        axios
+          .delete("api/items/categories/" + this.id)
+          .then((response) => {
+            if (response.status === 200) {
+              confirm("已刪除!");
+              window.location.reload();
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
   },
 };

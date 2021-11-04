@@ -89,8 +89,8 @@ class TaskController extends Controller
         )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
         if (isset($find)) {
-            return json_encode($find);
-            // return json_encode($find, JSON_UNESCAPED_UNICODE);
+            // return json_encode($find);
+            return json_encode($find, JSON_UNESCAPED_UNICODE);
         }
     }
 

@@ -46,6 +46,7 @@
           placeholder="YYYY-MM-DD HH:mm:ss"
           autocomplete="off"
         ></b-form-input>
+
         <b-input-group-append>
           <b-form-datepicker
             id="startDate-datepicker"
