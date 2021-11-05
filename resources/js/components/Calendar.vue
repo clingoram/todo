@@ -59,7 +59,7 @@ export default {
       },
       // Full calendar
       calendarOptions: {
-        timeZone: "local",
+        timeZone: "Asia/Taipei",
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         events: [],
@@ -72,10 +72,14 @@ export default {
           second: "2-digit",
           hour12: false,
         },
+        titleFormat: {
+          hour12: false,
+        },
         dateClick: function (arg) {
           this.modalOpen = true;
           this.checkEventIsset = false;
-          this.todoTask.dateTimeStart = arg.dateStr;
+          this.todoTask.dateTimeStart = arg.date.toString();
+          // this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
         eventClick: function (info) {
           if (info.event.id !== "") {

@@ -248,8 +248,10 @@ export default {
       axios
         .get("api/items/" + this.id)
         .then((response) => {
+          // console.log(response.data.created_at);
           // this.todoTask.id = response.data.id;
           this.todoTask.name = response.data.description;
+          // this.todoTask.start = this.start;
           const findStrPosition = response.data.created_at.indexOf("T");
           this.todoTask.start = response.data.created_at.substr(
             0,

@@ -21,7 +21,7 @@ class TaskController extends Controller
     public function index()
     {
         $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus', 'classification')
-            ->where('status', 0)
+            ->where('status', false)
             ->orWhere('deleted_at', null)
             ->orderByDesc('created_at')
             ->get();
@@ -36,6 +36,7 @@ class TaskController extends Controller
             $task['end'] = $key['end'];
             array_push($array, $task);
         }
+
         return json_encode($array);
     }
 
@@ -88,9 +89,10 @@ class TaskController extends Controller
             'category.id AS cId'
         )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
+        // var_dump($find);
         if (isset($find)) {
-            // return json_encode($find);
-            return json_encode($find, JSON_UNESCAPED_UNICODE);
+            return json_encode($find);
+            // return json_encode($find, JSON_UNESCAPED_UNICODE);
         }
     }
 
