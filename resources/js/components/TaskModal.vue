@@ -104,7 +104,7 @@
 </template>
 <script>
 export default {
-  props: ["id", "start", "openmodal", "eventisset"],
+  props: ["id", "start", "end", "openmodal", "eventisset"],
   created() {
     this.getAllClassification();
   },
@@ -194,7 +194,7 @@ export default {
         return;
       }
       if (this.id === "" && this.eventisset === false) {
-        this.insertData();
+        this.insertTask();
       } else {
         this.updateData();
       }
@@ -203,7 +203,7 @@ export default {
       });
     },
     // Insert
-    insertData() {
+    insertTask() {
       axios
         .post("api/items/", {
           todoTask: this.todoTask,
@@ -248,16 +248,16 @@ export default {
       axios
         .get("api/items/" + this.id)
         .then((response) => {
-          // console.log(response.data.created_at);
           // this.todoTask.id = response.data.id;
           this.todoTask.name = response.data.description;
-          // this.todoTask.start = this.start;
-          const findStrPosition = response.data.created_at.indexOf("T");
-          this.todoTask.start = response.data.created_at.substr(
-            0,
-            findStrPosition
-          );
-          this.todoTask.end = response.data.end_at;
+          // const findStrPosition = response.data.created_at.indexOf("T");
+          // this.todoTask.start = response.data.created_at.substr(
+          //   0,
+          //   findStrPosition
+          // );
+          // this.todoTask.end = response.data.end_at;
+          this.todoTask.start = this.start;
+          this.todoTask.end = this.end;
           this.todoTask.state = response.data.status ? false : true;
           this.selected = response.data.cId;
         })

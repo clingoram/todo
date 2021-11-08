@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldatas" />
+    <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldata" />
 
     <open-modal
       v-bind:id="todoTask.id"
@@ -59,7 +59,8 @@ export default {
       },
       // Full calendar
       calendarOptions: {
-        timeZone: "Asia/Taipei",
+        // timeZone: "Asia/Taipei",
+        timeZone: "local",
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         events: [],
@@ -79,6 +80,8 @@ export default {
           this.modalOpen = true;
           this.checkEventIsset = false;
           this.todoTask.dateTimeStart = arg.date.toString();
+          this.todoTask.dateTimeEnd = arg.date.toString();
+
           // this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
         eventClick: function (info) {
@@ -87,11 +90,15 @@ export default {
             this.checkEventIsset = true;
             this.todoTask.id = info.event.id;
             // remove part of datetime
-            const findStrPosition = info.event.startStr.indexOf("T");
-            this.todoTask.dateTimeStart = info.event.startStr.substr(
-              0,
-              findStrPosition
-            );
+
+            this.todoTask.dateTimeStart = info.event.start.toString();
+            this.todoTask.dateTimeEnd = info.event.end.toString();
+
+            // const findStrPosition = info.event.startStr.indexOf("T");
+            // this.todoTask.dateTimeStart = info.event.startStr.substr(
+            //   0,
+            //   findStrPosition
+            // );
           }
         }.bind(this),
       },
@@ -99,7 +106,7 @@ export default {
   },
   computed: {
     // 取得table所有該月份的資料
-    getAlldatas: {
+    getAlldata: {
       // 讀取
       get() {
         axios
