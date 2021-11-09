@@ -258,6 +258,7 @@ export default {
           // this.todoTask.end = response.data.end_at;
           this.todoTask.start = this.start;
           this.todoTask.end = this.end;
+
           this.todoTask.state = response.data.status ? false : true;
           this.selected = response.data.cId;
         })
