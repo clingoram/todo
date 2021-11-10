@@ -16,6 +16,7 @@
 // import "@fullcalendar/core/vdom";
 import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
+// import momentPlugin from "@fullcalendar/moment";
 import interactionPlugin from "@fullcalendar/interaction";
 // click date to open modal to add new task.
 import OpenModal from "./TaskModal";
@@ -43,7 +44,32 @@ export default {
     },
   },
   data() {
+    let weekDay = {
+      Mon: "星期一",
+      Tue: "星期二",
+      Wed: "星期三",
+      Thu: "星期四",
+      Fri: "星期五",
+      Sat: "星期六",
+      Sun: "星期日",
+    };
+    let monthShort = {
+      JAN: "1",
+      FEB: "2",
+      MAR: "3",
+      APR: "4",
+      May: "5",
+      JUN: "6",
+      JUL: "7",
+      AUG: "8",
+      SEP: "9",
+      OCT: "10",
+      NOV: "11",
+      DEC: "12",
+    };
+
     return {
+      date: this.dateData,
       // modal
       modalOpen: this.openmodal,
       // 確認是點擊到event還是date，若是event，則顯示該event資訊(update);反之，則顯示新增待辦事項(insert)
@@ -59,7 +85,6 @@ export default {
       },
       // Full calendar
       calendarOptions: {
-        // timeZone: "Asia/Taipei",
         timeZone: "local",
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
@@ -73,15 +98,11 @@ export default {
           second: "2-digit",
           hour12: false,
         },
-        titleFormat: {
-          hour12: false,
-        },
         dateClick: function (arg) {
           this.modalOpen = true;
           this.checkEventIsset = false;
           this.todoTask.dateTimeStart = arg.date.toString();
           this.todoTask.dateTimeEnd = arg.date.toString();
-
           // this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
         eventClick: function (info) {
@@ -90,9 +111,15 @@ export default {
             this.checkEventIsset = true;
             this.todoTask.id = info.event.id;
             // remove part of datetime
+            for (var key in monthShort) {
+              if (monthShort[info.event.start.getMonth()]) {
+                console.log(monthShort[key]);
+              }
+            }
+            // console.log(info.event.start.getMonth());
+            this.todoTask.dateTimeStart = info.event.start.toDateString();
 
-            this.todoTask.dateTimeStart = info.event.start.toString();
-            this.todoTask.dateTimeEnd = info.event.end.toString();
+            this.todoTask.dateTimeEnd = info.event.end.toDateString(); //.toString();
 
             // const findStrPosition = info.event.startStr.indexOf("T");
             // this.todoTask.dateTimeStart = info.event.startStr.substr(
