@@ -1,10 +1,6 @@
 <template>
   <div>
-    <FullCalendar
-      v-bind:options="calendarOptions"
-      v-bind:class="getAlldatas"
-      v-on:changedata="$emit('reloadlist')"
-    />
+    <FullCalendar v-bind:options="calendarOptions" v-bind:class="getAlldata" />
 
     <open-modal
       v-bind:id="todoTask.id"
@@ -63,6 +59,7 @@ export default {
       },
       // Full calendar
       calendarOptions: {
+        // timeZone: "Asia/Taipei",
         timeZone: "local",
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
@@ -76,10 +73,16 @@ export default {
           second: "2-digit",
           hour12: false,
         },
+        titleFormat: {
+          hour12: false,
+        },
         dateClick: function (arg) {
           this.modalOpen = true;
           this.checkEventIsset = false;
-          this.todoTask.dateTimeStart = arg.dateStr;
+          this.todoTask.dateTimeStart = arg.date.toString();
+          this.todoTask.dateTimeEnd = arg.date.toString();
+
+          // this.todoTask.dateTimeStart = arg.dateStr;
         }.bind(this),
         eventClick: function (info) {
           if (info.event.id !== "") {
@@ -87,11 +90,15 @@ export default {
             this.checkEventIsset = true;
             this.todoTask.id = info.event.id;
             // remove part of datetime
-            const findStrPosition = info.event.startStr.indexOf("T");
-            this.todoTask.dateTimeStart = info.event.startStr.substr(
-              0,
-              findStrPosition
-            );
+
+            this.todoTask.dateTimeStart = info.event.start.toString();
+            this.todoTask.dateTimeEnd = info.event.end.toString();
+
+            // const findStrPosition = info.event.startStr.indexOf("T");
+            // this.todoTask.dateTimeStart = info.event.startStr.substr(
+            //   0,
+            //   findStrPosition
+            // );
           }
         }.bind(this),
       },
@@ -99,7 +106,7 @@ export default {
   },
   computed: {
     // 取得table所有該月份的資料
-    getAlldatas: {
+    getAlldata: {
       // 讀取
       get() {
         axios
@@ -107,7 +114,7 @@ export default {
           .then((response) => {
             if (response.data.legth !== 0) {
               this.calendarOptions.events = response.data;
-              this.$emit("changedata");
+              // this.$emit("changedata");
             }
           })
           .catch((error) => {

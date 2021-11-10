@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-// use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,7 +21,7 @@ class TaskController extends Controller
     public function index()
     {
         $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus', 'classification')
-            ->where('status', 0)
+            ->where('status', false)
             ->orWhere('deleted_at', null)
             ->orderByDesc('created_at')
             ->get();
@@ -37,6 +36,7 @@ class TaskController extends Controller
             $task['end'] = $key['end'];
             array_push($array, $task);
         }
+
         return json_encode($array);
     }
 
@@ -72,9 +72,10 @@ class TaskController extends Controller
     }
 
     /**
-     * Find specific data
-     * @param int $id
-     * @return json
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -88,6 +89,7 @@ class TaskController extends Controller
             'category.id AS cId'
         )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
+        // var_dump($find);
         if (isset($find)) {
             return json_encode($find);
             // return json_encode($find, JSON_UNESCAPED_UNICODE);
@@ -105,13 +107,13 @@ class TaskController extends Controller
     {
         $findExist = Task::findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-            'start' => ['required', 'date'],
-            'end' => ['required'],
-            'state' => ['Boolean'],
-            'category' => ['required']
-        ])->validate();
+        // $validator = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required'],
+        //     'state' => ['Boolean'],
+        //     'category' => ['required']
+        // ])->validate();
 
         // if (isset($findExist)) {
         // $findExist->update($findExist);

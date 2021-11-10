@@ -25,9 +25,23 @@
 
       <div class="category_tags">
         <div v-for="index in categoryNameList" v-bind:key="index.id">
-          <div :id="'tag_' + index.id" v-bind:style="styleObject">
+          <b-button
+            variant="outline-primary"
+            :id="'tag_' + index.id"
+            v-bind:style="styleObject"
+          >
             {{ index.name }}
-          </div>
+          </b-button>
+
+          <!-- <b-button
+            variant="outline-primary"
+            :id="'tag_' + index.id"
+            v-bind:style="styleObject"
+            v-on:click="deleteCategory(index.id)"
+            title="刪除"
+          >
+            {{ index.name }}
+          </b-button> -->
         </div>
       </div>
     </b-modal>
@@ -54,7 +68,7 @@ export default {
       category: {
         name: "",
       },
-      // show category list on modal
+      // category list
       categoryNameList: [],
     };
   },
@@ -88,41 +102,58 @@ export default {
       if (!this.checkFormValidity()) {
         return;
       }
-      // Push the name to submitted names
-      // this.categoryName.push(this.name);
 
-      this.addCategory();
+      if (this.category.name !== "") {
+        this.addCategory();
+      }
 
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
       });
     },
+    // Create
     addCategory() {
       axios
-        .post("/api/items/categories", {
+        .post("api/items/categories", {
           category: this.category,
         })
         .then((response) => {
           if (response.status === 201) {
-            alert("新增成功");
+            confirm("新增成功");
+            window.location.reload();
           }
         })
         .catch((error) => {
           console.log(error.response.data);
         });
     },
+    // Read
     allCategories() {
-      console.log("get classification");
       axios
-        .get("/api/items/categories")
+        .get("api/items/categories")
         .then((response) => {
-          console.log(response.data);
           this.categoryNameList = response.data;
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+    // Delete
+    deleteCategory(id) {
+      if (confirm("該分類確定要刪除嗎?若刪除")) {
+        axios
+          .delete("api/items/categories/" + this.id)
+          .then((response) => {
+            if (response.status === 200) {
+              confirm("已刪除!");
+              window.location.reload();
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
   },
 };
@@ -131,11 +162,4 @@ export default {
 .category_tags {
   display: flex;
 }
-/* .tagbutton {
-  color: white;
-  background: blue;
-  border-radius: 5px;
-  padding: 6px;
-  margin: 8px;
-} */
 </style>

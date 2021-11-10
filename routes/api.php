@@ -22,6 +22,7 @@ Route::prefix('/items')->group(function () {
     // Category
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::post('/categories', [CategoryController::class, 'store']);
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 
     // Task
     Route::get('', [TaskController::class, 'index']);
