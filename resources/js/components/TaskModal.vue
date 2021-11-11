@@ -54,6 +54,12 @@
             v-bind:min="min"
             button-only
             right
+            v-bind:date-format-options="{
+              year: 'numeric',
+              month: 'short',
+              day: '2-digit',
+              weekday: 'short',
+            }"
             aria-controls="datestart-input"
           ></b-form-datepicker>
         </b-input-group-append>
@@ -75,6 +81,12 @@
             v-bind:max="max"
             button-only
             right
+            v-bind:date-format-options="{
+              year: 'numeric',
+              month: 'short',
+              day: '2-digit',
+              weekday: 'short',
+            }"
             aria-controls="endDate-input"
           ></b-form-datepicker>
         </b-input-group-append>
