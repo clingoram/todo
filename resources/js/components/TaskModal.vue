@@ -52,15 +52,14 @@
             id="startDate-datepicker"
             v-model="todoTask.start"
             v-bind:min="min"
+            locale="en"
             button-only
-            right
             v-bind:date-format-options="{
               year: 'numeric',
               month: 'short',
               day: '2-digit',
               weekday: 'short',
             }"
-            aria-controls="datestart-input"
           ></b-form-datepicker>
         </b-input-group-append>
       </b-input-group>
@@ -81,6 +80,7 @@
             v-bind:max="max"
             button-only
             right
+            locale="en-US"
             v-bind:date-format-options="{
               year: 'numeric',
               month: 'short',

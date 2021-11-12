@@ -30,6 +30,9 @@ export default {
     id: {
       tpye: Number,
     },
+    // eventDateTitle: {
+    //   type: String,
+    // },
     start: {
       type: String,
     },
@@ -44,6 +47,7 @@ export default {
     },
   },
   data() {
+    // date
     let weekDay = {
       Mon: "星期一",
       Tue: "星期二",
@@ -67,11 +71,11 @@ export default {
       NOV: "11",
       DEC: "12",
     };
-
     return {
       date: this.dateData,
       // modal
       modalOpen: this.openmodal,
+      title: this.eventDateTitle,
       // 確認是點擊到event還是date，若是event，則顯示該event資訊(update);反之，則顯示新增待辦事項(insert)
       checkEventIsset: this.eventisset,
       todoTask: {
@@ -104,6 +108,13 @@ export default {
           this.todoTask.dateTimeStart = arg.date.toString();
           this.todoTask.dateTimeEnd = arg.date.toString();
           // this.todoTask.dateTimeStart = arg.dateStr;
+
+          // this.eventDateTitle =
+          //   arg.date.getFullYear() +
+          //   "-" +
+          //   arg.date.getMonth() +
+          //   "-" +
+          //   arg.date.getDate();
         }.bind(this),
         eventClick: function (info) {
           if (info.event.id !== "") {
@@ -111,21 +122,54 @@ export default {
             this.checkEventIsset = true;
             this.todoTask.id = info.event.id;
             // remove part of datetime
-            for (var key in monthShort) {
-              if (monthShort[info.event.start.getMonth()]) {
-                console.log(monthShort[key]);
-              }
-            }
-            // console.log(info.event.start.getMonth());
-            this.todoTask.dateTimeStart = info.event.start.toDateString();
+
+            const dateStart = new Date(info.event.start);
+            const year = dateStart.getFullYear();
+            const month =
+              dateStart.getMonth() + 1 < 9
+                ? "0" + dateStart.getMonth() + 1
+                : dateStart.getMonth() + 1;
+            const day =
+              dateStart.getDate() < 9
+                ? "0" + dateStart.getDate()
+                : dateStart.getDate();
+            const hours =
+              dateStart.getHours() < 9
+                ? "0" + dateStart.getHours()
+                : dateStart.getHours();
+            const minutes =
+              dateStart.getMinutes() < 9
+                ? "0" + dateStart.getMinutes()
+                : dateStart.getMinutes();
+            const sec =
+              dateStart.getSeconds() < 9
+                ? "0" + dateStart.getSeconds()
+                : dateStart.getSeconds();
+            const millSec =
+              dateStart.getMilliseconds() < 9
+                ? "0" + dateStart.getMilliseconds()
+                : dateStart.getMilliseconds();
+            // this.todoTask.dateTimeStart = info.event.start.toDateString();
+
+            // modal title
+            // this.eventDateTitle = year + "-" + month + "-" + day;
+
+            this.todoTask.dateTimeStart =
+              year +
+              "-" +
+              month +
+              "-" +
+              day +
+              " " +
+              hours +
+              ":" +
+              minutes +
+              ":" +
+              sec +
+              ":" +
+              millSec;
 
             this.todoTask.dateTimeEnd = info.event.end.toDateString(); //.toString();
-
-            // const findStrPosition = info.event.startStr.indexOf("T");
-            // this.todoTask.dateTimeStart = info.event.startStr.substr(
-            //   0,
-            //   findStrPosition
-            // );
           }
         }.bind(this),
       },
