@@ -43,7 +43,7 @@
           id="datestart-input"
           v-model="todoTask.start"
           type="text"
-          placeholder="YYYY-MM-DD HH:mm:ss"
+          placeholder="YYYY-MM-DD HH:mm"
           autocomplete="off"
         ></b-form-input>
 
@@ -52,14 +52,9 @@
             id="startDate-datepicker"
             v-model="todoTask.start"
             v-bind:min="min"
-            locale="en"
             button-only
-            v-bind:date-format-options="{
-              year: 'numeric',
-              month: 'short',
-              day: '2-digit',
-              weekday: 'short',
-            }"
+            right
+            aria-controls="datestart-input"
           ></b-form-datepicker>
         </b-input-group-append>
       </b-input-group>
@@ -70,7 +65,7 @@
           id="endDate-input"
           v-model="todoTask.end"
           type="text"
-          placeholder="YYYY-MM-DD HH:mm:ss"
+          placeholder="YYYY-MM-DD HH:mm"
           autocomplete="off"
         ></b-form-input>
         <b-input-group-append>
@@ -80,13 +75,6 @@
             v-bind:max="max"
             button-only
             right
-            locale="en-US"
-            v-bind:date-format-options="{
-              year: 'numeric',
-              month: 'short',
-              day: '2-digit',
-              weekday: 'short',
-            }"
             aria-controls="endDate-input"
           ></b-form-datepicker>
         </b-input-group-append>
@@ -233,7 +221,7 @@ export default {
         });
     },
     // Read
-    // Get all category
+    // Get all categories
     getAllClassification: function () {
       axios
         .get("api/items/categories")
@@ -262,12 +250,7 @@ export default {
         .then((response) => {
           // this.todoTask.id = response.data.id;
           this.todoTask.name = response.data.description;
-          // const findStrPosition = response.data.created_at.indexOf("T");
-          // this.todoTask.start = response.data.created_at.substr(
-          //   0,
-          //   findStrPosition
-          // );
-          // this.todoTask.end = response.data.end_at;
+
           this.todoTask.start = this.start;
           this.todoTask.end = this.end;
 

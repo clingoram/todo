@@ -105,9 +105,9 @@ export default {
         dateClick: function (arg) {
           this.modalOpen = true;
           this.checkEventIsset = false;
-          this.todoTask.dateTimeStart = arg.date.toString();
-          this.todoTask.dateTimeEnd = arg.date.toString();
-          // this.todoTask.dateTimeStart = arg.dateStr;
+
+          this.todoTask.dateTimeStart = this.datetimeFormated(arg.date);
+          this.todoTask.dateTimeEnd = this.datetimeFormated(arg.date);
 
           // this.eventDateTitle =
           //   arg.date.getFullYear() +
@@ -121,55 +121,11 @@ export default {
             this.modalOpen = true;
             this.checkEventIsset = true;
             this.todoTask.id = info.event.id;
-            // remove part of datetime
 
-            const dateStart = new Date(info.event.start);
-            const year = dateStart.getFullYear();
-            const month =
-              dateStart.getMonth() + 1 < 9
-                ? "0" + dateStart.getMonth() + 1
-                : dateStart.getMonth() + 1;
-            const day =
-              dateStart.getDate() < 9
-                ? "0" + dateStart.getDate()
-                : dateStart.getDate();
-            const hours =
-              dateStart.getHours() < 9
-                ? "0" + dateStart.getHours()
-                : dateStart.getHours();
-            const minutes =
-              dateStart.getMinutes() < 9
-                ? "0" + dateStart.getMinutes()
-                : dateStart.getMinutes();
-            const sec =
-              dateStart.getSeconds() < 9
-                ? "0" + dateStart.getSeconds()
-                : dateStart.getSeconds();
-            const millSec =
-              dateStart.getMilliseconds() < 9
-                ? "0" + dateStart.getMilliseconds()
-                : dateStart.getMilliseconds();
-            // this.todoTask.dateTimeStart = info.event.start.toDateString();
-
-            // modal title
-            // this.eventDateTitle = year + "-" + month + "-" + day;
-
-            this.todoTask.dateTimeStart =
-              year +
-              "-" +
-              month +
-              "-" +
-              day +
-              " " +
-              hours +
-              ":" +
-              minutes +
-              ":" +
-              sec +
-              ":" +
-              millSec;
-
-            this.todoTask.dateTimeEnd = info.event.end.toDateString(); //.toString();
+            this.todoTask.dateTimeStart = this.datetimeFormated(
+              info.event.start
+            );
+            this.todoTask.dateTimeEnd = this.datetimeFormated(info.event.end);
           }
         }.bind(this),
       },
@@ -198,6 +154,39 @@ export default {
       },
     },
   },
-  watch: {},
+  methods: {
+    // 開始與結束日期時間轉換(local英轉數字)
+    datetimeFormated(datetime) {
+      const date = new Date(datetime);
+      // 年份
+      const year = date.getFullYear();
+      // 月份
+      const month =
+        date.getMonth() + 1 < 9
+          ? "0" + date.getMonth() + 1
+          : date.getMonth() + 1;
+      // 日期
+      const day = date.getDate() < 9 ? "0" + date.getDate() : date.getDate();
+      // 時
+      const hours =
+        date.getHours() < 9 ? "0" + date.getHours() : date.getHours();
+      // 分
+      const minutes =
+        date.getMinutes() < 9 ? "0" + date.getMinutes() : date.getMinutes();
+      // 秒
+      const sec =
+        date.getSeconds() < 9 ? "0" + date.getSeconds() : date.getSeconds();
+      // 毫秒
+      const millSec =
+        date.getMilliseconds() < 9
+          ? "0" + date.getMilliseconds()
+          : date.getMilliseconds();
+
+      // modal title
+      // this.eventDateTitle = year + "-" + month + "-" + day;
+
+      return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
+    },
+  },
 };
 </script>
