@@ -49,15 +49,20 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-        //     'start' => ['required', 'date'],
-        //     'end' => ['required'],
-        //     'state' => ['Boolean'],
-        //     'category' => ['required']
-        // ]);
+        Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
+            'start' => ['required', 'date'],
+            'end' => ['required'],
+            // 'state' => ['Boolean'],
+            'category' => ['required']
+        ])->validate();
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'message' => 'Parameters Error',
+        //         'errors' => $validator->errors()
+        //     ], 400);
+        // }
 
-        // Task::created($validator);
 
         // 新增成功
         $newTask = new Task;
@@ -107,13 +112,13 @@ class TaskController extends Controller
     {
         $findExist = Task::findOrFail($id);
 
-        // $validator = Validator::make($request->all(), [
-        //     'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-        //     'start' => ['required', 'date'],
-        //     'end' => ['required'],
-        //     'state' => ['Boolean'],
-        //     'category' => ['required']
-        // ])->validate();
+        $validator = Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
+            'start' => ['required', 'date'],
+            'end' => ['required'],
+            'state' => ['Boolean'],
+            'category' => ['required']
+        ])->validate();
 
         // if (isset($findExist)) {
         // $findExist->update($findExist);

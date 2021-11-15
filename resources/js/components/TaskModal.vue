@@ -204,6 +204,10 @@ export default {
     },
     // Insert
     insertTask() {
+      console.log(this.todoTask);
+      console.log(this.start);
+      console.log(this.classification);
+
       axios
         .post("api/items/", {
           todoTask: this.todoTask,
