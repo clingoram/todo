@@ -49,30 +49,39 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        Validator::make($request->all(), [
+        $validated = Validator::make($request->all(), [
             'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
             'start' => ['required', 'date'],
-            'end' => ['required'],
-            // 'state' => ['Boolean'],
-            'category' => ['required']
-        ])->validate();
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'message' => 'Parameters Error',
-        //         'errors' => $validator->errors()
-        //     ], 400);
-        // }
+            'end' => ['required', 'date'],
+            'state' => ['Boolean'],
+            'classificationSelected' => ['required', 'numeric']
+        ]);
+
+        // 客製化抓到錯誤後的行為
+        if ($validated->fails()) {
+            return response()->json([
+                'message' => 'Parameters Error',
+                'status' => false,
+                'error' => $validated->errors(),
+            ], 400);
+        }
 
 
         // 新增成功
         $newTask = new Task;
         $newTask->description = $request->todoTask['name'];
-        $newTask->created_at = $request->start;
+        $newTask->created_at = $request->todoTask['start'];
         $newTask->end_at = $request->todoTask['end'];
-        $newTask->classification = $request->classification;
+        $newTask->classification = $request->classificationSelected;
 
         $newTask->save();
-        // return $newTask;
+
+        // $newTask = Task::create([
+        //     'description' => $request->todoTask['name'],
+        //     'created_at' => $request->start,
+        //     'end_at' => $request->todoTask['end'],
+        //     'classification' => $request->classification
+        // ]);
         return response()->noContent(Response::HTTP_CREATED);
     }
 

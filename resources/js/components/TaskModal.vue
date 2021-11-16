@@ -6,11 +6,21 @@
     title="待辦事項"
     v-model="showModal"
     v-bind:class="getAllClassification"
-    v-on:show="resetModal"
     v-on:hidden="resetModal"
     v-on:ok="handleOk"
     modal-footer
   >
+    <!-- <b-modal
+    size="xl"
+    id="modal-prevent-closing"
+    title="待辦事項"
+    v-model="showModal"
+    v-bind:class="getAllClassification"
+    v-on:show="resetModal"
+    v-on:hidden="resetModal"
+    v-on:ok="handleOk"
+    modal-footer
+  > -->
     <template #modal-footer="{ ok, cancel, deleteData }">
       <b-button lg="4" class="pb-2" variant="success" v-on:click="ok()"
         >儲存</b-button
@@ -41,7 +51,7 @@
       <b-input-group class="mb-3">
         <b-form-input
           id="datestart-input"
-          v-model="todoTask.start"
+          v-model.trim="todoTask.start"
           type="text"
           placeholder="YYYY-MM-DD HH:mm"
           autocomplete="off"
@@ -63,7 +73,7 @@
       <b-input-group class="mb-3">
         <b-form-input
           id="endDate-input"
-          v-model="todoTask.end"
+          v-model.trim="todoTask.end"
           type="text"
           placeholder="YYYY-MM-DD HH:mm"
           autocomplete="off"
@@ -83,6 +93,14 @@
       <b-form-select v-model="selected" v-bind:options="myOptions">
         <template v-slot:first>
           <option value="null" disabled>- 請選擇分類 -</option>
+          <!-- <div v-if="myOptions.value === selected">
+          <option :value="myOptions.id" selected>
+            {{ myOptions.text }}
+          </option>
+        </div>
+        <div v-else>
+          <option :value="myOptions.id">{{ myOptions.text }}</option>
+        </div> -->
         </template>
       </b-form-select>
 
@@ -93,7 +111,7 @@
       >
         <b-form-input
           id="task-input"
-          v-model="todoTask.name"
+          v-model.trim="todoTask.name"
           v-bind:state="todoTask.state"
           placeholder="輸入待辦事項"
           required
@@ -144,6 +162,7 @@ export default {
         start: this.start ? this.start : "",
         // 結束時間
         end: this.end ? this.end : "",
+        // classification: this.selected ? this.selected : "",
         // 狀態
         state: this.status,
       },
@@ -205,17 +224,16 @@ export default {
     // Insert
     insertTask() {
       console.log(this.todoTask);
-      console.log(this.start);
-      console.log(this.classification);
+      console.log(this.selected);
 
       axios
         .post("api/items/", {
           todoTask: this.todoTask,
-          start: this.start,
-          classification: this.selected,
+          classificationSelected: this.selected,
         })
         .then((response) => {
           if (response.status === 201) {
+            // this.resetModal();
             confirm("新增成功!");
             window.location.reload();
           }
@@ -259,6 +277,7 @@ export default {
           this.todoTask.end = this.end;
 
           this.todoTask.state = response.data.status ? false : true;
+
           this.selected = response.data.cId;
         })
         .catch((error) => {
@@ -276,6 +295,7 @@ export default {
         .then((response) => {
           // console.log(response);
           if (response.status === 200) {
+            // this.resetModal();
             confirm("儲存成功");
             window.location.reload();
           }
