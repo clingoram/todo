@@ -33,14 +33,23 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
-        //     'created_at' => ['required', 'date']
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
+            'created_at' => ['required', 'date']
+        ]);
+        // 客製化抓到錯誤後的行為
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Parameters Error',
+                'status' => false,
+                'error' => $validator->errors(),
+            ], 400);
+        }
         // $data = Category::create($validator);
 
         $data = new Category();
         $data->name = $request->category['name'];
+        $data->created_at = Carbon::now();
         $data->save();
         return response()->json($data, 201);
     }

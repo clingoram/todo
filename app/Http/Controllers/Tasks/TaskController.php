@@ -49,22 +49,22 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
-            'start' => ['required', 'date'],
-            'end' => ['required', 'date'],
-            'state' => ['Boolean'],
-            'classificationSelected' => ['required', 'numeric']
-        ]);
+        // $validated = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required', 'date'],
+        //     'state' => ['Boolean'],
+        //     // 'classificationSelected' => ['required', 'numeric']
+        // ]);
 
-        // 客製化抓到錯誤後的行為
-        if ($validated->fails()) {
-            return response()->json([
-                'message' => 'Parameters Error',
-                'status' => false,
-                'error' => $validated->errors(),
-            ], 400);
-        }
+        // // 客製化抓到錯誤後的行為
+        // if ($validated->fails()) {
+        //     return response()->json([
+        //         'message' => 'Parameters Error',
+        //         'status' => false,
+        //         'error' => $validated->errors(),
+        //     ], 400);
+        // }
 
 
         // 新增成功
@@ -73,14 +73,13 @@ class TaskController extends Controller
         $newTask->created_at = $request->todoTask['start'];
         $newTask->end_at = $request->todoTask['end'];
         $newTask->classification = $request->classificationSelected;
-
         $newTask->save();
 
         // $newTask = Task::create([
         //     'description' => $request->todoTask['name'],
-        //     'created_at' => $request->start,
+        //     'created_at' => $request->todoTask['start'],
         //     'end_at' => $request->todoTask['end'],
-        //     'classification' => $request->classification
+        //     'classification' => $request->classificationSelected
         // ]);
         return response()->noContent(Response::HTTP_CREATED);
     }

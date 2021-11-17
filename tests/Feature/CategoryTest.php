@@ -7,13 +7,13 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
+use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
-    // 每次測試完後，清空DB
     use RefreshDatabase;
     /**
      * A basic feature test example.
@@ -22,19 +22,16 @@ class CategoryTest extends TestCase
      */
     public function testExample()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
-    /**
-     * Get all categories
-     */
-    public function testAllCategories()
-    {
         $response = $this->get('api/items/categories');
+
         $response->assertStatus(200);
     }
+
+    // Database Testing
+    // public function testModelsInstantiated()
+    // {
+    //     $data = Category::factory()->count(3)->make();
+    // }
 
     /**
      * Insert
@@ -47,6 +44,6 @@ class CategoryTest extends TestCase
             'created_at' => $data['created_at']
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
     }
 }

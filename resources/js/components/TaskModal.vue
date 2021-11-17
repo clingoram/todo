@@ -7,6 +7,7 @@
     v-model="showModal"
     v-bind:class="getAllClassification"
     v-on:hidden="resetModal"
+    v-on:show="resetModal"
     v-on:ok="handleOk"
     modal-footer
   >
@@ -92,15 +93,17 @@
 
       <b-form-select v-model="selected" v-bind:options="myOptions">
         <template v-slot:first>
-          <option value="null" disabled>- 請選擇分類 -</option>
-          <!-- <div v-if="myOptions.value === selected">
-          <option :value="myOptions.id" selected>
-            {{ myOptions.text }}
-          </option>
-        </div>
-        <div v-else>
-          <option :value="myOptions.id">{{ myOptions.text }}</option>
-        </div> -->
+          <b-form-select-option :value="null" disabled
+            >- 請選擇分類 -</b-form-select-option
+          >
+          <!-- <div v-if="myOptions.id === selected">
+            <b-form-select-option :value="myOptions.id">{{
+              myOptions.text
+            }}</b-form-select-option>
+          </div>
+          <div v-else>
+            <option :value="myOptions.id">{{ myOptions.text }}</option>
+          </div> -->
         </template>
       </b-form-select>
 
@@ -212,14 +215,14 @@ export default {
       if (!this.checkFormValidity()) {
         return;
       }
+      this.$nextTick(() => {
+        this.$bvModal.hide("modal-prevent-closing");
+      });
       if (this.id === "" && this.eventisset === false) {
         this.insertTask();
       } else {
         this.updateData();
       }
-      this.$nextTick(() => {
-        this.$bvModal.hide("modal-prevent-closing");
-      });
     },
     // Insert
     insertTask() {
