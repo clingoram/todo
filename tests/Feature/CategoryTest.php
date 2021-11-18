@@ -34,16 +34,30 @@ class CategoryTest extends TestCase
     // }
 
     /**
+     * Find
+     */
+    public function testSpecificCategory()
+    {
+        $data = Category::first();
+        $response = $this->get("api/items/categories/{$data['id']}");
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
      * Insert
      */
     public function testCategoryInsert()
     {
         $data = Category::make();
-        $response = $this->post('api/items/categories', [
+        $response = $this->postJson('api/items/categories', [
             'name' => $data['name'],
             'created_at' => $data['created_at']
         ]);
 
-        $response->assertStatus(201);
+        $response
+            ->assertStatus(201)
+            ->assertJson([
+                'created' => true,
+            ]);
     }
 }
