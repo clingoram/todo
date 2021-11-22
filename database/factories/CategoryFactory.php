@@ -23,7 +23,7 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->text($maxNbChars = 5),
-            'created_at' => now(),
+            'created_at' => $this->faker->dateTime($max = 'now'),
         ];
     }
 }

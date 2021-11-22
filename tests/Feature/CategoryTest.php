@@ -28,11 +28,6 @@ class CategoryTest extends TestCase
     }
 
     // Database Testing
-    // public function testModelsInstantiated()
-    // {
-    //     $data = Category::factory()->count(3)->make();
-    // }
-
     /**
      * Find
      */
@@ -49,15 +44,14 @@ class CategoryTest extends TestCase
     public function testCategoryInsert()
     {
         $data = Category::make();
-        $response = $this->postJson('api/items/categories', [
+        $response = $this->post('api/items/categories', [
             'name' => $data['name'],
             'created_at' => $data['created_at']
         ]);
 
-        $response
-            ->assertStatus(201)
-            ->assertJson([
-                'created' => true,
-            ]);
+        // HTTP Test.Status
+        $response->assertStatus(201);
+        // Database test.Count rows of data.
+        // $this->assertDatabaseCount('category', 5);
     }
 }
