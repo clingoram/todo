@@ -33,7 +33,7 @@
             {{ index.name }}
           </b-button>
 
-          <!-- <b-button
+          <b-button
             variant="outline-primary"
             :id="'tag_' + index.id"
             v-bind:style="styleObject"
@@ -41,7 +41,7 @@
             title="刪除"
           >
             {{ index.name }}
-          </b-button> -->
+          </b-button>
         </div>
       </div>
     </b-modal>

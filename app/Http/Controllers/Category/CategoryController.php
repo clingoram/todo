@@ -45,17 +45,21 @@ class CategoryController extends Controller
         //         'error' => $validator->errors(),
         //     ], 400);
         // }
-        // $data = Category::create($validator);
+
+        $data = Category::create([
+            'name' => $request->category['name'],
+            'created_at' => Carbon::now()
+        ]);
 
         // $data = new Category();
         // $data->name = $request->category['name'];
         // $data->created_at = Carbon::now();
         // $data->save();
-        // return response()->json($data, 201);
+        return response()->json($data, 201);
 
-        $data = ['name' => $request->category['name'], 'created_at' => Carbon::now()];
+        // $data = ['name' => $request->category['name'], 'created_at' => Carbon::now()];
 
-        return response()->noContent(Response::HTTP_CREATED);
+        // return response()->noContent(Response::HTTP_CREATED);
     }
 
     /**
