@@ -37,8 +37,8 @@ class CategoryTest extends TestCase
     }
 
     // Seeder test
-    public function test_seeder_works()
-    {
-        $this->seed();
-    }
+    // public function test_seeder_works()
+    // {
+    //     $this->seed();
+    // }
 }

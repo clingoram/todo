@@ -40,26 +40,6 @@ class CategoryTest extends TestCase
         $response = $this->get("api/items/categories/{$data['id']}");
         $this->assertEquals(200, $response->getStatusCode());
     }
-    // public function test_interacting_with_headers()
-    // {
-    //     $data = Category::make();
-    //     $response = $this->withHeaders([
-    //         'X-Header' => 'Value',
-    //     ])->post('/api/items/categories', ['name' => $data['name']]);
-
-    //     $response->assertStatus(201);
-    // }
-
-    // public function test_json_api_request()
-    // {
-    //     $response = $this->postJson('api/items/categories', ['name' => 'Shopping']);
-
-    //     $response
-    //         ->assertStatus(201)
-    //         ->assertJson([
-    //             'created_at' => true,
-    //         ]);
-    // }
 
     /**
      * Delete
@@ -84,6 +64,6 @@ class CategoryTest extends TestCase
             'name' => $data['name'],
             'created_at' => $data['created_at']
         ]);
-        $response->assertRedirect("api/items");
+        $response->assertStatus(201);
     }
 }
