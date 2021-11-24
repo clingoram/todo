@@ -37,12 +37,29 @@ class CategoryController extends Controller
         //     'name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
         //     'created_at' => ['required', 'date']
         // ]);
-        // $data = Category::create($validator);
+        // // 客製化抓到錯誤後的行為
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'message' => 'Parameters Error',
+        //         'status' => false,
+        //         'error' => $validator->errors(),
+        //     ], 400);
+        // }
 
-        $data = new Category();
-        $data->name = $request->category['name'];
-        $data->save();
+        $data = Category::create([
+            'name' => $request->category['name'],
+            'created_at' => Carbon::now()
+        ]);
+
+        // $data = new Category();
+        // $data->name = $request->category['name'];
+        // $data->created_at = Carbon::now();
+        // $data->save();
         return response()->json($data, 201);
+
+        // $data = ['name' => $request->category['name'], 'created_at' => Carbon::now()];
+
+        // return response()->noContent(Response::HTTP_CREATED);
     }
 
     /**

@@ -7,46 +7,63 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
+use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
-    // 每次測試完後，清空DB
     use RefreshDatabase;
+
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function testExample()
+    public function test_basic_request()
     {
-        $response = $this->get('/');
+        $response = $this->get('api/items/categories');
 
+        // HTTP Test
         $response->assertStatus(200);
+        $response->dumpHeaders();
+        $response->dump();
     }
 
     /**
-     * Get all categories
+     * Find
      */
-    public function testAllCategories()
+    public function test_specific_category()
     {
-        $response = $this->get('api/items/categories');
-        $response->assertStatus(200);
+        $data = Category::first();
+        $response = $this->get("api/items/categories/{$data['id']}");
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * Delete
+     */
+    public function test_delete_category()
+    {
+        $data = Category::first();
+        if ($data) {
+            $data->delete();
+            $this->assertSoftDeleted($data);
+        }
+        $this->assertTrue(true);
     }
 
     /**
      * Insert
      */
-    public function testCategoryInsert()
+    public function test_store_new_category()
     {
         $data = Category::make();
-        $response = $this->post('api/items/categories', [
+        $response = $this->post("api/items/categories", [
             'name' => $data['name'],
             'created_at' => $data['created_at']
         ]);
-
-        $response->assertStatus(200);
+        $response->assertStatus(201);
     }
 }
