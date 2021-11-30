@@ -33,18 +33,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
-        //     'created_at' => ['required', 'date']
-        // ]);
-        // // 客製化抓到錯誤後的行為
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'message' => 'Parameters Error',
-        //         'status' => false,
-        //         'error' => $validator->errors(),
-        //     ], 400);
-        // }
+        $validator = Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
+            'created_at' => ['required', 'date']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Parameters Error',
+                'status' => false,
+                'error' => $validator->errors(),
+            ], 400);
+        }
 
         $data = Category::create([
             'name' => $request->category['name'],
@@ -55,9 +55,11 @@ class CategoryController extends Controller
         // $data->name = $request->category['name'];
         // $data->created_at = Carbon::now();
         // $data->save();
+
+        // $insert = ['name' => $request->category['name'], 'created_at' => Carbon::now()];
+
         return response()->json($data, 201);
 
-        // $data = ['name' => $request->category['name'], 'created_at' => Carbon::now()];
 
         // return response()->noContent(Response::HTTP_CREATED);
     }
@@ -68,10 +70,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        return Category::find($id);
-    }
+    // public function show($id)
+    // {
+    //     return Category::find($id);
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -79,10 +81,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
+    // public function edit($id)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -91,10 +93,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    // public function update(Request $request, $id)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.

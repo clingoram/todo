@@ -1,9 +1,5 @@
 <?php
 
-/**
- * php artisan test
- */
-
 namespace Tests\Feature;
 
 use App\Models\Category;
@@ -14,7 +10,7 @@ use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     /**
      * A basic feature test example.
@@ -29,16 +25,6 @@ class CategoryTest extends TestCase
         $response->assertStatus(200);
         $response->dumpHeaders();
         $response->dump();
-    }
-
-    /**
-     * Find
-     */
-    public function test_specific_category()
-    {
-        $data = Category::first();
-        $response = $this->get("api/items/categories/{$data['id']}");
-        $this->assertEquals(200, $response->getStatusCode());
     }
 
     /**
@@ -64,7 +50,18 @@ class CategoryTest extends TestCase
             'name' => $data['name'],
             'created_at' => $data['created_at']
         ]);
-        // $response->assertStatus(201);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertDatabaseCount('category', 5);
     }
+
+    /**
+     * Find
+     */
+    // public function test_specific_category()
+    // {
+    //     $find = Category::first();
+    //     $response = $this->get("api/items/categories/{$find->id}");
+    //     // $response->assertStatus(200);
+    //     $this->assertEquals(200, $response->getStatusCode());
+    // }
+
 }

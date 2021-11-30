@@ -308,9 +308,9 @@ export default {
         });
     },
     // Delete
-    deleteData() {
+    deleteData(id) {
       axios
-        .delete("api/items/" + this.id)
+        .delete("api/items/" + id)
         .then((response) => {
           if (response.status === 200) {
             confirm("已刪除!");

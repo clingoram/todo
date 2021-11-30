@@ -25,13 +25,13 @@
 
       <div class="category_tags">
         <div v-for="index in categoryNameList" v-bind:key="index.id">
-          <b-button
+          <!-- <b-button
             variant="outline-primary"
             :id="'tag_' + index.id"
             v-bind:style="styleObject"
           >
             {{ index.name }}
-          </b-button>
+          </b-button> -->
 
           <b-button
             variant="outline-primary"
@@ -141,9 +141,9 @@ export default {
     },
     // Delete
     deleteCategory(id) {
-      if (confirm("該分類確定要刪除嗎?若刪除")) {
+      if (confirm("該分類確定要刪除嗎?")) {
         axios
-          .delete("api/items/categories/" + this.id)
+          .delete("api/items/categories/" + id)
           .then((response) => {
             if (response.status === 200) {
               confirm("已刪除!");

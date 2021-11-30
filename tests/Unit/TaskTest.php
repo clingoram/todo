@@ -17,7 +17,7 @@ class TaskTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testAllTaskData()
     {
 
         // 取得所有資料

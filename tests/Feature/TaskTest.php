@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 // model
@@ -13,8 +12,7 @@ use App\Models\Category;
 class TaskTest extends TestCase
 {
 
-    // use RefreshDatabase; //每次執行測試時都要重整資料庫
-    // use DatabaseMigrations;
+    // use RefreshDatabase;
     use WithFaker;
 
     /**
@@ -33,14 +31,14 @@ class TaskTest extends TestCase
      */
     public function testTaskStructure()
     {
-        $response = $this->get('/api/items');
+        $response = $this->get('api/items');
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
             '*' => [
                 'id',
                 'title',
-                'created_at',
+                'start',
                 'end',
                 'status',
                 'category',
@@ -54,7 +52,7 @@ class TaskTest extends TestCase
     // public function testAddTask()
     // {
     //     $data = Task::make();
-    //     $response = $this->post('/api/items', [
+    //     $response = $this->post('api/items', [
     //         'description' => $data['description'],
     //         'status' => $data['status'],
     //         'created_at' => $data['created_at'],
@@ -68,12 +66,12 @@ class TaskTest extends TestCase
     /**
      * 取得特定ID資料
      */
-    public function testSpecificTask()
-    {
-        $data = Task::first();
-        $response = $this->get("/api/items/{$data['id']}");
-        $this->assertEquals(200, $response->getStatusCode());
-    }
+    // public function testSpecificTask()
+    // {
+    //     $data = Task::first();
+    //     $response = $this->get("api/items/{$data['id']}");
+    //     $this->assertEquals(200, $response->getStatusCode());
+    // }
 
     /**
      * 更新
@@ -90,7 +88,7 @@ class TaskTest extends TestCase
     //         'updated_at' => now()
     //     ];
 
-    //     $response = $this->put("/api/items/{$getOne['id']}", $data);
+    //     $response = $this->put("api/items/{$getOne['id']}", $data);
     //     // $this->assertEquals(200, $response->getStatusCode());
     //     $response->assertStatus(201);
     // }
