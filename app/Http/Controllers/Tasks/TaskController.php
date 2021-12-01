@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 // model
 use App\Models\Task;
+use App\Models\Category;
 
 class TaskController extends Controller
 {
@@ -102,8 +103,11 @@ class TaskController extends Controller
             'category.id AS cId'
         )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
-        // var_dump($find);
+        // $category = Category::select('id', 'name')->where('deleted_at', null)->orderByDesc('created_at')
+        //     ->get();
+        // dump($category);
         if (isset($find)) {
+            // dump($find);
             return json_encode($find);
             // return json_encode($find, JSON_UNESCAPED_UNICODE);
         }

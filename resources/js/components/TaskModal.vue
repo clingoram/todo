@@ -96,14 +96,6 @@
           <b-form-select-option :value="null" disabled
             >- 請選擇分類 -</b-form-select-option
           >
-          <!-- <div v-if="myOptions.id === selected">
-            <b-form-select-option :value="myOptions.id">{{
-              myOptions.text
-            }}</b-form-select-option>
-          </div>
-          <div v-else>
-            <option :value="myOptions.id">{{ myOptions.text }}</option>
-          </div> -->
         </template>
       </b-form-select>
 
@@ -154,6 +146,8 @@ export default {
       selected: null,
       categoryOptions: [],
       myOptions: [],
+      // 現有分類ID
+      existCategoryId: [],
       /*
         儲存與顯示資料
       */
@@ -261,6 +255,9 @@ export default {
                 option["text"] = this.categoryOptions[i][key];
               }
             }
+            // push存在的分類ID
+            this.existCategoryId.push(option["value"]);
+            // push顯示所有分類
             this.myOptions.push(Object.assign({}, option));
           }
         })
@@ -270,18 +267,33 @@ export default {
     },
     // Get specific task
     getSpecificTask() {
+      // console.log(this.existCategoryId);
       axios
         .get("api/items/" + this.id)
         .then((response) => {
           // this.todoTask.id = response.data.id;
           this.todoTask.name = response.data.description;
-
           this.todoTask.start = this.start;
           this.todoTask.end = this.end;
-
           this.todoTask.state = response.data.status ? false : true;
 
-          this.selected = response.data.cId;
+          for (let i = 0; i < this.existCategoryId.length; i++) {
+            // console.log(this.existCategoryId[i]);
+            // this.selected =
+            //   this.existCategoryId[i] !== response.data.cId
+            //     ? [
+            //         ...new Set(
+            //           this.myOptions.push("分類已被刪除，請重新選擇!!")
+            //         ),
+            //       ]
+            //     : response.data.cId;
+
+            this.selected =
+              this.existCategoryId[i] !== response.data.cId
+                ? "分類已被刪除，請重新選擇!!"
+                : response.data.cId;
+          }
+          // this.selected = response.data.cId;
         })
         .catch((error) => {
           console.log("Error!!!");

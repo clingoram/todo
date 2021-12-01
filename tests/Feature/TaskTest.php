@@ -27,9 +27,9 @@ class TaskTest extends TestCase
     }
 
     /**
-     * Task
+     * Task json structure
      */
-    public function testTaskStructure()
+    public function test_task_structure()
     {
         $response = $this->get('api/items');
         $response->assertStatus(200);
@@ -47,36 +47,36 @@ class TaskTest extends TestCase
     }
 
     /** 
-     * 新增
+     * Create
      */
-    // public function testAddTask()
-    // {
-    //     $data = Task::make();
-    //     $response = $this->post('api/items', [
-    //         'description' => $data['description'],
-    //         'status' => $data['status'],
-    //         'created_at' => $data['created_at'],
-    //         'end_at' => $data['end_at'],
-    //         'category' => $data['classification']
-    //     ]);
+    public function test_add_task()
+    {
+        $data = Task::make();
+        $response = $this->post('api/items', [
+            'description' => $data['description'],
+            'status' => $data['status'],
+            'created_at' => $data['created_at'],
+            'end_at' => $data['end_at'],
+            'category' => $data['classification']
+        ]);
 
-    //     $response->assertStatus(201);
-    // }
-
-    /**
-     * 取得特定ID資料
-     */
-    // public function testSpecificTask()
-    // {
-    //     $data = Task::first();
-    //     $response = $this->get("api/items/{$data['id']}");
-    //     $this->assertEquals(200, $response->getStatusCode());
-    // }
+        $this->assertDatabaseCount('task', 6);
+    }
 
     /**
-     * 更新
+     * Find
      */
-    // public function testUpdateTask()
+    public function test_specific_task()
+    {
+        $data = Task::first();
+        $response = $this->get("api/items/{$data['id']}");
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * Update
+     */
+    // public function test_update_task()
     // {
     //     $getOne = Task::first();
     //     $data = [
@@ -89,17 +89,19 @@ class TaskTest extends TestCase
     //     ];
 
     //     $response = $this->put("api/items/{$getOne['id']}", $data);
-    //     // $this->assertEquals(200, $response->getStatusCode());
     //     $response->assertStatus(201);
     // }
 
     /**
-     * 刪除
+     * Delete
      */
-    // public function testDeleteTask()
-    // {
-    //     $data = Task::first();
-    //     $response = $this->delete("api/items/{$data['id']}");
-    //     $response->assertStatus(200);
-    // }
+    public function test_delete_task()
+    {
+        $data = Task::first();
+        if ($data) {
+            $data->delete();
+            $this->assertSoftDeleted($data);
+        }
+        $this->assertTrue(true);
+    }
 }
