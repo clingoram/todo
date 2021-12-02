@@ -103,11 +103,8 @@ class TaskController extends Controller
             'category.id AS cId'
         )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
-        // $category = Category::select('id', 'name')->where('deleted_at', null)->orderByDesc('created_at')
-        //     ->get();
-        // dump($category);
         if (isset($find)) {
-            // dump($find);
+            // dump(gettype($find));
             return json_encode($find);
             // return json_encode($find, JSON_UNESCAPED_UNICODE);
         }

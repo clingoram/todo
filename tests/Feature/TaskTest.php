@@ -15,40 +15,19 @@ class TaskTest extends TestCase
     // use RefreshDatabase;
     use WithFaker;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+    /** 
+     * @test 
+     * */
     public function testExample()
     {
         $response = $this->get('/');
         $response->assertStatus(200);
     }
 
-    /**
-     * Task json structure
-     */
-    public function test_task_structure()
-    {
-        $response = $this->get('api/items');
-        $response->assertStatus(200);
-
-        $response->assertJsonStructure([
-            '*' => [
-                'id',
-                'title',
-                'start',
-                'end',
-                'status',
-                'category',
-            ]
-        ]);
-    }
 
     /** 
-     * Create
-     */
+     * @test 
+     * */
     public function test_add_task()
     {
         $data = Task::make();
@@ -63,9 +42,9 @@ class TaskTest extends TestCase
         $this->assertDatabaseCount('task', 6);
     }
 
-    /**
-     * Find
-     */
+    /** 
+     * @test 
+     * */
     public function test_specific_task()
     {
         $data = Task::first();
@@ -73,9 +52,9 @@ class TaskTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    /**
-     * Update
-     */
+    /** 
+     * @test 
+     * */
     // public function test_update_task()
     // {
     //     $getOne = Task::first();
@@ -92,9 +71,9 @@ class TaskTest extends TestCase
     //     $response->assertStatus(201);
     // }
 
-    /**
-     * Delete
-     */
+    /** 
+     * @test 
+     * */
     public function test_delete_task()
     {
         $data = Task::first();

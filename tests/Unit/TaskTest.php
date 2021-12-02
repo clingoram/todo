@@ -12,6 +12,14 @@ use App\Models\Task;
 class TaskTest extends TestCase
 {
     // use RefreshDatabase;
+
+    /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
     /**
      * A basic unit test example.
      *
@@ -19,11 +27,27 @@ class TaskTest extends TestCase
      */
     public function testAllTaskData()
     {
-
-        // 取得所有資料
         $data = Task::all();
-
-        // 結果
         $this->assertTrue(true);
+    }
+
+    /** 
+     * @test 
+     * */
+    public function test_task_index_structure()
+    {
+        $response = $this->get('api/items');
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure([
+            '*' => [
+                'id',
+                'title',
+                'start',
+                'end',
+                'status',
+                'category',
+            ]
+        ]);
     }
 }

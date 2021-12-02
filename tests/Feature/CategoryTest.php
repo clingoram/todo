@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * function功能的完整性(database、web)，CRUD、HTTP status
+ */
+
 namespace Tests\Feature;
 
 use App\Models\Category;
@@ -13,23 +17,16 @@ class CategoryTest extends TestCase
     // use RefreshDatabase;
 
     /**
-     * A basic feature test example.
-     *
-     * @return void
+     * Setup the test environment.
      */
-    public function test_basic_request()
+    protected function setUp(): void
     {
-        $response = $this->get('api/items/categories');
-
-        // HTTP Test
-        $response->assertStatus(200);
-        $response->dumpHeaders();
-        $response->dump();
+        parent::setUp();
     }
 
-    /**
-     * Delete
-     */
+    /** 
+     * @test 
+     * */
     public function test_delete_category()
     {
         $data = Category::first();
@@ -40,9 +37,9 @@ class CategoryTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * Insert
-     */
+    /** 
+     * @test 
+     * */
     public function test_store_new_category()
     {
         $data = Category::make();
@@ -53,9 +50,9 @@ class CategoryTest extends TestCase
         $this->assertDatabaseCount('category', 5);
     }
 
-    /**
-     * Find
-     */
+    /** 
+     * @test 
+     * */
     // public function test_specific_category()
     // {
     //     $find = Category::first();
@@ -63,5 +60,4 @@ class CategoryTest extends TestCase
     //     // $response->assertStatus(200);
     //     $this->assertEquals(200, $response->getStatusCode());
     // }
-
 }
