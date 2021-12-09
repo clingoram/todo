@@ -50,22 +50,22 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        // $validated = Validator::make($request->all(), [
-        //     'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
-        //     'start' => ['required', 'date'],
-        //     'end' => ['required', 'date'],
-        //     'state' => ['Boolean'],
-        //     // 'classificationSelected' => ['required', 'numeric']
-        // ]);
+        $validated = Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
+            'start' => ['required', 'date'],
+            'end' => ['required', 'date'],
+            'state' => ['Boolean'],
+            // 'classificationSelected' => ['required', 'numeric']
+        ]);
 
-        // // 客製化抓到錯誤後的行為
-        // if ($validated->fails()) {
-        //     return response()->json([
-        //         'message' => 'Parameters Error',
-        //         'status' => false,
-        //         'error' => $validated->errors(),
-        //     ], 400);
-        // }
+        // 客製化抓到錯誤後的行為
+        if ($validated->fails()) {
+            return response()->json([
+                'message' => 'Parameters Error',
+                'status' => false,
+                'error' => $validated->errors(),
+            ], 400);
+        }
 
 
         // 新增成功

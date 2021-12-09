@@ -26,18 +26,6 @@ class CategoryTest extends TestCase
     }
 
     /**
-     * A basic functional test example.
-     *
-     * @return void
-     */
-    public function test_making_an_api_request()
-    {
-        $response = $this->postJson('api/items/categories', ['name' => '運動']);
-
-        $response->assertSee('新增成功');
-    }
-
-    /**
      * @test
      */
     public function test_category_index_structure()
