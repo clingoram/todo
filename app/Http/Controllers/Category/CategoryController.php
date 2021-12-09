@@ -33,18 +33,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
-        //     'created_at' => ['required', 'date']
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
+            'created_at' => ['required', 'date']
+        ]);
 
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'message' => 'Parameters Error',
-        //         'status' => false,
-        //         'error' => $validator->errors(),
-        //     ], 400);
-        // }
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Parameters Error',
+                'status' => false,
+                'error' => $validator->errors(),
+            ], 400);
+        }
 
         $data = Category::create([
             'name' => $request->category['name'],
