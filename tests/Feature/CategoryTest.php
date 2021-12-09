@@ -1,7 +1,8 @@
 <?php
 
 /**
- * function功能的完整性(database、web)，CRUD、HTTP status
+ * Feature:檢查API，回傳資料的結構和HTTP狀態(Http status code、cookie、session、JSON structure)
+ * function功能的完整性(database、web)，API、HTTP status
  */
 
 namespace Tests\Feature;
@@ -14,7 +15,7 @@ use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     /**
      * Setup the test environment.
@@ -24,40 +25,51 @@ class CategoryTest extends TestCase
         parent::setUp();
     }
 
-    /** 
-     * @test 
-     * */
-    public function test_delete_category()
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function test_making_an_api_request()
     {
-        $data = Category::first();
-        if ($data) {
-            $data->delete();
-            $this->assertSoftDeleted($data);
-        }
-        $this->assertTrue(true);
+        $response = $this->postJson('api/items/categories', ['name' => '運動']);
+
+        $response->assertSee('新增成功');
     }
 
-    /** 
-     * @test 
-     * */
-    public function test_store_new_category()
+    /**
+     * @test
+     */
+    public function test_category_index_structure()
     {
-        $data = Category::make();
-        $response = $this->post("api/items/categories", [
-            'name' => $data['name'],
-            'created_at' => $data['created_at']
+        $response = $this->get('api/items/categories');
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure([
+            '*' => [
+                'id',
+                'name'
+            ]
         ]);
-        $this->assertDatabaseCount('category', 5);
     }
 
-    /** 
-     * @test 
-     * */
-    // public function test_specific_category()
-    // {
-    //     $find = Category::first();
-    //     $response = $this->get("api/items/categories/{$find->id}");
-    //     // $response->assertStatus(200);
-    //     $this->assertEquals(200, $response->getStatusCode());
-    // }
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
+    public function test_basic_request()
+    {
+        $response = $this->get('api/items/categories');
+
+        // HTTP Test
+        $response->assertStatus(200);
+        $response->dumpHeaders();
+        $response->dump();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 }

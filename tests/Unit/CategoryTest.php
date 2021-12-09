@@ -29,37 +29,42 @@ class CategoryTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @test
-     */
-    public function test_category_index_structure()
+    /** 
+     * @test 
+     * */
+    public function test_delete_category()
     {
-        $response = $this->get('api/items/categories');
-        $response->assertStatus(200);
+        $data = Category::first();
+        if ($data) {
+            $data->delete();
+            $this->assertSoftDeleted($data);
+        }
+        $this->assertTrue(true);
+    }
 
-        $response->assertJsonStructure([
-            '*' => [
-                'id',
-                'name'
-            ]
+    /** 
+     * @test 
+     * */
+    public function test_store_new_category()
+    {
+        $data = Category::make();
+        $response = $this->post("api/items/categories", [
+            'name' => $data['name'],
+            'created_at' => $data['created_at']
         ]);
+        $this->assertDatabaseCount('category', 5);
     }
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_basic_request()
-    {
-        $response = $this->get('api/items/categories');
-
-        // HTTP Test
-        $response->assertStatus(200);
-        $response->dumpHeaders();
-        $response->dump();
-    }
-
+    /** 
+     * @test 
+     * */
+    // public function test_specific_category()
+    // {
+    //     $find = Category::first();
+    //     $response = $this->get("api/items/categories/{$find->id}");
+    //     // $response->assertStatus(200);
+    //     $this->assertEquals(200, $response->getStatusCode());
+    // }
 
     /**
      * Check duplicate
@@ -85,5 +90,8 @@ class CategoryTest extends TestCase
     //     $this->seed();
     // }
 
-
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 }

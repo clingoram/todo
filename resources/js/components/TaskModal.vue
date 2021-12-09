@@ -220,24 +220,27 @@ export default {
     },
     // Insert
     insertTask() {
-      console.log(this.todoTask);
-      console.log(this.selected);
-
-      axios
-        .post("api/items/", {
-          todoTask: this.todoTask,
-          classificationSelected: this.selected,
-        })
-        .then((response) => {
-          if (response.status === 201) {
-            // this.resetModal();
-            confirm("新增成功!");
-            window.location.reload();
-          }
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
+      // console.log(this.todoTask);
+      // console.log(this.selected);
+      if (this.myOptions.length === 0 || this.selected === null) {
+        alert("請先新增分類!!");
+      } else {
+        axios
+          .post("api/items/", {
+            todoTask: this.todoTask,
+            classificationSelected: this.selected,
+          })
+          .then((response) => {
+            if (response.status === 201) {
+              // this.resetModal();
+              confirm("新增成功!");
+              window.location.reload();
+            }
+          })
+          .catch((error) => {
+            console.log(error.response.data);
+          });
+      }
     },
     // Read
     // Get all categories
@@ -266,34 +269,34 @@ export default {
         });
     },
     // Get specific task
-    getSpecificTask() {
-      // console.log(this.existCategoryId);
+    getSpecificTask(id) {
       axios
         .get("api/items/" + this.id)
         .then((response) => {
+          console.log(response);
           // this.todoTask.id = response.data.id;
           this.todoTask.name = response.data.description;
           this.todoTask.start = this.start;
           this.todoTask.end = this.end;
           this.todoTask.state = response.data.status ? false : true;
 
-          for (let i = 0; i < this.existCategoryId.length; i++) {
-            // console.log(this.existCategoryId[i]);
-            // this.selected =
-            //   this.existCategoryId[i] !== response.data.cId
-            //     ? [
-            //         ...new Set(
-            //           this.myOptions.push("分類已被刪除，請重新選擇!!")
-            //         ),
-            //       ]
-            //     : response.data.cId;
+          // for (let i = 0; i < this.existCategoryId.length; i++) {
+          // console.log(this.existCategoryId[i]);
+          // this.selected =
+          //   this.existCategoryId[i] !== response.data.cId
+          //     ? [
+          //         ...new Set(
+          //           this.myOptions.push("分類已被刪除，請重新選擇!!")
+          //         ),
+          //       ]
+          //     : response.data.cId;
 
-            this.selected =
-              this.existCategoryId[i] !== response.data.cId
-                ? "分類已被刪除，請重新選擇!!"
-                : response.data.cId;
-          }
-          // this.selected = response.data.cId;
+          // this.selected =
+          //   this.existCategoryId[i] !== response.data.cId
+          //     ? "分類已被刪除，請重新選擇!!"
+          //     : response.data.cId;
+          // }
+          this.selected = response.data.cId;
         })
         .catch((error) => {
           console.log("Error!!!");
@@ -302,22 +305,26 @@ export default {
     },
     // Update
     updateData() {
-      axios
-        .put("api/items/" + this.id, {
-          todoTask: this.todoTask,
-          classification: this.selected,
-        })
-        .then((response) => {
-          // console.log(response);
-          if (response.status === 200) {
-            // this.resetModal();
-            confirm("儲存成功");
-            window.location.reload();
-          }
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
+      if (this.myOptions.length === 0 || this.selected === null) {
+        alert("請先新增分類!!");
+      } else {
+        axios
+          .put("api/items/" + this.id, {
+            todoTask: this.todoTask,
+            classification: this.selected,
+          })
+          .then((response) => {
+            // console.log(response);
+            if (response.status === 200) {
+              // this.resetModal();
+              confirm("儲存成功");
+              window.location.reload();
+            }
+          })
+          .catch((error) => {
+            console.log(error.response.data);
+          });
+      }
     },
     // Delete
     deleteData(id) {
