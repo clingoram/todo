@@ -27,7 +27,7 @@ class TaskTest extends TestCase
     /** 
      * @test 
      * */
-    public function test_specific_task_structure()
+    public function test_task_json_structure()
     {
         $response = $this->get('api/items');
         $response->assertStatus(200);
@@ -47,7 +47,7 @@ class TaskTest extends TestCase
     /** 
      * @test 
      * */
-    public function test_add_task_status()
+    public function test_add_task_json_structure()
     {
         $data = Task::make();
         $response = $this->post(
@@ -60,6 +60,15 @@ class TaskTest extends TestCase
                 'category' => $data['classification']
             ]
         );
-        $response->assertSuccessful();
+        $response->assertStatus(200);
+        // 不管成功或失敗，request後，傳給前端的JSON格式
+        $response->assertJsonStructure([
+            'message',
+            'status'
+        ]);
     }
+
+    // public function test_delete_task_json_structure()
+    // {
+    // }
 }

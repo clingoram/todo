@@ -61,28 +61,32 @@ class TaskController extends Controller
         // 客製化抓到錯誤後的行為
         if ($validated->fails()) {
             return response()->json([
-                'message' => 'Parameters Error',
+                'message' => 'Parameters Error.',
                 'status' => false,
-                'error' => $validated->errors(),
+                'data' => $validated->errors(),
             ], 400);
         }
 
-
         // 新增成功
-        $newTask = new Task;
-        $newTask->description = $request->todoTask['name'];
-        $newTask->created_at = $request->todoTask['start'];
-        $newTask->end_at = $request->todoTask['end'];
-        $newTask->classification = $request->classificationSelected;
-        $newTask->save();
+        // $newTask = new Task;
+        // $newTask->description = $request->todoTask['name'];
+        // $newTask->created_at = $request->todoTask['start'];
+        // $newTask->end_at = $request->todoTask['end'];
+        // $newTask->classification = $request->classificationSelected;
+        // $newTask->save();
 
-        // $newTask = Task::create([
-        //     'description' => $request->todoTask['name'],
-        //     'created_at' => $request->todoTask['start'],
-        //     'end_at' => $request->todoTask['end'],
-        //     'classification' => $request->classificationSelected
-        // ]);
-        return response()->noContent(Response::HTTP_CREATED);
+        $newTask = Task::create([
+            'description' => $request->todoTask['name'],
+            'created_at' => $request->todoTask['start'],
+            'end_at' => $request->todoTask['end'],
+            'classification' => $request->classificationSelected
+        ]);
+
+        return response()->json([
+            'message' => 'Success.',
+            'status' => true,
+            'data' => $newTask
+        ], 200);
     }
 
     /**
@@ -127,9 +131,15 @@ class TaskController extends Controller
             'end' => ['required'],
             'state' => ['Boolean'],
             'category' => ['required']
-        ])->validate();
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Parameters Error',
+                'status' => false,
+                'error' => $validator->errors(),
+            ], 404);
+        }
 
-        // if (isset($findExist)) {
         // $findExist->update($findExist);
 
         $findExist->description = $request->todoTask['name'];
@@ -141,11 +151,9 @@ class TaskController extends Controller
         // 更新時間要用當下更新的時間
         $findExist->updated_at = Carbon::now();
         $findExist->save();
-        // return $findExist;
-        return response($findExist, Response::HTTP_OK);
-        // };
-        // 無資料
-        // return 'No data';
+
+        // return response($findExist, Response::HTTP_OK);
+        return response()->json(['message' => 'Success', 'status' => true], 200);
     }
 
     /**
@@ -162,9 +170,11 @@ class TaskController extends Controller
 
             if ($findExist->trashed()) {
                 // return "Deleted Successful.";
-                return response()->json(null, Response::HTTP_NO_CONTENT);
+                // return response()->json(null, Response::HTTP_NO_CONTENT);
+                return response()->json(['message' => 'Delete Success', 'status' => true], 200);
             }
         }
-        return "Not Found.";
+        // return "Not Found.";
+        return response()->json(['message' => 'Fail', 'status' => false], 204);
     }
 }
