@@ -27,6 +27,25 @@ class TaskTest extends TestCase
     /** 
      * @test 
      * */
+    public function test_update_task()
+    {
+        // $getOne = Task::first();
+        $data = [
+            'id' => 1,
+            'description' => $this->faker->word,
+            'status' => $this->faker->boolean($chanceOfGettingTrue = 50),
+            'created_at' => $this->faker->dateTime($max = 'now', $timezone = 'Asia/Taipei'),
+            'end_at' => $this->faker->dateTime($max = '+5 days', $timezone = 'Asia/Taipei'),
+            'classification' => isset(Category::all()->random()->id) ? Category::all()->random()->id : $this->faker->numberBetween($min = 1, $max = 5),
+            'updated_at' => now()
+        ];
+
+        $response = $this->put("api/items/1", $data);
+        $response->assertSuccessful();
+    }
+    /** 
+     * @test 
+     * */
     public function test_task_json_structure()
     {
         $response = $this->get('api/items');
@@ -60,8 +79,7 @@ class TaskTest extends TestCase
                 'category' => $data['classification']
             ]
         );
-        $response->assertStatus(200);
-        // 不管成功或失敗，request後，傳給前端的JSON格式
+        // $response->assertStatus(200);
         $response->assertJsonStructure([
             'message',
             'status'
@@ -70,5 +88,10 @@ class TaskTest extends TestCase
 
     // public function test_delete_task_json_structure()
     // {
+    //     $id = 1;
+    //     $response = $this->deleteJson("api/items/", [
+    //         'id' => $id
+    //     ]);
+    //     $response->assertNoContent($status = 204);
     // }
 }

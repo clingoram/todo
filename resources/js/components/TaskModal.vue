@@ -215,7 +215,7 @@ export default {
       if (this.id === "" && this.eventisset === false) {
         this.insertTask();
       } else {
-        this.updateData();
+        this.updateData(this.id);
       }
     },
     // Insert
@@ -271,14 +271,14 @@ export default {
     // Get specific task
     getSpecificTask(id) {
       axios
-        .get("api/items/" + this.id)
+        .get("api/items/" + id)
         .then((response) => {
-          console.log(response);
+          // console.log(response.data.data_return.description);
           // this.todoTask.id = response.data.id;
-          this.todoTask.name = response.data.description;
+          this.todoTask.name = response.data.data_return.description;
           this.todoTask.start = this.start;
           this.todoTask.end = this.end;
-          this.todoTask.state = response.data.status ? false : true;
+          this.todoTask.state = response.data.data_return.status ? false : true;
 
           // for (let i = 0; i < this.existCategoryId.length; i++) {
           // console.log(this.existCategoryId[i]);
@@ -296,7 +296,7 @@ export default {
           //     ? "分類已被刪除，請重新選擇!!"
           //     : response.data.cId;
           // }
-          this.selected = response.data.cId;
+          this.selected = response.data.data_return.cId;
         })
         .catch((error) => {
           console.log("Error!!!");
@@ -304,7 +304,8 @@ export default {
         });
     },
     // Update
-    updateData() {
+    updateData(id) {
+      // console.log(id);
       if (this.myOptions.length === 0 || this.selected === null) {
         alert("請先新增分類!!");
       } else {

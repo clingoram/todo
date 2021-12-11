@@ -50,42 +50,42 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
-            'start' => ['required', 'date'],
-            'end' => ['required', 'date'],
-            'state' => ['Boolean'],
-            // 'classificationSelected' => ['required', 'numeric']
-        ]);
+        // $validated = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required', 'date'],
+        //     'state' => ['Boolean'],
+        //     // 'classificationSelected' => ['required', 'numeric']
+        // ]);
 
-        // 客製化抓到錯誤後的行為
-        if ($validated->fails()) {
-            return response()->json([
-                'message' => 'Parameters Error.',
-                'status' => false,
-                'data' => $validated->errors(),
-            ], 400);
-        }
+        // // 客製化抓到錯誤後的行為
+        // if ($validated->fails()) {
+        //     return response()->json([
+        //         'message' => 'Parameters Error.',
+        //         'status' => false,
+        //         'data' => $validated->errors(),
+        //     ], 400);
+        // }
 
         // 新增成功
-        // $newTask = new Task;
-        // $newTask->description = $request->todoTask['name'];
-        // $newTask->created_at = $request->todoTask['start'];
-        // $newTask->end_at = $request->todoTask['end'];
-        // $newTask->classification = $request->classificationSelected;
-        // $newTask->save();
+        $newTask = new Task;
+        $newTask->description = $request->todoTask['name'];
+        $newTask->created_at = $request->todoTask['start'];
+        $newTask->end_at = $request->todoTask['end'];
+        $newTask->classification = $request->classificationSelected;
+        $newTask->save();
 
-        $newTask = Task::create([
-            'description' => $request->todoTask['name'],
-            'created_at' => $request->todoTask['start'],
-            'end_at' => $request->todoTask['end'],
-            'classification' => $request->classificationSelected
-        ]);
+        // $newTask = Task::create([
+        //     'description' => $request->todoTask['name'],
+        //     'created_at' => $request->todoTask['start'],
+        //     'end_at' => $request->todoTask['end'],
+        //     'classification' => $request->classificationSelected
+        // ]);
 
         return response()->json([
             'message' => 'Success.',
             'status' => true,
-            'data' => $newTask
+            'data_return' => $newTask
         ], 200);
     }
 
@@ -108,10 +108,20 @@ class TaskController extends Controller
         )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
         if (isset($find)) {
-            // dump(gettype($find));
-            return json_encode($find);
+            // return json_encode($find);
             // return json_encode($find, JSON_UNESCAPED_UNICODE);
+
+            return response()->json([
+                'message' => 'Success',
+                'status' => true,
+                'data_return' => $find
+            ], 200);
         }
+        return response()->json([
+            'message' => 'Fail',
+            'status' => false,
+            'data_return' => null
+        ], 400);
     }
 
     /**
@@ -123,29 +133,29 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $findExist = Task::findOrFail($id);
+        // $findExist = Task::findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-            'start' => ['required', 'date'],
-            'end' => ['required'],
-            'state' => ['Boolean'],
-            'category' => ['required']
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Parameters Error',
-                'status' => false,
-                'error' => $validator->errors(),
-            ], 404);
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required'],
+        //     'state' => ['Boolean'],
+        //     'category' => ['required']
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'message' => 'Parameters Error',
+        //         'status' => false,
+        //         'data_return' => $validator->errors(),
+        //     ], 404);
+        // }
 
         // $findExist->update($findExist);
-
+        $findExist = Task::find($id);
         $findExist->description = $request->todoTask['name'];
         $findExist->created_at = $request->todoTask['start'];
         $findExist->end_at = $request->todoTask['end'];
-        $findExist->status = $request->todoTask['state'] ? false : true;
+        // $findExist->status = $request->todoTask['state'] ? false : true;
         $findExist->classification = $request->classification;
 
         // 更新時間要用當下更新的時間
@@ -169,12 +179,10 @@ class TaskController extends Controller
             $findExist->delete();
 
             if ($findExist->trashed()) {
-                // return "Deleted Successful.";
                 // return response()->json(null, Response::HTTP_NO_CONTENT);
-                return response()->json(['message' => 'Delete Success', 'status' => true], 200);
+                return response()->json(['message' => 'Success', 'status' => true], 200);
             }
         }
-        // return "Not Found.";
         return response()->json(['message' => 'Fail', 'status' => false], 204);
     }
 }
