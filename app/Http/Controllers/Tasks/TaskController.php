@@ -50,22 +50,22 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        // $validated = Validator::make($request->all(), [
-        //     'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
-        //     'start' => ['required', 'date'],
-        //     'end' => ['required', 'date'],
-        //     'state' => ['Boolean'],
-        //     // 'classificationSelected' => ['required', 'numeric']
-        // ]);
+        $validated = Validator::make($request->all(), [
+            'todoTask.name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
+            'todoTask.start' => ['required', 'date'],
+            'todoTask.end' => ['required', 'date'],
+            'todoTask.state' => ['Boolean'],
+            'classificationSelected.classificationSelected' => ['required', 'numeric']
+        ]);
 
-        // // 客製化抓到錯誤後的行為
-        // if ($validated->fails()) {
-        //     return response()->json([
-        //         'message' => 'Parameters Error.',
-        //         'status' => false,
-        //         'data' => $validated->errors(),
-        //     ], 400);
-        // }
+        // 客製化抓到錯誤後的行為
+        if ($validated->fails()) {
+            return response()->json([
+                'message' => 'Parameters Error.',
+                'status' => false,
+                'data' => $validated->errors(),
+            ], 400);
+        }
 
         // 新增成功
         $newTask = new Task;
@@ -135,20 +135,20 @@ class TaskController extends Controller
     {
         // $findExist = Task::findOrFail($id);
 
-        // $validator = Validator::make($request->all(), [
-        //     'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
-        //     'start' => ['required', 'date'],
-        //     'end' => ['required'],
-        //     'state' => ['Boolean'],
-        //     'category' => ['required']
-        // ]);
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'message' => 'Parameters Error',
-        //         'status' => false,
-        //         'data_return' => $validator->errors(),
-        //     ], 404);
-        // }
+        $validator = Validator::make($request->all(), [
+            'todoTask.name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
+            'todoTask.start' => ['required', 'date'],
+            'todoTask.end' => ['required'],
+            'todoTask.state' => ['Boolean'],
+            'classification.category' => ['required']
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Parameters Error',
+                'status' => false,
+                'data_return' => $validator->errors(),
+            ], 404);
+        }
 
         // $findExist->update($findExist);
         $findExist = Task::find($id);
