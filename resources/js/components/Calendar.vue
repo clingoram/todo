@@ -140,7 +140,7 @@ export default {
           .get("api/items")
           .then((response) => {
             if (response.data.legth !== 0) {
-              this.calendarOptions.events = response.data.data_return;
+              this.calendarOptions.events = response.data;
               // this.$emit("changedata");
             }
           })

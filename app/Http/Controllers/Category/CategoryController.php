@@ -104,7 +104,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $findExist = Category::find($id);
 
@@ -112,7 +112,6 @@ class CategoryController extends Controller
             $findExist->delete();
 
             if ($findExist->trashed()) {
-                // return "Deleted Successful.";
                 return response()->json(null, Response::HTTP_NO_CONTENT);
             }
         }

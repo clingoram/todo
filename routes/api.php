@@ -27,8 +27,8 @@ Route::prefix('/items')->group(function () {
     // Task
     Route::get('', [TaskController::class, 'index']);
     Route::post('/', [TaskController::class, 'store']);
-    // Route::get('/{id}', [TaskController::class, 'show']);
-    Route::match(['get', 'post'], '/{id}', [TaskController::class, 'show']);
+    Route::get('/{id}', [TaskController::class, 'show']);
+    // Route::match(['get', 'post'], '/{id}', [TaskController::class, 'show']);
 
     Route::put('/{id}', [TaskController::class, 'update']);
     Route::delete('/{id}', [TaskController::class, 'destroy']);

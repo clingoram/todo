@@ -18,10 +18,28 @@ class TaskTest extends TestCase
     /** 
      * @test 
      * */
-    public function testExample()
+    public function test_store_task()
     {
-        $response = $this->get('/');
-        $response->assertStatus(200);
+        $data = Task::make();
+        $response = $this->post('api/items', [
+            'description' => $data['description'],
+            'status' => $data['status'],
+            'created_at' => $data['created_at'],
+            'end_at' => $data['end_at'],
+            'category' => $data['classification']
+        ]);
+        $this->assertDatabaseCount('task', 6);
+    }
+
+
+    /** 
+     * @test 
+     * */
+    public function test_show_task()
+    {
+        $data = Task::first();
+        $response = $this->get("api/items/{$data['id']}");
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     /** 
@@ -29,9 +47,9 @@ class TaskTest extends TestCase
      * */
     public function test_update_task()
     {
-        // $getOne = Task::first();
+        $getOne = Task::first();
         $data = [
-            'id' => 1,
+            'id' => $getOne->id,
             'description' => $this->faker->word,
             'status' => $this->faker->boolean($chanceOfGettingTrue = 50),
             'created_at' => $this->faker->dateTime($max = 'now', $timezone = 'Asia/Taipei'),
@@ -40,58 +58,20 @@ class TaskTest extends TestCase
             'updated_at' => now()
         ];
 
-        $response = $this->put("api/items/1", $data);
+        $response = $this->put("api/items/{$getOne->id}", $data);
         $response->assertSuccessful();
     }
-    /** 
-     * @test 
-     * */
-    public function test_task_json_structure()
-    {
-        $response = $this->get('api/items');
-        $response->assertStatus(200);
-
-        $response->assertJsonStructure([
-            '*' => [
-                'id',
-                'title',
-                'start',
-                'end',
-                'status',
-                'category',
-            ]
-        ]);
-    }
 
     /** 
      * @test 
      * */
-    public function test_add_task_json_structure()
+    public function test_delete_task()
     {
-        $data = Task::make();
-        $response = $this->post(
-            "api/items",
-            [
-                'description' => $data['description'],
-                'status' => $data['status'],
-                'created_at' => $data['created_at'],
-                'end_at' => $data['end_at'],
-                'category' => $data['classification']
-            ]
-        );
-        // $response->assertStatus(200);
-        $response->assertJsonStructure([
-            'message',
-            'status'
-        ]);
+        $data = Task::first();
+        if ($data) {
+            $data->delete();
+            $this->assertSoftDeleted($data);
+        }
+        $this->assertTrue(true);
     }
-
-    // public function test_delete_task_json_structure()
-    // {
-    //     $id = 1;
-    //     $response = $this->deleteJson("api/items/", [
-    //         'id' => $id
-    //     ]);
-    //     $response->assertNoContent($status = 204);
-    // }
 }

@@ -310,7 +310,7 @@ export default {
         alert("請先新增分類!!");
       } else {
         axios
-          .put("api/items/" + this.id, {
+          .put("api/items/" + id, {
             todoTask: this.todoTask,
             classification: this.selected,
           })
@@ -318,7 +318,7 @@ export default {
             // console.log(response);
             if (response.status === 200) {
               // this.resetModal();
-              confirm("儲存成功");
+              confirm("更新成功");
               window.location.reload();
             }
           })
