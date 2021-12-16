@@ -58,6 +58,16 @@ class TaskTest extends TestCase
             'updated_at' => now()
         ];
 
+        // $data = [
+        //     'id' => $getOne->id,
+        //     'description' => "drawing",
+        //     'status' => false,
+        //     'created_at' => "2021-12-16 09:23:56",
+        //     'end_at' => "2021-12-16 20:23:56",
+        //     'classification' => isset(Category::all()->random()->id) ? Category::all()->random()->id : $this->faker->numberBetween($min = 1, $max = 5),
+        //     'updated_at' => now()
+        // ];
+
         $response = $this->put("api/items/{$getOne->id}", $data);
         $response->assertSuccessful();
     }

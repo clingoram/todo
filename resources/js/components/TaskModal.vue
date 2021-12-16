@@ -305,7 +305,7 @@ export default {
     },
     // Update
     updateData(id) {
-      // console.log(id);
+      // console.log(this.todoTask);
       if (this.myOptions.length === 0 || this.selected === null) {
         alert("請先新增分類!!");
       } else {

@@ -124,25 +124,25 @@ class TaskController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
-            'start' => ['required', 'date'],
-            'end' => ['required'],
-            'state' => ['Boolean'],
-            'category' => ['required']
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Parameters Error',
-                'status' => false,
-                'data_return' => $validator->errors(),
-            ], 404);
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required'],
+        //     'state' => ['Boolean'],
+        //     'category' => ['required']
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'message' => 'Parameters Error',
+        //         'status' => false,
+        //         'data_return' => $validator->errors(),
+        //     ], 404);
+        // }
 
         // $findExist->update($findExist);
         $findExist = Task::find($id);
-        $findExist->created_at = $request->todoTask['start'];
         $findExist->description = $request->todoTask['name'];
+        $findExist->created_at = $request->todoTask['start'];
         $findExist->end_at = $request->todoTask['end'];
         $findExist->status = $request->todoTask['state'] ? false : true;
         $findExist->classification = $request->classification;
