@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 use App\Models\Task;
 
-class TaskTest extends TestCase
+class TaskControllerTest extends TestCase
 {
     /**
      * Setup the test environment.
