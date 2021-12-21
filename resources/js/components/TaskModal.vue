@@ -96,14 +96,6 @@
           <b-form-select-option :value="null" disabled
             >- 請選擇分類 -</b-form-select-option
           >
-          <!-- <div v-if="myOptions.id === selected">
-            <b-form-select-option :value="myOptions.id">{{
-              myOptions.text
-            }}</b-form-select-option>
-          </div>
-          <div v-else>
-            <option :value="myOptions.id">{{ myOptions.text }}</option>
-          </div> -->
         </template>
       </b-form-select>
 
@@ -154,6 +146,8 @@ export default {
       selected: null,
       categoryOptions: [],
       myOptions: [],
+      // 現有分類ID
+      existCategoryId: [],
       /*
         儲存與顯示資料
       */
@@ -221,29 +215,32 @@ export default {
       if (this.id === "" && this.eventisset === false) {
         this.insertTask();
       } else {
-        this.updateData();
+        this.updateData(this.id);
       }
     },
     // Insert
     insertTask() {
-      console.log(this.todoTask);
-      console.log(this.selected);
-
-      axios
-        .post("api/items/", {
-          todoTask: this.todoTask,
-          classificationSelected: this.selected,
-        })
-        .then((response) => {
-          if (response.status === 201) {
-            // this.resetModal();
-            confirm("新增成功!");
-            window.location.reload();
-          }
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
+      // console.log(this.todoTask);
+      // console.log(this.selected);
+      if (this.myOptions.length === 0 || this.selected === null) {
+        alert("請先新增分類!!");
+      } else {
+        axios
+          .post("api/items/", {
+            todoTask: this.todoTask,
+            classificationSelected: this.selected,
+          })
+          .then((response) => {
+            if (response.status === 201) {
+              // this.resetModal();
+              confirm("新增成功!");
+              window.location.reload();
+            }
+          })
+          .catch((error) => {
+            console.log(error.response.data);
+          });
+      }
     },
     // Read
     // Get all categories
@@ -261,6 +258,9 @@ export default {
                 option["text"] = this.categoryOptions[i][key];
               }
             }
+            // push存在的分類ID
+            this.existCategoryId.push(option["value"]);
+            // push顯示所有分類
             this.myOptions.push(Object.assign({}, option));
           }
         })
@@ -269,19 +269,34 @@ export default {
         });
     },
     // Get specific task
-    getSpecificTask() {
+    getSpecificTask(id) {
       axios
-        .get("api/items/" + this.id)
+        .get("api/items/" + id)
         .then((response) => {
+          // console.log(response.data.data_return.description);
           // this.todoTask.id = response.data.id;
-          this.todoTask.name = response.data.description;
-
+          this.todoTask.name = response.data.data_return.description;
           this.todoTask.start = this.start;
           this.todoTask.end = this.end;
+          this.todoTask.state = response.data.data_return.status ? false : true;
 
-          this.todoTask.state = response.data.status ? false : true;
+          // for (let i = 0; i < this.existCategoryId.length; i++) {
+          // console.log(this.existCategoryId[i]);
+          // this.selected =
+          //   this.existCategoryId[i] !== response.data.cId
+          //     ? [
+          //         ...new Set(
+          //           this.myOptions.push("分類已被刪除，請重新選擇!!")
+          //         ),
+          //       ]
+          //     : response.data.cId;
 
-          this.selected = response.data.cId;
+          // this.selected =
+          //   this.existCategoryId[i] !== response.data.cId
+          //     ? "分類已被刪除，請重新選擇!!"
+          //     : response.data.cId;
+          // }
+          this.selected = response.data.data_return.cId;
         })
         .catch((error) => {
           console.log("Error!!!");
@@ -289,28 +304,33 @@ export default {
         });
     },
     // Update
-    updateData() {
-      axios
-        .put("api/items/" + this.id, {
-          todoTask: this.todoTask,
-          classification: this.selected,
-        })
-        .then((response) => {
-          // console.log(response);
-          if (response.status === 200) {
-            // this.resetModal();
-            confirm("儲存成功");
-            window.location.reload();
-          }
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
+    updateData(id) {
+      // console.log(this.todoTask);
+      if (this.myOptions.length === 0 || this.selected === null) {
+        alert("請先新增分類!!");
+      } else {
+        axios
+          .put("api/items/" + id, {
+            todoTask: this.todoTask,
+            classification: this.selected,
+          })
+          .then((response) => {
+            // console.log(response);
+            if (response.status === 200) {
+              // this.resetModal();
+              confirm("更新成功");
+              window.location.reload();
+            }
+          })
+          .catch((error) => {
+            console.log(error.response.data);
+          });
+      }
     },
     // Delete
-    deleteData() {
+    deleteData(id) {
       axios
-        .delete("api/items/" + this.id)
+        .delete("api/items/" + id)
         .then((response) => {
           if (response.status === 200) {
             confirm("已刪除!");

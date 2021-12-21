@@ -16,7 +16,8 @@ class Category extends Model
   public $incrementing = true;
 
   public $fillable = [
-    'name'
+    'name',
+    'created_at'
   ];
   protected $guarded = ['id'];
 

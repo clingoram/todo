@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Task extends Model
 {
     use HasFactory;
-
-    // 透過特定欄位註記，不是真的直接刪除 row data
     use SoftDeletes;
 
     // table name
@@ -40,12 +38,4 @@ class Task extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
-
-    /**
-     * 取得分類
-     */
-    // public function category()
-    // {
-    //     return $this->hasOne(Category::class, 'id');
-    // }
 }

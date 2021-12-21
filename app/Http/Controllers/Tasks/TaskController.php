@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 // model
 use App\Models\Task;
+use App\Models\Category;
 
 class TaskController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -49,23 +49,21 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        // $validated = Validator::make($request->all(), [
-        //     'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
-        //     'start' => ['required', 'date'],
-        //     'end' => ['required', 'date'],
-        //     'state' => ['Boolean'],
-        //     // 'classificationSelected' => ['required', 'numeric']
-        // ]);
+        $validated = Validator::make($request->all(), [
+            'todoTask.name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
+            'todoTask.start' => ['required', 'date'],
+            'todoTask.end' => ['required', 'date'],
+            'todoTask.state' => ['Boolean'],
+            'classificationSelected.classificationSelected' => ['required', 'numeric']
+        ]);
 
-        // // 客製化抓到錯誤後的行為
-        // if ($validated->fails()) {
-        //     return response()->json([
-        //         'message' => 'Parameters Error',
-        //         'status' => false,
-        //         'error' => $validated->errors(),
-        //     ], 400);
-        // }
-
+        if ($validated->fails()) {
+            return response()->json([
+                'message' => 'Parameters Error.',
+                'status' => false,
+                'data_return' => $validated->errors(),
+            ], 400);
+        }
 
         // 新增成功
         $newTask = new Task;
@@ -75,13 +73,11 @@ class TaskController extends Controller
         $newTask->classification = $request->classificationSelected;
         $newTask->save();
 
-        // $newTask = Task::create([
-        //     'description' => $request->todoTask['name'],
-        //     'created_at' => $request->todoTask['start'],
-        //     'end_at' => $request->todoTask['end'],
-        //     'classification' => $request->classificationSelected
-        // ]);
-        return response()->noContent(Response::HTTP_CREATED);
+        return response()->json([
+            'message' => 'Success.',
+            'status' => true,
+            'data_return' => $newTask
+        ], 200);
     }
 
     /**
@@ -90,7 +86,7 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         $find = Task::select(
             'task.id',
@@ -102,11 +98,21 @@ class TaskController extends Controller
             'category.id AS cId'
         )->join('category', 'task.classification', '=', 'category.id')->where('task.id', $id)->first();
 
-        // var_dump($find);
         if (isset($find)) {
-            return json_encode($find);
+            // return json_encode($find);
             // return json_encode($find, JSON_UNESCAPED_UNICODE);
+
+            return response()->json([
+                'message' => 'Success',
+                'status' => true,
+                'data_return' => $find
+            ], 200);
         }
+        return response()->json([
+            'message' => 'Fail',
+            'status' => false,
+            'data_return' => null
+        ], 400);
     }
 
     /**
@@ -116,21 +122,25 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        $findExist = Task::findOrFail($id);
+        // $validator = Validator::make($request->all(), [
+        //     'name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
+        //     'start' => ['required', 'date'],
+        //     'end' => ['required'],
+        //     'state' => ['Boolean'],
+        //     'category' => ['required']
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'message' => 'Parameters Error',
+        //         'status' => false,
+        //         'data_return' => $validator->errors(),
+        //     ], 404);
+        // }
 
-        $validator = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:3', 'string'],
-            'start' => ['required', 'date'],
-            'end' => ['required'],
-            'state' => ['Boolean'],
-            'category' => ['required']
-        ])->validate();
-
-        // if (isset($findExist)) {
         // $findExist->update($findExist);
-
+        $findExist = Task::find($id);
         $findExist->description = $request->todoTask['name'];
         $findExist->created_at = $request->todoTask['start'];
         $findExist->end_at = $request->todoTask['end'];
@@ -140,11 +150,9 @@ class TaskController extends Controller
         // 更新時間要用當下更新的時間
         $findExist->updated_at = Carbon::now();
         $findExist->save();
-        // return $findExist;
-        return response($findExist, Response::HTTP_OK);
-        // };
-        // 無資料
-        // return 'No data';
+
+        // return response($findExist, Response::HTTP_OK);
+        return response()->json(['message' => 'Success', 'status' => true], 200);
     }
 
     /**
@@ -153,17 +161,17 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $findExist = Task::find($id);
         if (isset($findExist)) {
             $findExist->delete();
 
             if ($findExist->trashed()) {
-                // return "Deleted Successful.";
-                return response()->json(null, Response::HTTP_NO_CONTENT);
+                // return response()->json(null, Response::HTTP_NO_CONTENT);
+                return response()->json(['message' => 'Success', 'status' => true], 200);
             }
         }
-        return "Not Found.";
+        return response()->json(['message' => 'Fail', 'status' => false], 204);
     }
 }
