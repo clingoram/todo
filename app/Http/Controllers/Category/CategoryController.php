@@ -56,47 +56,13 @@ class CategoryController extends Controller
         // $data->created_at = Carbon::now();
         // $data->save();
 
-        // $insert = ['name' => $request->category['name'], 'created_at' => Carbon::now()];
-
-        return response()->json($data, 201);
-
-
-        // return response()->noContent(Response::HTTP_CREATED);
+        // return response()->json($data, 201);
+        return response()->json([
+            'message' => 'Success.',
+            'status' => true,
+            'data_return' => $data
+        ], 200);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function show($id)
-    // {
-    //     return Category::find($id);
-    // }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function edit($id)
-    // {
-    //     //
-    // }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function update(Request $request, $id)
-    // {
-    //     //
-    // }
 
     /**
      * Remove the specified resource from storage.
@@ -112,9 +78,11 @@ class CategoryController extends Controller
             $findExist->delete();
 
             if ($findExist->trashed()) {
-                return response()->json(null, Response::HTTP_NO_CONTENT);
+                // return response()->json(null, Response::HTTP_NO_CONTENT);
+                return response()->json(['message' => 'Success', 'status' => true], 200);
             }
         }
-        return "Not Found.";
+        // return "Not Found.";
+        return response()->json(['message' => 'Fail', 'status' => false], 204);
     }
 }

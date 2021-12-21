@@ -1,17 +1,17 @@
 <?php
 
-/**
- * 檢查function傳入的參數類型，回傳結果類型、結構
- */
+namespace Tests\Feature;
 
-namespace Tests\Unit;
-
-use Tests\TestCase;
 use App\Models\Category;
-// use PHPUnit\Framework\TestCase;
+use Faker\Factory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
-class CategoryTest extends TestCase
+class CategoryControllerTest extends TestCase
 {
+    // use RefreshDatabase;
+
     /**
      * Setup the test environment.
      */
@@ -19,27 +19,20 @@ class CategoryTest extends TestCase
     {
         parent::setUp();
     }
+
     /**
-     * A basic unit test example.
+     * A basic feature test example.
      *
      * @return void
      */
-    public function testExample()
+    public function test_basic_request()
     {
-        $this->assertTrue(true);
-    }
+        $response = $this->get("api/items/categories");
 
-    /** 
-     * @test 
-     * */
-    public function test_delete_category()
-    {
-        $data = Category::first();
-        if ($data) {
-            $data->delete();
-            $this->assertSoftDeleted($data);
-        }
-        $this->assertTrue(true);
+        // HTTP Test
+        $response->assertStatus(200);
+        $response->dumpHeaders();
+        $response->dump();
     }
 
     /** 
@@ -55,24 +48,13 @@ class CategoryTest extends TestCase
         $this->assertDatabaseCount('category', 5);
     }
 
-    /** 
-     * @test 
-     * */
-    // public function test_specific_category()
-    // {
-    //     $find = Category::first();
-    //     $response = $this->get("api/items/categories/{$find->id}");
-    //     // $response->assertStatus(200);
-    //     $this->assertEquals(200, $response->getStatusCode());
-    // }
-
     /**
      * Check duplicate
      */
     public function test_category_duplication()
     {
         $data = Category::make([
-            'name' => '購物',
+            'name' => '休閒娛樂',
             'created_at' => '2021-11-12 09:13:26'
         ]);
 
@@ -84,11 +66,18 @@ class CategoryTest extends TestCase
         $this->assertTrue($data->name != $data2->name);
     }
 
-    // Seeder test
-    // public function test_seeder_works()
-    // {
-    //     $this->seed();
-    // }
+    /** 
+     * @test 
+     * */
+    public function test_delete_category()
+    {
+        $data = Category::first();
+        if ($data) {
+            $data->delete();
+            $this->assertSoftDeleted($data);
+        }
+        $this->assertTrue(true);
+    }
 
     protected function tearDown(): void
     {

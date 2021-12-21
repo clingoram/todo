@@ -17,7 +17,7 @@ class TaskControllerTest extends TestCase
 
     public function test_screen_can_see_task()
     {
-        $response = $this->get('api/items');
+        $response = $this->get("api/items");
         $response->assertStatus(200);
     }
 
@@ -27,16 +27,26 @@ class TaskControllerTest extends TestCase
     public function test_store_a_task()
     {
         // create a task
-        $data = Task::make();
-        $response = $this->post('api/items', [
-            'description' => $data['description'],
-            'status' => $data['status'],
-            'created_at' => $data['created_at'],
-            'end_at' => $data['end_at'],
-            'category' => $data['classification']
-        ]);
-        $this->assertDatabaseCount('task', 6);
-        $response->assertStatus(302);
+        // $data = Task::make();
+        $insertData = [
+            'description' => 'Shopping',
+            'status' => true,
+            'created_at' => "2021-12-21 12:52:32",
+            'end_at' => "2021-12-21 13:52:32",
+            'category' => isset(Category::all()->random()->id) ? Category::all()->random()->id : $this->faker->numberBetween($min = 1, $max = 5)
+        ];
+        $response = $this->post("api/items", $insertData);
+        $this->assertEquals('Shopping', $insertData['description']);
+
+        // $response = $this->post("api/items", [
+        // 'description' => $data['description'],
+        // 'status' => $data['status'],
+        // 'created_at' => $data['created_at'],
+        // 'end_at' => $data['end_at'],
+        // 'category' => $data['classification']
+        // ]);
+        // $this->assertDatabaseCount('task', 6);
+
     }
 
 
@@ -47,7 +57,7 @@ class TaskControllerTest extends TestCase
     {
         $data = Task::first();
         $response = $this->get("api/items/{$data['id']}");
-        $this->assertEquals(200, $response->getStatusCode());
+        $response->assertStatus(200);
     }
 
     /** 
@@ -58,16 +68,6 @@ class TaskControllerTest extends TestCase
         $this->withExceptionHandling();
 
         $getOne = Task::first();
-        // $data = [
-        //     'id' => $getOne->id,
-        //     'description' => $this->faker->word,
-        //     'status' => $this->faker->boolean($chanceOfGettingTrue = 50),
-        //     'created_at' => $this->faker->dateTime($max = 'now', $timezone = 'Asia/Taipei'),
-        //     'end_at' => $this->faker->dateTime($max = '+5 days', $timezone = 'Asia/Taipei'),
-        //     'classification' => isset(Category::all()->random()->id) ? Category::all()->random()->id : $this->faker->numberBetween($min = 1, $max = 5),
-        //     'updated_at' => now()
-        // ];
-
         $data = [
             'id' => $getOne->id,
             'description' => "drawing",
@@ -79,7 +79,9 @@ class TaskControllerTest extends TestCase
         ];
 
         $response = $this->put("api/items/{$getOne->id}", $data);
-        $response->assertSuccessful();
+
+        $this->assertEquals('drawing', $data['description']);
+        $this->assertEquals(false, $data['status']);
     }
 
     /** 
