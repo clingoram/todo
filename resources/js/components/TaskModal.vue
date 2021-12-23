@@ -273,8 +273,6 @@ export default {
       axios
         .get("api/items/" + id)
         .then((response) => {
-          // console.log(response.data.data_return.description);
-          // this.todoTask.id = response.data.id;
           this.todoTask.name = response.data.data_return.description;
           this.todoTask.start = this.start;
           this.todoTask.end = this.end;
@@ -328,7 +326,7 @@ export default {
       }
     },
     // Delete
-    deleteData(id) {
+    deleteData: function (id) {
       axios
         .delete("api/items/" + id)
         .then((response) => {

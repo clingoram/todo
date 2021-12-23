@@ -20,6 +20,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 // click date to open modal to add new task.
 import OpenModal from "./TaskModal";
+import Alldata from "../src/api";
 
 export default {
   components: {
@@ -108,13 +109,6 @@ export default {
 
           this.todoTask.dateTimeStart = this.datetimeFormated(arg.date);
           this.todoTask.dateTimeEnd = this.datetimeFormated(arg.date);
-
-          // this.eventDateTitle =
-          //   arg.date.getFullYear() +
-          //   "-" +
-          //   arg.date.getMonth() +
-          //   "-" +
-          //   arg.date.getDate();
         }.bind(this),
         eventClick: function (info) {
           if (info.event.id !== "") {
@@ -181,9 +175,6 @@ export default {
         date.getMilliseconds() < 9
           ? "0" + date.getMilliseconds()
           : date.getMilliseconds();
-
-      // modal title
-      // this.eventDateTitle = year + "-" + month + "-" + day;
 
       return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
     },

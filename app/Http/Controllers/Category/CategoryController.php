@@ -34,8 +34,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
-            'created_at' => ['required', 'date']
+            'category.name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
+            // 'created_at' => ['required', 'date']
         ]);
 
         if ($validator->fails()) {
@@ -46,15 +46,10 @@ class CategoryController extends Controller
             ], 400);
         }
 
-        $data = Category::create([
-            'name' => $request->category['name'],
-            'created_at' => Carbon::now()
-        ]);
-
-        // $data = new Category();
-        // $data->name = $request->category['name'];
-        // $data->created_at = Carbon::now();
-        // $data->save();
+        $data = new Category();
+        $data->name = $request->category['name'];
+        $data->created_at = Carbon::now();
+        $data->save();
 
         // return response()->json($data, 201);
         return response()->json([
@@ -82,7 +77,6 @@ class CategoryController extends Controller
                 return response()->json(['message' => 'Success', 'status' => true], 200);
             }
         }
-        // return "Not Found.";
         return response()->json(['message' => 'Fail', 'status' => false], 204);
     }
 }
