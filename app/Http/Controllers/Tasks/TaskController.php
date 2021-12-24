@@ -49,6 +49,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        // 驗證
         $validated = Validator::make($request->all(), [
             'todoTask.name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
             'todoTask.start' => ['required', 'date'],
@@ -56,7 +57,6 @@ class TaskController extends Controller
             'todoTask.state' => ['Boolean'],
             'classificationSelected' => ['required', 'numeric']
         ]);
-
         if ($validated->fails()) {
             return response()->json([
                 'status' => false,
@@ -65,14 +65,12 @@ class TaskController extends Controller
             ], 400);
         }
 
-        // 新增成功
         $newTask = new Task;
         $newTask->description = $request->todoTask['name'];
         $newTask->created_at = $request->todoTask['start'];
         $newTask->end_at = $request->todoTask['end'];
         $newTask->classification = $request->classificationSelected;
         $newTask->save();
-
 
         return response()->json([
             'status' => true,
@@ -117,6 +115,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, int $id)
     {
+        // 驗證
         $validator = Validator::make($request->all(), [
             'todoTask.name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
             'todoTask.start' => ['required', 'date'],
@@ -132,19 +131,16 @@ class TaskController extends Controller
             ], 404);
         }
 
-        // $findExist->update($findExist);
         $findExist = Task::find($id);
         $findExist->description = $request->todoTask['name'];
         $findExist->created_at = $request->todoTask['start'];
         $findExist->end_at = $request->todoTask['end'];
         $findExist->status = $request->todoTask['state'] ? false : true;
         $findExist->classification = $request->classification;
-
         // 更新時間要用當下更新的時間
         $findExist->updated_at = Carbon::now();
         $findExist->save();
 
-        // return response($findExist, Response::HTTP_OK);
         return response()->json(['status' => true, 'message' => 'Success', 'data_return' => null], 200);
     }
 
@@ -161,7 +157,6 @@ class TaskController extends Controller
             $findExist->delete();
 
             if ($findExist->trashed()) {
-                // return response()->json(null, Response::HTTP_NO_CONTENT);
                 return response()->json(['status' => true, 'message' => 'Success', 'data_return' => null], 200);
             }
         }

@@ -25,14 +25,6 @@
 
       <div class="category_tags">
         <div v-for="index in categoryNameList" v-bind:key="index.id">
-          <!-- <b-button
-            variant="outline-primary"
-            :id="'tag_' + index.id"
-            v-bind:style="styleObject"
-          >
-            {{ index.name }}
-          </b-button> -->
-
           <b-button
             variant="outline-primary"
             :id="'tag_' + index.id"
@@ -158,8 +150,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.category_tags {
-  display: flex;
-}
-</style>
