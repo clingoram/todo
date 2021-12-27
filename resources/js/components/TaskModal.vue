@@ -22,7 +22,7 @@
     v-on:ok="handleOk"
     modal-footer
   > -->
-    <template #modal-footer="{ ok, cancel, deleteData }">
+    <template #modal-footer>
       <b-button lg="4" class="pb-2" variant="success" v-on:click="ok()"
         >儲存</b-button
       >
@@ -42,27 +42,6 @@
         刪除
       </b-button>
     </template>
-    <!-- 
-     <template #modal-footer="{ ok, cancel, deleteData }">
-      <b-button lg="4" class="pb-2" variant="success" v-on:click="ok()"
-        >儲存</b-button
-      >
-      <b-button
-        lg="4"
-        class="pb-2"
-        variant="outline-primary"
-        v-on:click="cancel()"
-        >取消</b-button
-      >
-      <b-button
-        lg="4"
-        class="pb-2"
-        variant="danger"
-        v-on:click="deleteData(id)"
-      >
-        刪除
-      </b-button>
-    </template> -->
 
     <form ref="form" v-on:submit.stop.prevent="handleSubmit">
       <label>{{ clickDateChecked }}</label>
@@ -342,18 +321,17 @@ export default {
     },
     // Delete
     deleteData(id) {
-      console.log(this.id);
-      // axios
-      //   .delete("api/items/" + id)
-      //   .then((response) => {
-      //     if (response.status === 200) {
-      //       confirm("已刪除!");
-      //       window.location.reload();
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+      axios
+        .delete("api/items/" + id)
+        .then((response) => {
+          if (response.status === 200) {
+            confirm("已刪除!");
+            window.location.reload();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
