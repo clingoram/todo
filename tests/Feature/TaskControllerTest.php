@@ -12,7 +12,7 @@ use App\Models\Category;
 class TaskControllerTest extends TestCase
 {
 
-    // use RefreshDatabase;
+    use RefreshDatabase;
     use WithFaker;
 
     public function test_screen_can_see_task()
@@ -33,9 +33,10 @@ class TaskControllerTest extends TestCase
             'status' => true,
             'created_at' => "2021-12-21 12:52:32",
             'end_at' => "2021-12-21 13:52:32",
-            'category' => isset(Category::all()->random()->id) ? Category::all()->random()->id : $this->faker->numberBetween($min = 1, $max = 5)
+            'category' => 'Casual' //isset(Category::all()->random()->id) ? Category::all()->random()->id : $this->faker->numberBetween($min = 1, $max = 5)
         ];
         $response = $this->post("api/items", $insertData);
+        $response->assertStatus(200);
         $this->assertEquals('Shopping', $insertData['description']);
 
         // $response = $this->post("api/items", [
@@ -69,16 +70,18 @@ class TaskControllerTest extends TestCase
 
         $getOne = Task::first();
         $data = [
-            'id' => $getOne->id,
+            'id' => 1, //$getOne->id,
             'description' => "drawing",
             'status' => false,
             'created_at' => "2021-12-16 09:23:56",
             'end_at' => "2021-12-16 20:23:56",
-            'classification' => isset(Category::all()->random()->id) ? Category::all()->random()->id : $this->faker->numberBetween($min = 1, $max = 5),
+            'classification' => 'Casual', //isset(Category::all()->random()->id) ? Category::all()->random()->id : $this->faker->numberBetween($min = 1, $max = 5),
             'updated_at' => now()
         ];
 
-        $response = $this->put("api/items/{$getOne->id}", $data);
+        // $response = $this->put("api/items/{$getOne->id}", $data);
+        $response = $this->put("api/items/1", $data);
+
 
         $this->assertEquals('drawing', $data['description']);
         $this->assertEquals(false, $data['status']);

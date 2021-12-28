@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             Task::truncate();
             Schema::enableForeignKeyConstraints();
         }
-        // call seeder
+
+        // 呼叫seeder，並把產生的假資料存在資料庫內
         $this->call([
             CategoryTableSeeder::class,
             TaskTableSeeder::class

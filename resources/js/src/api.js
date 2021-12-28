@@ -1,7 +1,6 @@
 /**
  * 把API統一放在這裡，方便管理
  */
-
 // File:TaskModal、CategoryModal
 // 檢查input
 function checkFormValidity(todoTask) {

@@ -20,6 +20,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 // click date to open modal to add new task.
 import OpenModal from "./TaskModal";
+import Alldata from "../src/api";
 
 export default {
   components: {
@@ -30,9 +31,6 @@ export default {
     id: {
       tpye: Number,
     },
-    // eventDateTitle: {
-    //   type: String,
-    // },
     start: {
       type: String,
     },
@@ -47,30 +45,6 @@ export default {
     },
   },
   data() {
-    // date
-    let weekDay = {
-      Mon: "星期一",
-      Tue: "星期二",
-      Wed: "星期三",
-      Thu: "星期四",
-      Fri: "星期五",
-      Sat: "星期六",
-      Sun: "星期日",
-    };
-    let monthShort = {
-      JAN: "1",
-      FEB: "2",
-      MAR: "3",
-      APR: "4",
-      May: "5",
-      JUN: "6",
-      JUL: "7",
-      AUG: "8",
-      SEP: "9",
-      OCT: "10",
-      NOV: "11",
-      DEC: "12",
-    };
     return {
       date: this.dateData,
       // modal
@@ -93,8 +67,6 @@ export default {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         events: [],
-        // eventColor: "antiquewhite",
-        // eventTextColor: "#000000",
         // 事件顯示時間格式
         eventTimeFormat: {
           hour: "2-digit",
@@ -105,16 +77,10 @@ export default {
         dateClick: function (arg) {
           this.modalOpen = true;
           this.checkEventIsset = false;
+          this.todoTask.id = null;
 
           this.todoTask.dateTimeStart = this.datetimeFormated(arg.date);
           this.todoTask.dateTimeEnd = this.datetimeFormated(arg.date);
-
-          // this.eventDateTitle =
-          //   arg.date.getFullYear() +
-          //   "-" +
-          //   arg.date.getMonth() +
-          //   "-" +
-          //   arg.date.getDate();
         }.bind(this),
         eventClick: function (info) {
           if (info.event.id !== "") {
@@ -157,6 +123,30 @@ export default {
   methods: {
     // 開始與結束日期時間轉換(local英轉數字)
     datetimeFormated(datetime) {
+      let weekDay = {
+        Mon: "星期一",
+        Tue: "星期二",
+        Wed: "星期三",
+        Thu: "星期四",
+        Fri: "星期五",
+        Sat: "星期六",
+        Sun: "星期日",
+      };
+      let monthShort = {
+        JAN: "1",
+        FEB: "2",
+        MAR: "3",
+        APR: "4",
+        May: "5",
+        JUN: "6",
+        JUL: "7",
+        AUG: "8",
+        SEP: "9",
+        OCT: "10",
+        NOV: "11",
+        DEC: "12",
+      };
+
       const date = new Date(datetime);
       // 年份
       const year = date.getFullYear();
@@ -181,9 +171,6 @@ export default {
         date.getMilliseconds() < 9
           ? "0" + date.getMilliseconds()
           : date.getMilliseconds();
-
-      // modal title
-      // this.eventDateTitle = year + "-" + month + "-" + day;
 
       return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
     },

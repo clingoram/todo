@@ -1,5 +1,5 @@
 <template>
-  <!-- Modal -->
+  <!-- Bootstrap-vue Modal -->
   <b-modal
     size="xl"
     id="modal-prevent-closing"
@@ -22,7 +22,7 @@
     v-on:ok="handleOk"
     modal-footer
   > -->
-    <template #modal-footer="{ ok, cancel, deleteData }">
+    <template #modal-footer>
       <b-button lg="4" class="pb-2" variant="success" v-on:click="ok()"
         >儲存</b-button
       >
@@ -42,8 +42,6 @@
         刪除
       </b-button>
     </template>
-
-    <!-- <task-data></task-data> -->
 
     <form ref="form" v-on:submit.stop.prevent="handleSubmit">
       <label>{{ clickDateChecked }}</label>
@@ -126,12 +124,12 @@ export default {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-    // 1個月前又10天
+    // 1個月10天前
     const minDate = new Date(today);
     minDate.setMonth(minDate.getMonth() - 1);
     minDate.setDate(10);
 
-    // 1個月後又10天
+    // 1個月10天後
     const maxDate = new Date(today);
     maxDate.setMonth(maxDate.getMonth() + 1);
     maxDate.setDate(20);
@@ -147,7 +145,7 @@ export default {
       categoryOptions: [],
       myOptions: [],
       // 現有分類ID
-      existCategoryId: [],
+      // existCategoryId: [],
       /*
         儲存與顯示資料
       */
@@ -220,8 +218,6 @@ export default {
     },
     // Insert
     insertTask() {
-      // console.log(this.todoTask);
-      // console.log(this.selected);
       if (this.myOptions.length === 0 || this.selected === null) {
         alert("請先新增分類!!");
       } else {
@@ -243,8 +239,8 @@ export default {
       }
     },
     // Read
-    // Get all categories
-    getAllClassification: function () {
+    // 取得所有分類
+    getAllClassification() {
       axios
         .get("api/items/categories")
         .then((response) => {
@@ -259,7 +255,7 @@ export default {
               }
             }
             // push存在的分類ID
-            this.existCategoryId.push(option["value"]);
+            // this.existCategoryId.push(option["value"]);
             // push顯示所有分類
             this.myOptions.push(Object.assign({}, option));
           }
@@ -268,13 +264,12 @@ export default {
           console.log(error);
         });
     },
-    // Get specific task
+    // 取得單一待辦事項
     getSpecificTask(id) {
       axios
         .get("api/items/" + id)
         .then((response) => {
-          // console.log(response.data.data_return.description);
-          // this.todoTask.id = response.data.id;
+          this.todoTask.id = response.data.data_return.id;
           this.todoTask.name = response.data.data_return.description;
           this.todoTask.start = this.start;
           this.todoTask.end = this.end;
@@ -305,7 +300,6 @@ export default {
     },
     // Update
     updateData(id) {
-      // console.log(this.todoTask);
       if (this.myOptions.length === 0 || this.selected === null) {
         alert("請先新增分類!!");
       } else {
@@ -315,9 +309,7 @@ export default {
             classification: this.selected,
           })
           .then((response) => {
-            // console.log(response);
             if (response.status === 200) {
-              // this.resetModal();
               confirm("更新成功");
               window.location.reload();
             }
