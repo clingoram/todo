@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 
-// DB
-// use Illuminate\Support\Facades\DB;
+// Model
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -73,7 +71,6 @@ class CategoryController extends Controller
             $findExist->delete();
 
             if ($findExist->trashed()) {
-                // return response()->json(null, Response::HTTP_NO_CONTENT);
                 return response()->json(['message' => 'Success', 'status' => true], 200);
             }
         }

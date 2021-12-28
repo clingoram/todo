@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
-use Symfony\Component\HttpFoundation\Response;
 
 // model
 use App\Models\Task;
-use App\Models\Category;
 
 class TaskController extends Controller
 {
@@ -141,7 +139,9 @@ class TaskController extends Controller
         $findExist->updated_at = Carbon::now();
         $findExist->save();
 
-        return response()->json(['status' => true, 'message' => 'Success', 'data_return' => null], 200);
+        if ($findExist === true) {
+            return response()->json(['status' => true, 'message' => 'Success', 'data_return' => null], 200);
+        }
     }
 
     /**

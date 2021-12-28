@@ -82,7 +82,6 @@ class TaskControllerTest extends TestCase
         // $response = $this->put("api/items/{$getOne->id}", $data);
         $response = $this->put("api/items/1", $data);
 
-
         $this->assertEquals('drawing', $data['description']);
         $this->assertEquals(false, $data['status']);
     }
