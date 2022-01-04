@@ -20,7 +20,6 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 // click date to open modal to add new task.
 import OpenModal from "./TaskModal";
-import Alldata from "../src/api";
 
 export default {
   components: {
