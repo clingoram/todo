@@ -43,6 +43,7 @@
 export default {
   props: ["openCategoryModal"],
   created() {
+    // console.log("category");
     this.allCategories();
   },
   data() {
@@ -125,6 +126,7 @@ export default {
       axios
         .get("api/items/categories")
         .then((response) => {
+          console.log("get data");
           this.categoryNameList = response.data;
         })
         .catch((error) => {

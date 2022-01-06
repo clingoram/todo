@@ -21,6 +21,7 @@ class CategoryController extends Controller
         $classification = Category::select('id', 'name')->where('deleted_at', null)->orderByDesc('created_at')
             ->get();
         return json_encode($classification);
+        // dd($classification);
     }
 
     /**
