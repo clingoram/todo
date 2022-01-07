@@ -123,10 +123,11 @@ export default {
     },
     // Read
     allCategories() {
+      console.log("all categories");
       axios
         .get("api/items/categories")
         .then((response) => {
-          console.log("get data");
+          // console.log("get data");
           this.categoryNameList = response.data;
         })
         .catch((error) => {

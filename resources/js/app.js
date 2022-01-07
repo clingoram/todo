@@ -6,8 +6,9 @@
 
 require('./bootstrap');
 
-import Vue from "vue";
+// import Vue from 'vue';
 // window.Vue = require('vue');
+window.Vue = require('vue').default;
 
 // font-awesome
 import { library } from '@fortawesome/fontawesome-svg-core';

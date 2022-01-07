@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Carbon;
-
 // Model
 use App\Models\Category;
+
+use Illuminate\Http\Request;
+// use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
 
 class CategoryController extends Controller
 {
@@ -21,7 +22,6 @@ class CategoryController extends Controller
         $classification = Category::select('id', 'name')->where('deleted_at', null)->orderByDesc('created_at')
             ->get();
         return json_encode($classification);
-        // dd($classification);
     }
 
     /**
