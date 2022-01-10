@@ -106,7 +106,6 @@ export default {
           .get("api/items")
           .then((response) => {
             if (response.data.legth !== 0) {
-              console.log(response.data);
               this.calendarOptions.events = response.data;
               // this.$emit("changedata");
             }
