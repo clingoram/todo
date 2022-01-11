@@ -23,19 +23,20 @@ class TaskController extends Controller
             ->orWhere('deleted_at', null)
             ->orderByDesc('created_at')
             ->get();
+        var_dump($allData);
 
-        $array = [];
-        foreach ($allData as $key) {
-            $task['id'] = $key['id'];
-            $task['title'] = $key['title'];
-            $task['status'] = $key['taskStatus'] ? false : true;
-            $task['category'] = $key['classification'];
-            $task['start'] = $key['start'];
-            $task['end'] = $key['end'];
-            array_push($array, $task);
-        }
+        // $array = [];
+        // foreach ($allData as $key) {
+        //     $task['id'] = $key['id'];
+        //     $task['title'] = $key['title'];
+        //     $task['status'] = $key['taskStatus'] ? false : true;
+        //     $task['category'] = $key['classification'];
+        //     $task['start'] = $key['start'];
+        //     $task['end'] = $key['end'];
+        //     array_push($array, $task);
+        // }
 
-        return json_encode($array);
+        // return json_encode($array);
     }
 
 
