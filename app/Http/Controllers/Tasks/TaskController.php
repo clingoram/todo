@@ -24,6 +24,7 @@ class TaskController extends Controller
             ->orderByDesc('created_at')
             ->get();
         var_dump($allData);
+        die();
 
         // $array = [];
         // foreach ($allData as $key) {

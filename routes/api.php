@@ -3,8 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TaskController as TController;
+use App\Http\Controllers\CategoryController as CController;
 // use App\Http\Controllers\Category\CategoryController;
 // use App\Http\Controllers\Task\TaskController;
 /*
@@ -21,7 +21,7 @@ use App\Http\Controllers\CategoryController;
 
 Route::prefix('/items')->group(function () {
     // Category
-    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/categories', [CController::class, 'index']);
     // Route::get('/categories', 'App\Http\Controllers\Category\CategoryController@index');
 
     Route::post('/categories', [CategoryController::class, 'store']);
