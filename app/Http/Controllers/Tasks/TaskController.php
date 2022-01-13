@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
-
+// use Illuminate\Support\Facades\DB;
 // model
 use App\Models\Task;
 
@@ -18,13 +18,14 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus', 'classification')
-            ->where('status', false)
-            ->orWhere('deleted_at', null)
-            ->orderByDesc('created_at')
-            ->get();
-        var_dump($allData);
-        die();
+        // $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus', 'classification')
+        //     ->where('status', false)
+        //     ->orWhere('deleted_at', null)
+        //     ->orderByDesc('created_at')
+        //     ->get();
+        // $allData = DB::table('task')->toSql();
+        // dd($allData);
+        dd('apple');
 
         // $array = [];
         // foreach ($allData as $key) {
