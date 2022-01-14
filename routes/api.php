@@ -18,22 +18,23 @@ use App\Http\Controllers\CategoryController;
 
 // Route::get('/items/categories', 'App\Http\Controllers\Category\CategoryController@index');
 // Route::get('/items', [App\Http\Controllers\Tasks\TaskController::class, 'index']);
-Route::get('/items', [TaskController::class, 'index']);
 
-// Route::prefix('/items')->group(function () {
-//     // Category
-//     Route::get('/categories', [CategoryController::class, 'index']);
-//     // Route::get('/categories', 'App\Http\Controllers\Category\CategoryController@index');
+// Route::get('/items', [TaskController::class, 'index']);
 
-//     Route::post('/categories', [CategoryController::class, 'store']);
-//     Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+Route::prefix('/items')->group(function () {
+  // Category
+  Route::get('/categories', [CategoryController::class, 'index']);
+  // Route::get('/categories', 'App\Http\Controllers\Category\CategoryController@index');
 
-//     // Task
-//     // Route::get('', [TaskController::class, 'index']);
-//     Route::get('', 'App\Http\Controllers\Tasks\TaskController@index');
-//     Route::post('/', [TaskController::class, 'store']);
-//     Route::get('/{id}', [TaskController::class, 'show']);
+  Route::post('/categories', [CategoryController::class, 'store']);
+  Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 
-//     Route::put('/{id}', [TaskController::class, 'update']);
-//     Route::delete('/{id}', [TaskController::class, 'destroy']);
-// });
+  // Task
+  Route::get('', [TaskController::class, 'index']);
+  // Route::get('', 'App\Http\Controllers\Tasks\TaskController@index');
+  Route::post('/', [TaskController::class, 'store']);
+  Route::get('/{id}', [TaskController::class, 'show']);
+
+  Route::put('/{id}', [TaskController::class, 'update']);
+  Route::delete('/{id}', [TaskController::class, 'destroy']);
+});
