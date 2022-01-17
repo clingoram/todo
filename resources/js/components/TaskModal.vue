@@ -22,7 +22,28 @@
     v-on:ok="handleOk"
     modal-footer
   > -->
-    <template #modal-footer>
+    <!-- <template #modal-footer>
+      <b-button lg="4" class="pb-2" variant="success" v-on:click="ok()"
+        >儲存</b-button
+      >
+      <b-button
+        lg="4"
+        class="pb-2"
+        variant="outline-primary"
+        v-on:click="cancel()"
+        >取消</b-button
+      >
+      <b-button
+        lg="4"
+        class="pb-2"
+        variant="danger"
+        v-on:click="deleteData(id)"
+      >
+        刪除
+      </b-button>
+    </template> -->
+
+    <template #modal-footer="{ ok, cancel, deleteData }">
       <b-button lg="4" class="pb-2" variant="success" v-on:click="ok()"
         >儲存</b-button
       >
@@ -210,7 +231,7 @@ export default {
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
       });
-      if (this.id === "" && this.eventisset === false) {
+      if (this.id === null && this.eventisset === false) {
         this.insertTask();
       } else {
         this.updateData(this.id);
@@ -218,6 +239,7 @@ export default {
     },
     // Insert
     insertTask() {
+      // console.log("insert");
       if (this.myOptions.length === 0 || this.selected === null) {
         alert("請先新增分類!!");
       } else {
@@ -300,6 +322,7 @@ export default {
     },
     // Update
     updateData(id) {
+      // console.log("update");
       if (this.myOptions.length === 0 || this.selected === null) {
         alert("請先新增分類!!");
       } else {

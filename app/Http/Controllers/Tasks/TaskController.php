@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+// namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tasks;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
-// use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+
 // model
 use App\Models\Task;
 
@@ -18,27 +20,24 @@ class TaskController extends Controller
      */
     public function index()
     {
-        // $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus', 'classification')
-        //     ->where('status', false)
-        //     ->orWhere('deleted_at', null)
-        //     ->orderByDesc('created_at')
-        //     ->get();
-        // $allData = DB::table('task')->toSql();
-        // dd($allData);
-        dd('apple');
+        $allData = Task::select('id', 'description AS title', 'created_at AS start', 'end_at AS end', 'status AS taskStatus', 'classification')
+            ->where('status', false)
+            ->orWhere('deleted_at', null)
+            ->orderByDesc('created_at')
+            ->get();
 
-        // $array = [];
-        // foreach ($allData as $key) {
-        //     $task['id'] = $key['id'];
-        //     $task['title'] = $key['title'];
-        //     $task['status'] = $key['taskStatus'] ? false : true;
-        //     $task['category'] = $key['classification'];
-        //     $task['start'] = $key['start'];
-        //     $task['end'] = $key['end'];
-        //     array_push($array, $task);
-        // }
+        $array = [];
+        foreach ($allData as $key) {
+            $task['id'] = $key['id'];
+            $task['title'] = $key['title'];
+            $task['status'] = $key['taskStatus'] ? false : true;
+            $task['category'] = $key['classification'];
+            $task['start'] = $key['start'];
+            $task['end'] = $key['end'];
+            array_push($array, $task);
+        }
 
-        // return json_encode($array);
+        return json_encode($array);
     }
 
 

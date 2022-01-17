@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Category;
+
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
 
 // Model
 use App\Models\Category;
-
-use Illuminate\Http\Request;
-// use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Carbon;
 
 class CategoryController extends Controller
 {
@@ -19,7 +20,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $classification = Category::select('id', 'name')->where('deleted_at', null)->orderByDesc('created_at')
+        $classification = Category::select('id', 'name', 'created_at')->where('deleted_at', null)->orderByDesc('created_at')
             ->get();
         return json_encode($classification);
     }

@@ -43,7 +43,6 @@
 export default {
   props: ["openCategoryModal"],
   created() {
-    // console.log("category");
     this.allCategories();
   },
   data() {
@@ -123,15 +122,15 @@ export default {
     },
     // Read
     allCategories() {
-      // console.log("all categories");
-      // axios
-      //   .get("api/items/categories")
-      //   .then((response) => {
-      //     this.categoryNameList = response.data;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+      axios
+        .get("api/items/categories")
+        .then((response) => {
+          // console.log(response.data);
+          this.categoryNameList = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     // Delete
     deleteCategory(id) {
