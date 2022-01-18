@@ -36,12 +36,14 @@ return [
                 /*
                  * Match only routes whose paths match this pattern (use * as a wildcard to match any characters). Example: 'users/*'.
                  */
-                'prefixes' => ['api/*'],
+                'prefixes' => ['api/items/*'],
 
                 /*
                  * Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.
                  */
-                'domains' => ['*'],
+                // 'domains' => ['*'],
+                'domains' => ['laravel.todo'],
+
 
                 /*
                  * [Dingo router only] Match only routes registered under this version. Wildcards are not supported.
@@ -138,7 +140,7 @@ return [
      * - "static" will generate a static HTMl page in the /public/docs folder,
      * - "laravel" will generate the documentation as a Blade view, so you can add routing and authentication.
      */
-    'type' => 'static',
+    'type' => 'laravel',
 
     /*
      * Settings for `static` type output.

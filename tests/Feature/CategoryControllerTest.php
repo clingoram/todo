@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
 {
-    // use RefreshDatabase;
+    use RefreshDatabase;
 
     /**
      * Setup the test environment.

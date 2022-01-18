@@ -12,7 +12,7 @@ use App\Models\Category;
 class TaskControllerTest extends TestCase
 {
 
-    // use RefreshDatabase;
+    use RefreshDatabase;
     use WithFaker;
 
     public function test_screen_can_see_task()
