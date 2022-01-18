@@ -123,38 +123,12 @@ export default {
   methods: {
     // 開始與結束日期時間轉換(local英轉數字)
     datetimeFormated(datetime) {
-      let weekDay = {
-        Mon: "星期一",
-        Tue: "星期二",
-        Wed: "星期三",
-        Thu: "星期四",
-        Fri: "星期五",
-        Sat: "星期六",
-        Sun: "星期日",
-      };
-      let monthShort = {
-        JAN: "1",
-        FEB: "2",
-        MAR: "3",
-        APR: "4",
-        May: "5",
-        JUN: "6",
-        JUL: "7",
-        AUG: "8",
-        SEP: "9",
-        OCT: "10",
-        NOV: "11",
-        DEC: "12",
-      };
-
       const date = new Date(datetime);
       // 年份
       const year = date.getFullYear();
       // 月份
       const month =
-        date.getMonth() + 1 < 9
-          ? "0" + date.getMonth() + 1
-          : date.getMonth() + 1;
+        date.getMonth() + 1 < 10 ? date.getMonth() + 1 : date.getMonth() + 1;
       // 日期
       const day = date.getDate() < 9 ? "0" + date.getDate() : date.getDate();
       // 時
