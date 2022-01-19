@@ -79,7 +79,7 @@
                             <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
                     </ul>
         <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 18 2022</li>
+        <li>Last updated: January 19 2022</li>
     </ul>
 </div>
 
