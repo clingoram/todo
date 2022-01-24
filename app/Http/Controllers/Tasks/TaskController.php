@@ -1,6 +1,5 @@
 <?php
 
-// namespace App\Http\Controllers;
 namespace App\Http\Controllers\Tasks;
 
 use Illuminate\Http\Request;
@@ -11,10 +10,36 @@ use App\Http\Controllers\Controller;
 // model
 use App\Models\Task;
 
+/**
+ * @group Tasks management
+ * 
+ * APIs for manage tasks resource.
+ */
 class TaskController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of tasks.
+     * 
+     * Get a list of tasks.
+     *
+     * Success:
+     * @response  {
+     *  "id": 4,
+     *  "title": "LeetCode",
+     *  "status": true,
+     *  "category":"Coding",
+     *  "start": "2021-12-28 10:00:05",
+     *  "end": "2021-12-30 12:21:07"
+     * }
+     * 
+     * Fail:
+     * @response  400 {
+     *  "status": false,
+     *  "message": "todoTask.name不能為空",
+     * }
+     * 
+     * 
+     * @return 格式為JSON的回應
      *
      * @return \Illuminate\Http\Response
      */
@@ -43,6 +68,27 @@ class TaskController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * 
+     * @bodyParam type string array required.Task name,classification,start date,end date and state.
+     * @urlParam  lang The language (路徑參數，依序為名稱 說明)
+     * @queryParam  page The page number to return (查詢字串參數，依序為名稱 說明)
+     * @queryParam  page required The page number. Example: 4 (查詢字串參數帶範例，依序為名稱 必填 說明 範例)
+     * @queryParam  user_id required The id of the user. No-example(查詢字串參數不要帶範例)
+     *
+     * Success:
+     * @response  {
+     *  "status": true,
+     *  "message":"Success",
+     *  "data_return":{
+     *      
+     *  }
+     * }
+     * 
+     * Fail:
+     * @response  400 {
+     *  "status": false,
+     *  "message": "todoTask.name不能為空",
+     * }
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -82,6 +128,29 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
+     * @bodyParam int id required.Task id.
+     * @urlParam  task id int
+     * @queryParam  page The page number to return (查詢字串參數，依序為名稱 說明)
+     * @queryParam  page required The page number. Example: 4 (查詢字串參數帶範例，依序為名稱 必填 說明 範例)
+     * @queryParam  task id required .The id of the task.
+     *
+     * Success:
+     * @response  {
+     *  "id": 4,
+     *  "title": "LeetCode",
+     *  "status": true,
+     *  "category":"Coding",
+     *  "start": "2021-12-28 10:00:05",
+     *  "end": "2021-12-30 12:21:07"
+     * }
+     * 
+     * Fail:
+     * @response  400 {
+     *  "status": false,
+     *  "message": "Somethig wrong.",
+     * }
+     * 
+     * 
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -103,6 +172,12 @@ class TaskController extends Controller
                 'message' => 'Success',
                 'data_return' => $find
             ], 200);
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Something wrong.',
+                'data_return' => null,
+            ], 400);
         }
     }
 

@@ -11,6 +11,11 @@ use App\Http\Controllers\Controller;
 // Model
 use App\Models\Category;
 
+/**
+ * @group Category management
+ * 
+ * APIs for manage categories.
+ */
 class CategoryController extends Controller
 {
     /**
