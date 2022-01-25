@@ -18,11 +18,12 @@ use App\Models\Task;
 class TaskController extends Controller
 {
     /**
-     * Display a listing of tasks.
+     * 取得所有待辦事項資料
      * 
-     * Get a list of tasks.
+     * 在月曆上，顯示該月份所有待辦事項資料
+     * 
+     * @queryParam sort 設定排序方式 Example:DESC
      *
-     * Success:
      * @response  {
      *  "id": 4,
      *  "title": "LeetCode",
@@ -32,7 +33,6 @@ class TaskController extends Controller
      *  "end": "2021-12-30 12:21:07"
      * }
      * 
-     * Fail:
      * @response  400 {
      *  "status": false,
      *  "message": "todoTask.name不能為空",
@@ -67,27 +67,29 @@ class TaskController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * 新增待辦事項
      * 
-     * @bodyParam type string array required.Task name,classification,start date,end date and state.
-     * @urlParam  lang The language (路徑參數，依序為名稱 說明)
-     * @queryParam  page The page number to return (查詢字串參數，依序為名稱 說明)
-     * @queryParam  page required The page number. Example: 4 (查詢字串參數帶範例，依序為名稱 必填 說明 範例)
-     * @queryParam  user_id required The id of the user. No-example(查詢字串參數不要帶範例)
+     * 新增資料
+     * 
+     * @urlParam lang The language
+     * @bodyParam name string required 待辦事項名稱 Example: 買衣服
+     * @bodyParam classification string required 待辦事項所屬分類 Example: 購物
+     * @bodyParam start string required 待辦事項開始日期與時間 Example: 2022-1-12 09:22:36
+     * @bodyParam end string required 待辦事項結束日期與時間 Example: 2022-1-12 11:30:21
+     * @bodyParam state boolean. 待辦事項狀態 預設true Example: true
      *
-     * Success:
-     * @response  {
+     * @response  201{
      *  "status": true,
      *  "message":"Success",
      *  "data_return":{
-     *      
+     *      null
      *  }
      * }
      * 
-     * Fail:
      * @response  400 {
      *  "status": false,
      *  "message": "todoTask.name不能為空",
+     *  "data_return": null
      * }
      *
      * @param  \Illuminate\Http\Request  $request
@@ -126,25 +128,34 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 顯示特定待辦事項
      *
-     * @bodyParam int id required.Task id.
-     * @urlParam  task id int
-     * @queryParam  page The page number to return (查詢字串參數，依序為名稱 說明)
-     * @queryParam  page required The page number. Example: 4 (查詢字串參數帶範例，依序為名稱 必填 說明 範例)
-     * @queryParam  task id required .The id of the task.
+     * 取得單一資料
+     * 
+     * @urlParam id int required 待辦事項ID.
+     * @urlParam lang The language.
+     * 
+     * @bodyParam id int required 待辦事項ID Example: 3
+     * @bodyParam name string required 待辦事項名稱 Example: 買衣服
+     * @bodyParam classification string required 待辦事項所屬分類 Example: 購物
+     * @bodyParam start string required 待辦事項開始日期與時間 Example: 2022-1-12 09:22:36
+     * @bodyParam end string required 待辦事項結束日期與時間 Example: 2022-1-12 11:30:21
+     * @bodyParam state boolean. 待辦事項狀態 預設true Example: true
      *
-     * Success:
-     * @response  {
-     *  "id": 4,
-     *  "title": "LeetCode",
-     *  "status": true,
-     *  "category":"Coding",
-     *  "start": "2021-12-28 10:00:05",
-     *  "end": "2021-12-30 12:21:07"
+     * @response  200{
+     * "status": true,
+     * "message": "Success",
+     * "data_return": {
+     *    "id": 3,
+     *    "description": "LeetCode",
+     *    "status": 0,
+     *    "created_at": "2022-01-12T16:00:00.000000Z",
+     *    "end_at": "2022-01-21 00:00:00",
+     *    "name": "工作",
+     *    "cId": 3
+     *  }
      * }
      * 
-     * Fail:
      * @response  400 {
      *  "status": false,
      *  "message": "Somethig wrong.",
@@ -182,10 +193,19 @@ class TaskController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 更新
+     * 
+     * 更新單一資料
+     * 
+     * @urlParam id int required 待辦事項ID.
+     * @urlParam lang The language
+     * 
+     * @bodyParam name string required 待辦事項名稱 Example: 買衣服
+     * @bodyParam classification string required 待辦事項所屬分類 Example: 購物
+     * @bodyParam start string required 待辦事項開始日期與時間 Example: 2022-1-12 09:22:36
+     * @bodyParam end string required 待辦事項結束日期與時間 Example: 2022-1-12 11:30:21
+     * @bodyParam state boolean. 待辦事項狀態 預設true Example: true
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, int $id)
@@ -222,19 +242,39 @@ class TaskController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 刪除特定待辦項目
+     * 
+     * 刪除單一項目
+     * 
+     * @urlParam id int required 待辦項目ID
+     * @bodyParam id int required 待辦項目ID Example: 2
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @response  200{
+     *  "status": true,
+     *  "message":"Success",
+     *  "data_return":{
+     *      null
+     *  }
+     * }
+     * 
+     * @response  204 {
+     *  "status": false,
+     *  "message": "Fail",
+     *  "data_return": null
+     * }
+     * 
      */
     public function destroy(int $id)
     {
         $findExist = Task::find($id);
         if (isset($findExist)) {
             $findExist->delete();
-
             if ($findExist->trashed()) {
-                return response()->json(['status' => true, 'message' => 'Success', 'data_return' => null], 200);
+                return response()->json(
+                    ['status' => true, 
+                    'message' => 'Success', 
+                    'data_return' => null],
+                200);
             }
         }
         return response()->json(['status' => false, 'message' => 'Fail', 'data_return' => null], 204);

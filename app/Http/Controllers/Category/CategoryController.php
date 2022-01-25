@@ -18,8 +18,27 @@ use App\Models\Category;
  */
 class CategoryController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * 取得所有分類
+     * 
+     * 在modal內，顯示所有分類項目
+     *
+     * 
+     * @response  {
+     *  "id": 1,
+     *  "name": "Work",
+     *  "created_at": "2021-12-28 10:00:05",
+     * }
+     * 
+     * 
+     * @response  400 {
+     *  "status": false,
+     *  "message": "name不能為空",
+     * }
+     * 
+     * 
+     * @return 格式為JSON的回應
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,10 +50,31 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 新增分類
+     * 
+     * 新增分類項目
+     * 
+     * @urlParam  lang The language
+     * 
+     * @bodyParam name string required 分類名稱 Example: Work
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @response  201{
+     *  "status": true,
+     *  "message":"Success",
+     *  "data_return":{
+     *    "id": 3,
+     *    "name": "工作",
+     *    "created_at": "2021-12-23T08:05:52.000000Z"
+     *  }
+     * }
+     * 
+     * @response  400 {
+     *  "status": false,
+     *  "message": "todoTask.name不能為空",
+     *  "data_return": null
+     * }
+     *
+     * 
      */
     public function store(Request $request)
     {
@@ -65,10 +105,26 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 刪除分類
+     * 
+     * 刪除特定分類
+     *     
+     * @urlParam id int requires 分類ID 
+     * @bodyParam id int required 分類ID
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @response  200{
+     *  "status": true,
+     *  "message":"Success",
+     *  "data_return":{
+     *      null
+     *  }
+     * }
+     * 
+     * @response  204 {
+     *  "status": false,
+     *  "message": "Fail",
+     *  "data_return": null
+     * }
      */
     public function destroy(int $id)
     {

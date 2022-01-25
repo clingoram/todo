@@ -1,0 +1,163 @@
+name: 'Category management'
+description: |-
+
+  APIs for manage categories.
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/items/categories
+    metadata:
+      title: 取得所有分類
+      description: 在modal內，顯示所有分類項目
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "id": 1,
+           "name": "Work",
+           "created_at": "2021-12-28 10:00:05",
+          }
+        headers: []
+        description: '200'
+      -
+        status: 400
+        content: |-
+          {
+           "status": false,
+           "message": "name不能為空",
+          }
+        headers: []
+        description: '400'
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/items/categories
+    metadata:
+      title: 新增分類
+      description: 新增分類項目
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      lang:
+        name: lang
+        description: 'The language'
+        required: false
+        example: veritatis
+        type: string
+        custom: []
+    queryParameters: []
+    bodyParameters:
+      category:
+        name: category
+        description: ''
+        required: false
+        example: []
+        type: object
+        custom: []
+      category.name:
+        name: category.name
+        description: 'value 不能多於 150 個字元。 value 不能小於 1 個字元。.'
+        required: true
+        example: h
+        type: string
+        custom: []
+      name:
+        name: name
+        description: 分類名稱
+        required: true
+        example: Work
+        type: string
+        custom: []
+    responses:
+      -
+        status: 201
+        content: |-
+          {
+           "status": true,
+           "message":"Success",
+           "data_return":{
+             "id": 3,
+             "name": "工作",
+             "created_at": "2021-12-23T08:05:52.000000Z"
+           }
+          }
+        headers: []
+        description: '201'
+      -
+        status: 400
+        content: |-
+          {
+           "status": false,
+           "message": "todoTask.name不能為空",
+           "data_return": null
+          }
+        headers: []
+        description: '400'
+    responseFields: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/items/categories/{id}'
+    metadata:
+      title: 刪除分類
+      description: 刪除特定分類
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'requires 分類ID'
+        required: false
+        example: 9
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters:
+      id:
+        name: id
+        description: 分類ID
+        required: true
+        example: 8
+        type: integer
+        custom: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "status": true,
+           "message":"Success",
+           "data_return":{
+               null
+           }
+          }
+        headers: []
+        description: '200'
+      -
+        status: 204
+        content: |-
+          {
+           "status": false,
+           "message": "Fail",
+           "data_return": null
+          }
+        headers: []
+        description: '204'
+    responseFields: []
