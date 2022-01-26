@@ -22,22 +22,19 @@ endpoints:
       -
         status: 200
         content: |-
-          {
+          [{
            "id": 1,
            "name": "Work",
            "created_at": "2021-12-28 10:00:05",
-          }
+           },
+           {
+           "id":2,
+           "name":"Play",
+           "created_at":"2022-1-06 9:34:33"
+           }
+          ]
         headers: []
         description: '200'
-      -
-        status: 400
-        content: |-
-          {
-           "status": false,
-           "message": "name不能為空",
-          }
-        headers: []
-        description: '400'
     responseFields: []
   -
     httpMethods:
@@ -56,7 +53,7 @@ endpoints:
         name: lang
         description: 'The language'
         required: false
-        example: veritatis
+        example: minima
         type: string
         custom: []
     queryParameters: []
@@ -72,7 +69,7 @@ endpoints:
         name: category.name
         description: 'value 不能多於 150 個字元。 value 不能小於 1 個字元。.'
         required: true
-        example: h
+        example: ''
         type: string
         custom: []
       name:
@@ -102,7 +99,7 @@ endpoints:
         content: |-
           {
            "status": false,
-           "message": "todoTask.name不能為空",
+           "message": "name不能為空",
            "data_return": null
           }
         headers: []
@@ -123,9 +120,9 @@ endpoints:
     urlParameters:
       id:
         name: id
-        description: 'requires 分類ID'
-        required: false
-        example: 9
+        description: 分類ID
+        required: true
+        example: 2
         type: integer
         custom: []
     queryParameters: []
@@ -134,7 +131,7 @@ endpoints:
         name: id
         description: 分類ID
         required: true
-        example: 8
+        example: 2
         type: integer
         custom: []
     responses:

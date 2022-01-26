@@ -23,24 +23,22 @@ class CategoryController extends Controller
      * 取得所有分類
      * 
      * 在modal內，顯示所有分類項目
-     *
      * 
-     * @response  {
+     * @response  [{
      *  "id": 1,
      *  "name": "Work",
      *  "created_at": "2021-12-28 10:00:05",
-     * }
-     * 
-     * 
-     * @response  400 {
-     *  "status": false,
-     *  "message": "name不能為空",
-     * }
+     *  },
+     *  {
+     *  "id":2,
+     *  "name":"Play",
+     *  "created_at":"2022-1-06 9:34:33"
+     *  }
+     * ]
      * 
      * 
      * @return 格式為JSON的回應
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -55,10 +53,9 @@ class CategoryController extends Controller
      * 新增分類項目
      * 
      * @urlParam  lang The language
-     * 
      * @bodyParam name string required 分類名稱 Example: Work
      *
-     * @response  201{
+     * @response  201 {
      *  "status": true,
      *  "message":"Success",
      *  "data_return":{
@@ -70,7 +67,7 @@ class CategoryController extends Controller
      * 
      * @response  400 {
      *  "status": false,
-     *  "message": "todoTask.name不能為空",
+     *  "message": "name不能為空",
      *  "data_return": null
      * }
      *
@@ -79,8 +76,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'category.name' => ['bail', 'required', 'max:150', 'min:1', 'string'],
-            // 'created_at' => ['required', 'date']
+            'category.name' => ['bail', 'required', 'max:150', 'min:1', 'string']
         ]);
 
         if ($validator->fails()) {
@@ -109,8 +105,8 @@ class CategoryController extends Controller
      * 
      * 刪除特定分類
      *     
-     * @urlParam id int requires 分類ID 
-     * @bodyParam id int required 分類ID
+     * @urlParam id int required 分類ID Example: 2
+     * @bodyParam id int required 分類ID Example: 2
      *
      * @response  200{
      *  "status": true,

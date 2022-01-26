@@ -90,7 +90,13 @@
                     <a href="#tasks-management">Tasks management</a>
                 </li>
                                     <ul id="tocify-subheader-tasks-management" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="tasks-management-GETapi-items--id-">
+                                                    <li class="tocify-item level-2" data-unique="tasks-management-GETapi-items">
+                        <a href="#tasks-management-GETapi-items">取得所有待辦事項資料</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="tasks-management-POSTapi-items">
+                        <a href="#tasks-management-POSTapi-items">新增待辦事項</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="tasks-management-GETapi-items--id-">
                         <a href="#tasks-management-GETapi-items--id-">顯示特定待辦事項</a>
                     </li>
                                     <li class="tocify-item level-2" data-unique="tasks-management-PUTapi-items--id-">
@@ -98,12 +104,6 @@
                     </li>
                                     <li class="tocify-item level-2" data-unique="tasks-management-DELETEapi-items--id-">
                         <a href="#tasks-management-DELETEapi-items--id-">刪除特定待辦項目</a>
-                    </li>
-                                    <li class="tocify-item level-2" data-unique="tasks-management-GETapi-items">
-                        <a href="#tasks-management-GETapi-items">取得所有待辦事項資料</a>
-                    </li>
-                                    <li class="tocify-item level-2" data-unique="tasks-management-POSTapi-items">
-                        <a href="#tasks-management-POSTapi-items">新增待辦事項</a>
                     </li>
                                                     </ul>
                             </ul>
@@ -117,7 +117,7 @@
                             <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
                     </ul>
         <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 25 2022</li>
+        <li>Last updated: January 26 2022</li>
     </ul>
 </div>
 
@@ -181,21 +181,17 @@ fetch(url, {
         </blockquote>
                 <pre>
 
-<code class="language-json">{
+<code class="language-json">[{
  &quot;id&quot;: 1,
  &quot;name&quot;: &quot;Work&quot;,
  &quot;created_at&quot;: &quot;2021-12-28 10:00:05&quot;,
-}</code>
- </pre>
-            <blockquote>
-            <p>Example response (400):</p>
-        </blockquote>
-                <pre>
-
-<code class="language-json">{
- &quot;status&quot;: false,
- &quot;message&quot;: &quot;name不能為空&quot;,
-}</code>
+ },
+ {
+ &quot;id&quot;:2,
+ &quot;name&quot;:&quot;Play&quot;,
+ &quot;created_at&quot;:&quot;2022-1-06 9:34:33&quot;
+ }
+]</code>
  </pre>
     </span>
 <span id="execution-results-GETapi-items-categories" hidden>
@@ -257,7 +253,7 @@ fetch(url, {
     --header "Accept: application/json" \
     --data "{
     \"category\": {
-        \"name\": \"h\"
+        \"name\": \"\"
     },
     \"name\": \"Work\"
 }"
@@ -276,7 +272,7 @@ const headers = {
 
 let body = {
     "category": {
-        "name": "h"
+        "name": ""
     },
     "name": "Work"
 };
@@ -312,7 +308,7 @@ fetch(url, {
 
 <code class="language-json">{
     &quot;status&quot;: false,
-    &quot;message&quot;: &quot;todoTask.name不能為空&quot;,
+    &quot;message&quot;: &quot;name不能為空&quot;,
     &quot;data_return&quot;: null
 }</code>
  </pre>
@@ -362,7 +358,7 @@ fetch(url, {
                 <input type="text"
                name="lang"
                data-endpoint="POSTapi-items-categories"
-               value="veritatis"
+               value="minima"
                data-component="url" hidden>
     <br>
 <p>The language</p>
@@ -380,7 +376,7 @@ fetch(url, {
                 <input type="text"
                name="category.name"
                data-endpoint="POSTapi-items-categories"
-               value="h"
+               value=""
                data-component="body" hidden>
     <br>
 <p>value 不能多於 150 個字元。 value 不能小於 1 個字元。.</p>
@@ -412,18 +408,18 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/api/items/categories/9" \
+    "http://localhost/api/items/categories/2" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"id\": 8
+    \"id\": 2
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/items/categories/9"
+    "http://localhost/api/items/categories/2"
 );
 
 const headers = {
@@ -432,7 +428,7 @@ const headers = {
 };
 
 let body = {
-    "id": 8
+    "id": 2
 };
 
 fetch(url, {
@@ -505,14 +501,14 @@ fetch(url, {
         </p>
                     <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <p>
-                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
                 <input type="number"
                name="id"
                data-endpoint="DELETEapi-items-categories--id-"
-               value="9"
+               value="2"
                data-component="url" hidden>
     <br>
-<p>requires 分類ID</p>
+<p>分類ID</p>
             </p>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <p>
@@ -520,7 +516,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEapi-items-categories--id-"
-               value="8"
+               value="2"
                data-component="body" hidden>
     <br>
 <p>分類ID</p>
@@ -530,581 +526,6 @@ fetch(url, {
         <h1 id="tasks-management">Tasks management</h1>
 
     <p>APIs for manage tasks resource.</p>
-
-            <h2 id="tasks-management-GETapi-items--id-">顯示特定待辦事項</h2>
-
-<p>
-</p>
-
-<p>取得單一資料</p>
-
-<span id="example-requests-GETapi-items--id-">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/items/4" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --data "{
-    \"id\": 3,
-    \"name\": \"買衣服\",
-    \"classification\": \"購物\",
-    \"start\": \"2022-1-12 09:22:36\",
-    \"end\": \"2022-1-12 11:30:21\",
-    \"state\": \"true\"
-}"
-</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/items/4"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-let body = {
-    "id": 3,
-    "name": "買衣服",
-    "classification": "購物",
-    "start": "2022-1-12 09:22:36",
-    "end": "2022-1-12 11:30:21",
-    "state": "true"
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-    body: JSON.stringify(body),
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETapi-items--id-">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
-                <pre>
-
-<code class="language-json">{
-    &quot;status&quot;: true,
-    &quot;message&quot;: &quot;Success&quot;,
-    &quot;data_return&quot;: {
-        &quot;id&quot;: 3,
-        &quot;description&quot;: &quot;LeetCode&quot;,
-        &quot;status&quot;: 0,
-        &quot;created_at&quot;: &quot;2022-01-12T16:00:00.000000Z&quot;,
-        &quot;end_at&quot;: &quot;2022-01-21 00:00:00&quot;,
-        &quot;name&quot;: &quot;工作&quot;,
-        &quot;cId&quot;: 3
-    }
-}</code>
- </pre>
-            <blockquote>
-            <p>Example response (400):</p>
-        </blockquote>
-                <pre>
-
-<code class="language-json">{
- &quot;status&quot;: false,
- &quot;message&quot;: &quot;Somethig wrong.&quot;,
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-items--id-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-items--id-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-items--id-"></code></pre>
-</span>
-<span id="execution-error-GETapi-items--id-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-items--id-"></code></pre>
-</span>
-<form id="form-GETapi-items--id-" data-method="GET"
-      data-path="api/items/{id}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-items--id-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-items--id-"
-                    onclick="tryItOut('GETapi-items--id-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-items--id-"
-                    onclick="cancelTryOut('GETapi-items--id-');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-items--id-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/items/{id}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="id"
-               data-endpoint="GETapi-items--id-"
-               value="4"
-               data-component="url" hidden>
-    <br>
-<p>待辦事項ID.</p>
-            </p>
-                    <p>
-                <b><code>lang</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
-                <input type="text"
-               name="lang"
-               data-endpoint="GETapi-items--id-"
-               value="voluptatem"
-               data-component="url" hidden>
-    <br>
-<p>The language.</p>
-            </p>
-                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
-        <p>
-            <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="id"
-               data-endpoint="GETapi-items--id-"
-               value="3"
-               data-component="body" hidden>
-    <br>
-<p>待辦事項ID</p>
-        </p>
-                <p>
-            <b><code>name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="name"
-               data-endpoint="GETapi-items--id-"
-               value="買衣服"
-               data-component="body" hidden>
-    <br>
-<p>待辦事項名稱</p>
-        </p>
-                <p>
-            <b><code>classification</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="classification"
-               data-endpoint="GETapi-items--id-"
-               value="購物"
-               data-component="body" hidden>
-    <br>
-<p>待辦事項所屬分類</p>
-        </p>
-                <p>
-            <b><code>start</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="start"
-               data-endpoint="GETapi-items--id-"
-               value="2022-1-12 09:22:36"
-               data-component="body" hidden>
-    <br>
-<p>待辦事項開始日期與時間</p>
-        </p>
-                <p>
-            <b><code>end</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="end"
-               data-endpoint="GETapi-items--id-"
-               value="2022-1-12 11:30:21"
-               data-component="body" hidden>
-    <br>
-<p>待辦事項結束日期與時間</p>
-        </p>
-                <p>
-            <b><code>state</code></b>&nbsp;&nbsp;<small>boolean.</small>     <i>optional</i> &nbsp;
-                <input type="text"
-               name="state"
-               data-endpoint="GETapi-items--id-"
-               value="true"
-               data-component="body" hidden>
-    <br>
-<p>待辦事項狀態 預設true</p>
-        </p>
-        </form>
-
-            <h2 id="tasks-management-PUTapi-items--id-">更新</h2>
-
-<p>
-</p>
-
-<p>更新單一資料</p>
-
-<span id="example-requests-PUTapi-items--id-">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/api/items/5" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --data "{
-    \"todoTask\": {
-        \"name\": \"\",
-        \"start\": \"2022-01-25T16:04:52\",
-        \"end\": \"ducimus\",
-        \"state\": false
-    },
-    \"classification\": \"購物\",
-    \"name\": \"買衣服\",
-    \"start\": \"2022-1-12 09:22:36\",
-    \"end\": \"2022-1-12 11:30:21\",
-    \"state\": \"true\"
-}"
-</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/items/5"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-let body = {
-    "todoTask": {
-        "name": "",
-        "start": "2022-01-25T16:04:52",
-        "end": "ducimus",
-        "state": false
-    },
-    "classification": "購物",
-    "name": "買衣服",
-    "start": "2022-1-12 09:22:36",
-    "end": "2022-1-12 11:30:21",
-    "state": "true"
-};
-
-fetch(url, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(body),
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-PUTapi-items--id-">
-</span>
-<span id="execution-results-PUTapi-items--id-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-PUTapi-items--id-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-PUTapi-items--id-"></code></pre>
-</span>
-<span id="execution-error-PUTapi-items--id-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-PUTapi-items--id-"></code></pre>
-</span>
-<form id="form-PUTapi-items--id-" data-method="PUT"
-      data-path="api/items/{id}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('PUTapi-items--id-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-PUTapi-items--id-"
-                    onclick="tryItOut('PUTapi-items--id-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-PUTapi-items--id-"
-                    onclick="cancelTryOut('PUTapi-items--id-');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-PUTapi-items--id-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-darkblue">PUT</small>
-            <b><code>api/items/{id}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="id"
-               data-endpoint="PUTapi-items--id-"
-               value="5"
-               data-component="url" hidden>
-    <br>
-<p>待辦事項ID.</p>
-            </p>
-                    <p>
-                <b><code>lang</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
-                <input type="text"
-               name="lang"
-               data-endpoint="PUTapi-items--id-"
-               value="ea"
-               data-component="url" hidden>
-    <br>
-<p>The language</p>
-            </p>
-                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
-        <p>
-        <details>
-            <summary style="padding-bottom: 10px;">
-                <b><code>todoTask</code></b>&nbsp;&nbsp;<small>object</small>     <i>optional</i> &nbsp;
-<br>
-
-            </summary>
-                                                <p>
-                        <b><code>todoTask.name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="todoTask.name"
-               data-endpoint="PUTapi-items--id-"
-               value=""
-               data-component="body" hidden>
-    <br>
-<p>value 不能多於 150 個字元。 value 不能小於 2 個字元。.</p>
-                    </p>
-                                                                <p>
-                        <b><code>todoTask.start</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="todoTask.start"
-               data-endpoint="PUTapi-items--id-"
-               value="2022-01-25T16:04:52"
-               data-component="body" hidden>
-    <br>
-<p>value 不是有效的日期。.</p>
-                    </p>
-                                                                <p>
-                        <b><code>todoTask.end</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="todoTask.end"
-               data-endpoint="PUTapi-items--id-"
-               value="ducimus"
-               data-component="body" hidden>
-    <br>
-
-                    </p>
-                                                                <p>
-                        <b><code>todoTask.state</code></b>&nbsp;&nbsp;<small>boolean</small>     <i>optional</i> &nbsp;
-                <label data-endpoint="PUTapi-items--id-" hidden>
-            <input type="radio" name="todoTask.state"
-                   value="true"
-                   data-endpoint="PUTapi-items--id-"
-                   data-component="body"
-            >
-            <code>true</code>
-        </label>
-        <label data-endpoint="PUTapi-items--id-" hidden>
-            <input type="radio" name="todoTask.state"
-                   value="false"
-                   data-endpoint="PUTapi-items--id-"
-                   data-component="body"
-            >
-            <code>false</code>
-        </label>
-    <br>
-
-                    </p>
-                                    </details>
-        </p>
-                <p>
-            <b><code>classification</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="classification"
-               data-endpoint="PUTapi-items--id-"
-               value="購物"
-               data-component="body" hidden>
-    <br>
-<p>待辦事項所屬分類</p>
-        </p>
-                <p>
-            <b><code>name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="name"
-               data-endpoint="PUTapi-items--id-"
-               value="買衣服"
-               data-component="body" hidden>
-    <br>
-<p>待辦事項名稱</p>
-        </p>
-                <p>
-            <b><code>start</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="start"
-               data-endpoint="PUTapi-items--id-"
-               value="2022-1-12 09:22:36"
-               data-component="body" hidden>
-    <br>
-<p>待辦事項開始日期與時間</p>
-        </p>
-                <p>
-            <b><code>end</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="end"
-               data-endpoint="PUTapi-items--id-"
-               value="2022-1-12 11:30:21"
-               data-component="body" hidden>
-    <br>
-<p>待辦事項結束日期與時間</p>
-        </p>
-                <p>
-            <b><code>state</code></b>&nbsp;&nbsp;<small>boolean.</small>     <i>optional</i> &nbsp;
-                <input type="text"
-               name="state"
-               data-endpoint="PUTapi-items--id-"
-               value="true"
-               data-component="body" hidden>
-    <br>
-<p>待辦事項狀態 預設true</p>
-        </p>
-        </form>
-
-            <h2 id="tasks-management-DELETEapi-items--id-">刪除特定待辦項目</h2>
-
-<p>
-</p>
-
-<p>刪除單一項目</p>
-
-<span id="example-requests-DELETEapi-items--id-">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/api/items/2" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --data "{
-    \"id\": 2
-}"
-</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/items/2"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-let body = {
-    "id": 2
-};
-
-fetch(url, {
-    method: "DELETE",
-    headers,
-    body: JSON.stringify(body),
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-DELETEapi-items--id-">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
-                <pre>
-
-<code class="language-json">{
- &quot;status&quot;: true,
- &quot;message&quot;:&quot;Success&quot;,
- &quot;data_return&quot;:{
-     null
- }
-}</code>
- </pre>
-            <blockquote>
-            <p>Example response (204):</p>
-        </blockquote>
-                <pre>
-<code>[Empty response]</code>
- </pre>
-    </span>
-<span id="execution-results-DELETEapi-items--id-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-DELETEapi-items--id-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-DELETEapi-items--id-"></code></pre>
-</span>
-<span id="execution-error-DELETEapi-items--id-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-DELETEapi-items--id-"></code></pre>
-</span>
-<form id="form-DELETEapi-items--id-" data-method="DELETE"
-      data-path="api/items/{id}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-items--id-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-DELETEapi-items--id-"
-                    onclick="tryItOut('DELETEapi-items--id-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-DELETEapi-items--id-"
-                    onclick="cancelTryOut('DELETEapi-items--id-');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-DELETEapi-items--id-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-red">DELETE</small>
-            <b><code>api/items/{id}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="id"
-               data-endpoint="DELETEapi-items--id-"
-               value="2"
-               data-component="url" hidden>
-    <br>
-<p>待辦項目ID</p>
-            </p>
-                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
-        <p>
-            <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="id"
-               data-endpoint="DELETEapi-items--id-"
-               value="2"
-               data-component="body" hidden>
-    <br>
-<p>待辦項目ID</p>
-        </p>
-        </form>
 
             <h2 id="tasks-management-GETapi-items">取得所有待辦事項資料</h2>
 
@@ -1243,12 +664,12 @@ fetch(url, {
     --header "Accept: application/json" \
     --data "{
     \"todoTask\": {
-        \"name\": \"vs\",
-        \"start\": \"2022-01-25T16:04:52\",
-        \"end\": \"2022-01-25T16:04:52\",
-        \"state\": true
+        \"name\": \"r\",
+        \"start\": \"2022-01-26T14:03:31\",
+        \"end\": \"2022-01-26T14:03:31\",
+        \"state\": false
     },
-    \"classificationSelected\": 67765.226140346,
+    \"classificationSelected\": 527.661,
     \"name\": \"買衣服\",
     \"classification\": \"購物\",
     \"start\": \"2022-1-12 09:22:36\",
@@ -1270,12 +691,12 @@ const headers = {
 
 let body = {
     "todoTask": {
-        "name": "vs",
-        "start": "2022-01-25T16:04:52",
-        "end": "2022-01-25T16:04:52",
-        "state": true
+        "name": "r",
+        "start": "2022-01-26T14:03:31",
+        "end": "2022-01-26T14:03:31",
+        "state": false
     },
-    "classificationSelected": 67765.226140346,
+    "classificationSelected": 527.661,
     "name": "買衣服",
     "classification": "購物",
     "start": "2022-1-12 09:22:36",
@@ -1312,7 +733,7 @@ fetch(url, {
 
 <code class="language-json">{
     &quot;status&quot;: false,
-    &quot;message&quot;: &quot;todoTask.name不能為空&quot;,
+    &quot;message&quot;: &quot;依據驗證而產生不同錯誤訊息&quot;,
     &quot;data_return&quot;: null
 }</code>
  </pre>
@@ -1362,7 +783,7 @@ fetch(url, {
                 <input type="text"
                name="lang"
                data-endpoint="POSTapi-items"
-               value="expedita"
+               value="aut"
                data-component="url" hidden>
     <br>
 <p>The language</p>
@@ -1380,7 +801,7 @@ fetch(url, {
                 <input type="text"
                name="todoTask.name"
                data-endpoint="POSTapi-items"
-               value="vs"
+               value="r"
                data-component="body" hidden>
     <br>
 <p>value 不能多於 150 個字元。 value 不能小於 2 個字元。.</p>
@@ -1390,7 +811,7 @@ fetch(url, {
                 <input type="text"
                name="todoTask.start"
                data-endpoint="POSTapi-items"
-               value="2022-01-25T16:04:52"
+               value="2022-01-26T14:03:31"
                data-component="body" hidden>
     <br>
 <p>value 不是有效的日期。.</p>
@@ -1400,7 +821,7 @@ fetch(url, {
                 <input type="text"
                name="todoTask.end"
                data-endpoint="POSTapi-items"
-               value="2022-01-25T16:04:52"
+               value="2022-01-26T14:03:31"
                data-component="body" hidden>
     <br>
 <p>value 不是有效的日期。.</p>
@@ -1433,7 +854,7 @@ fetch(url, {
                 <input type="number"
                name="classificationSelected"
                data-endpoint="POSTapi-items"
-               value="67765.226140346"
+               value="527.661"
                data-component="body" hidden>
     <br>
 
@@ -1487,6 +908,603 @@ fetch(url, {
                data-component="body" hidden>
     <br>
 <p>待辦事項狀態 預設true</p>
+        </p>
+        </form>
+
+            <h2 id="tasks-management-GETapi-items--id-">顯示特定待辦事項</h2>
+
+<p>
+</p>
+
+<p>取得單一資料</p>
+
+<span id="example-requests-GETapi-items--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/api/items/12" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"id\": 3,
+    \"name\": \"買衣服\",
+    \"classification\": \"購物\",
+    \"start\": \"2022-1-12 09:22:36\",
+    \"end\": \"2022-1-12 11:30:21\",
+    \"state\": \"true\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/items/12"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "id": 3,
+    "name": "買衣服",
+    "classification": "購物",
+    "start": "2022-1-12 09:22:36",
+    "end": "2022-1-12 11:30:21",
+    "state": "true"
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-items--id-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;status&quot;: true,
+    &quot;message&quot;: &quot;Success&quot;,
+    &quot;data_return&quot;: {
+        &quot;id&quot;: 3,
+        &quot;description&quot;: &quot;LeetCode&quot;,
+        &quot;status&quot;: 0,
+        &quot;created_at&quot;: &quot;2022-01-12T16:00:00.000000Z&quot;,
+        &quot;end_at&quot;: &quot;2022-01-21 00:00:00&quot;,
+        &quot;name&quot;: &quot;工作&quot;,
+        &quot;cId&quot;: 3
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (400):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+ &quot;status&quot;: false,
+ &quot;message&quot;: &quot;Somethig wrong.&quot;,
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-items--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-items--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-items--id-"></code></pre>
+</span>
+<span id="execution-error-GETapi-items--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-items--id-"></code></pre>
+</span>
+<form id="form-GETapi-items--id-" data-method="GET"
+      data-path="api/items/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-items--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-items--id-"
+                    onclick="tryItOut('GETapi-items--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-items--id-"
+                    onclick="cancelTryOut('GETapi-items--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-items--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/items/{id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="GETapi-items--id-"
+               value="12"
+               data-component="url" hidden>
+    <br>
+<p>待辦事項ID.</p>
+            </p>
+                    <p>
+                <b><code>lang</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="lang"
+               data-endpoint="GETapi-items--id-"
+               value="ipsa"
+               data-component="url" hidden>
+    <br>
+<p>The language.</p>
+            </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="GETapi-items--id-"
+               value="3"
+               data-component="body" hidden>
+    <br>
+<p>待辦事項ID</p>
+        </p>
+                <p>
+            <b><code>name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="name"
+               data-endpoint="GETapi-items--id-"
+               value="買衣服"
+               data-component="body" hidden>
+    <br>
+<p>待辦事項名稱</p>
+        </p>
+                <p>
+            <b><code>classification</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="classification"
+               data-endpoint="GETapi-items--id-"
+               value="購物"
+               data-component="body" hidden>
+    <br>
+<p>待辦事項所屬分類</p>
+        </p>
+                <p>
+            <b><code>start</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="start"
+               data-endpoint="GETapi-items--id-"
+               value="2022-1-12 09:22:36"
+               data-component="body" hidden>
+    <br>
+<p>待辦事項開始日期與時間</p>
+        </p>
+                <p>
+            <b><code>end</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="end"
+               data-endpoint="GETapi-items--id-"
+               value="2022-1-12 11:30:21"
+               data-component="body" hidden>
+    <br>
+<p>待辦事項結束日期與時間</p>
+        </p>
+                <p>
+            <b><code>state</code></b>&nbsp;&nbsp;<small>boolean.</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="state"
+               data-endpoint="GETapi-items--id-"
+               value="true"
+               data-component="body" hidden>
+    <br>
+<p>待辦事項狀態 預設true</p>
+        </p>
+        </form>
+
+            <h2 id="tasks-management-PUTapi-items--id-">更新</h2>
+
+<p>
+</p>
+
+<p>更新單一資料</p>
+
+<span id="example-requests-PUTapi-items--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost/api/items/17" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"todoTask\": {
+        \"name\": \"v\",
+        \"start\": \"2022-01-26T14:03:31\",
+        \"end\": \"velit\",
+        \"state\": false
+    },
+    \"classification\": \"購物\",
+    \"name\": \"買衣服\",
+    \"start\": \"2022-1-12 09:22:36\",
+    \"end\": \"2022-1-12 11:30:21\",
+    \"state\": \"true\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/items/17"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "todoTask": {
+        "name": "v",
+        "start": "2022-01-26T14:03:31",
+        "end": "velit",
+        "state": false
+    },
+    "classification": "購物",
+    "name": "買衣服",
+    "start": "2022-1-12 09:22:36",
+    "end": "2022-1-12 11:30:21",
+    "state": "true"
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-items--id-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;status&quot;: true,
+    &quot;message&quot;: &quot;Success&quot;,
+    &quot;data_return&quot;: null
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;status&quot;: false,
+    &quot;message&quot;: &quot;依據驗證而產生不同錯誤訊息&quot;,
+    &quot;data_return&quot;: null
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-PUTapi-items--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-items--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-items--id-"></code></pre>
+</span>
+<span id="execution-error-PUTapi-items--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-items--id-"></code></pre>
+</span>
+<form id="form-PUTapi-items--id-" data-method="PUT"
+      data-path="api/items/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-items--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-items--id-"
+                    onclick="tryItOut('PUTapi-items--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-items--id-"
+                    onclick="cancelTryOut('PUTapi-items--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-items--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/items/{id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="PUTapi-items--id-"
+               value="17"
+               data-component="url" hidden>
+    <br>
+<p>待辦事項ID.</p>
+            </p>
+                    <p>
+                <b><code>lang</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="lang"
+               data-endpoint="PUTapi-items--id-"
+               value="inventore"
+               data-component="url" hidden>
+    <br>
+<p>The language</p>
+            </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b><code>todoTask</code></b>&nbsp;&nbsp;<small>object</small>     <i>optional</i> &nbsp;
+<br>
+
+            </summary>
+                                                <p>
+                        <b><code>todoTask.name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="todoTask.name"
+               data-endpoint="PUTapi-items--id-"
+               value="v"
+               data-component="body" hidden>
+    <br>
+<p>value 不能多於 150 個字元。 value 不能小於 2 個字元。.</p>
+                    </p>
+                                                                <p>
+                        <b><code>todoTask.start</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="todoTask.start"
+               data-endpoint="PUTapi-items--id-"
+               value="2022-01-26T14:03:31"
+               data-component="body" hidden>
+    <br>
+<p>value 不是有效的日期。.</p>
+                    </p>
+                                                                <p>
+                        <b><code>todoTask.end</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="todoTask.end"
+               data-endpoint="PUTapi-items--id-"
+               value="velit"
+               data-component="body" hidden>
+    <br>
+
+                    </p>
+                                                                <p>
+                        <b><code>todoTask.state</code></b>&nbsp;&nbsp;<small>boolean</small>     <i>optional</i> &nbsp;
+                <label data-endpoint="PUTapi-items--id-" hidden>
+            <input type="radio" name="todoTask.state"
+                   value="true"
+                   data-endpoint="PUTapi-items--id-"
+                   data-component="body"
+            >
+            <code>true</code>
+        </label>
+        <label data-endpoint="PUTapi-items--id-" hidden>
+            <input type="radio" name="todoTask.state"
+                   value="false"
+                   data-endpoint="PUTapi-items--id-"
+                   data-component="body"
+            >
+            <code>false</code>
+        </label>
+    <br>
+
+                    </p>
+                                    </details>
+        </p>
+                <p>
+            <b><code>classification</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="classification"
+               data-endpoint="PUTapi-items--id-"
+               value="購物"
+               data-component="body" hidden>
+    <br>
+<p>待辦事項所屬分類</p>
+        </p>
+                <p>
+            <b><code>name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="name"
+               data-endpoint="PUTapi-items--id-"
+               value="買衣服"
+               data-component="body" hidden>
+    <br>
+<p>待辦事項名稱</p>
+        </p>
+                <p>
+            <b><code>start</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="start"
+               data-endpoint="PUTapi-items--id-"
+               value="2022-1-12 09:22:36"
+               data-component="body" hidden>
+    <br>
+<p>待辦事項開始日期與時間</p>
+        </p>
+                <p>
+            <b><code>end</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="end"
+               data-endpoint="PUTapi-items--id-"
+               value="2022-1-12 11:30:21"
+               data-component="body" hidden>
+    <br>
+<p>待辦事項結束日期與時間</p>
+        </p>
+                <p>
+            <b><code>state</code></b>&nbsp;&nbsp;<small>boolean.</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="state"
+               data-endpoint="PUTapi-items--id-"
+               value="true"
+               data-component="body" hidden>
+    <br>
+<p>待辦事項狀態 預設true</p>
+        </p>
+        </form>
+
+            <h2 id="tasks-management-DELETEapi-items--id-">刪除特定待辦項目</h2>
+
+<p>
+</p>
+
+<p>刪除單一項目</p>
+
+<span id="example-requests-DELETEapi-items--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost/api/items/3" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"id\": 2
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/items/3"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "id": 2
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-items--id-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+ &quot;status&quot;: true,
+ &quot;message&quot;:&quot;Success&quot;,
+ &quot;data_return&quot;:{
+     null
+ }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (204):</p>
+        </blockquote>
+                <pre>
+<code>[Empty response]</code>
+ </pre>
+    </span>
+<span id="execution-results-DELETEapi-items--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-items--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-items--id-"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-items--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-items--id-"></code></pre>
+</span>
+<form id="form-DELETEapi-items--id-" data-method="DELETE"
+      data-path="api/items/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-items--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-items--id-"
+                    onclick="tryItOut('DELETEapi-items--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-items--id-"
+                    onclick="cancelTryOut('DELETEapi-items--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-items--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/items/{id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="DELETEapi-items--id-"
+               value="3"
+               data-component="url" hidden>
+    <br>
+<p>待辦項目ID</p>
+            </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="DELETEapi-items--id-"
+               value="2"
+               data-component="body" hidden>
+    <br>
+<p>待辦項目ID</p>
         </p>
         </form>
 

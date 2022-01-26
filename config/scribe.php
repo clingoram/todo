@@ -42,8 +42,7 @@ return [
                 /*
                  * Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.
                  */
-                // 'domains' => ['*'],
-                'domains' => ['laravel.todo'],
+                'domains' => ['*'],
 
 
                 /*

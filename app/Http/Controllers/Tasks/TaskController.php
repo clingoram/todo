@@ -24,7 +24,7 @@ class TaskController extends Controller
      * 
      * @queryParam sort 設定排序方式 Example:DESC
      *
-     * @response  {
+     * @response 200{
      *  "id": 4,
      *  "title": "LeetCode",
      *  "status": true,
@@ -88,7 +88,7 @@ class TaskController extends Controller
      * 
      * @response  400 {
      *  "status": false,
-     *  "message": "todoTask.name不能為空",
+     *  "message": "依據驗證而產生不同錯誤訊息",
      *  "data_return": null
      * }
      *
@@ -161,9 +161,6 @@ class TaskController extends Controller
      *  "message": "Somethig wrong.",
      * }
      * 
-     * 
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show(int $id)
     {
@@ -206,7 +203,19 @@ class TaskController extends Controller
      * @bodyParam end string required 待辦事項結束日期與時間 Example: 2022-1-12 11:30:21
      * @bodyParam state boolean. 待辦事項狀態 預設true Example: true
      *
-     * @return \Illuminate\Http\Response
+     * 
+     * @response 200 {
+     *  "status":true,
+     *  "message":"Success",
+     *  "data_return": null
+     * }
+     * 
+     * @response 404 {
+     *  "status": false,
+     *  "message": "依據驗證而產生不同錯誤訊息",
+     *  "data_return": null
+     * }
+     * 
      */
     public function update(Request $request, int $id)
     {
