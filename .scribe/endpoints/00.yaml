@@ -53,7 +53,7 @@ endpoints:
         name: lang
         description: 'The language'
         required: false
-        example: minima
+        example: suscipit
         type: string
         custom: []
     queryParameters: []

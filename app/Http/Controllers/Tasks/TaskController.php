@@ -92,8 +92,6 @@ class TaskController extends Controller
      *  "data_return": null
      * }
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {

@@ -1,7 +1,12 @@
 ## Laravel ToDo-list
-<p>使用Laradock建置Laravel的環境，資料庫:MySQL</p>
+<p>使用Laradock 建置Laravel 8，資料庫:MySQL</p>
 <p>之前都是由controller從model再跟DB那裡拿回來資料後，再傳到blade(view)顯示出來，</p>
 <p>變得不管是更新或刪除都用controller來做處理，又很想知道要如何在Laravel檔案中用JS(例如ajax)，所以找到了axios、Vue，所以這次的todo list小作品想試著用Vue+axios來做做看。</p>
+
+- [x] Vue.JS
+- [x] axios
+- [x] Bootstrap Vue
+
 <h3>外觀</h3>
 
 ![Todo](/images/todo%20-%20laravel.jpg)
@@ -23,3 +28,9 @@
 <h4>刪除代辦事項</h4>
 
 ![Delete](/images/postman-todo%20list%20-delete.jpg)
+
+## Features
+* 在Full calendar上讀取該月份資料
+* 使用者可點選日期並新增、更新、刪除、查看資料
+* 可新增與刪除分類
+* 
