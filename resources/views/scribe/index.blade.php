@@ -117,7 +117,7 @@
                             <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
                     </ul>
         <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 27 2022</li>
+        <li>Last updated: January 28 2022</li>
     </ul>
 </div>
 
@@ -253,7 +253,7 @@ fetch(url, {
     --header "Accept: application/json" \
     --data "{
     \"category\": {
-        \"name\": \"\"
+        \"name\": \"w\"
     },
     \"name\": \"Work\"
 }"
@@ -272,7 +272,7 @@ const headers = {
 
 let body = {
     "category": {
-        "name": ""
+        "name": "w"
     },
     "name": "Work"
 };
@@ -358,7 +358,7 @@ fetch(url, {
                 <input type="text"
                name="lang"
                data-endpoint="POSTapi-items-categories"
-               value="suscipit"
+               value="doloribus"
                data-component="url" hidden>
     <br>
 <p>The language</p>
@@ -376,7 +376,7 @@ fetch(url, {
                 <input type="text"
                name="category.name"
                data-endpoint="POSTapi-items-categories"
-               value=""
+               value="w"
                data-component="body" hidden>
     <br>
 <p>value 不能多於 150 個字元。 value 不能小於 1 個字元。.</p>
@@ -664,12 +664,12 @@ fetch(url, {
     --header "Accept: application/json" \
     --data "{
     \"todoTask\": {
-        \"name\": \"fd\",
-        \"start\": \"2022-01-27T14:19:51\",
-        \"end\": \"2022-01-27T14:19:51\",
+        \"name\": \"zb\",
+        \"start\": \"2022-01-28T15:24:50\",
+        \"end\": \"2022-01-28T15:24:50\",
         \"state\": true
     },
-    \"classificationSelected\": 45634.818,
+    \"classificationSelected\": 10890.206,
     \"name\": \"買衣服\",
     \"classification\": \"購物\",
     \"start\": \"2022-1-12 09:22:36\",
@@ -691,12 +691,12 @@ const headers = {
 
 let body = {
     "todoTask": {
-        "name": "fd",
-        "start": "2022-01-27T14:19:51",
-        "end": "2022-01-27T14:19:51",
+        "name": "zb",
+        "start": "2022-01-28T15:24:50",
+        "end": "2022-01-28T15:24:50",
         "state": true
     },
-    "classificationSelected": 45634.818,
+    "classificationSelected": 10890.206,
     "name": "買衣服",
     "classification": "購物",
     "start": "2022-1-12 09:22:36",
@@ -783,7 +783,7 @@ fetch(url, {
                 <input type="text"
                name="lang"
                data-endpoint="POSTapi-items"
-               value="libero"
+               value="est"
                data-component="url" hidden>
     <br>
 <p>The language</p>
@@ -801,7 +801,7 @@ fetch(url, {
                 <input type="text"
                name="todoTask.name"
                data-endpoint="POSTapi-items"
-               value="fd"
+               value="zb"
                data-component="body" hidden>
     <br>
 <p>value 不能多於 150 個字元。 value 不能小於 2 個字元。.</p>
@@ -811,7 +811,7 @@ fetch(url, {
                 <input type="text"
                name="todoTask.start"
                data-endpoint="POSTapi-items"
-               value="2022-01-27T14:19:51"
+               value="2022-01-28T15:24:50"
                data-component="body" hidden>
     <br>
 <p>value 不是有效的日期。.</p>
@@ -821,7 +821,7 @@ fetch(url, {
                 <input type="text"
                name="todoTask.end"
                data-endpoint="POSTapi-items"
-               value="2022-01-27T14:19:51"
+               value="2022-01-28T15:24:50"
                data-component="body" hidden>
     <br>
 <p>value 不是有效的日期。.</p>
@@ -854,7 +854,7 @@ fetch(url, {
                 <input type="number"
                name="classificationSelected"
                data-endpoint="POSTapi-items"
-               value="45634.818"
+               value="10890.206"
                data-component="body" hidden>
     <br>
 
@@ -924,7 +924,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/items/7" \
+    --get "http://localhost/api/items/19" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -940,7 +940,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/items/7"
+    "http://localhost/api/items/19"
 );
 
 const headers = {
@@ -1041,7 +1041,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="GETapi-items--id-"
-               value="7"
+               value="19"
                data-component="url" hidden>
     <br>
 <p>待辦事項ID.</p>
@@ -1051,7 +1051,7 @@ fetch(url, {
                 <input type="text"
                name="lang"
                data-endpoint="GETapi-items--id-"
-               value="in"
+               value="qui"
                data-component="url" hidden>
     <br>
 <p>The language.</p>
@@ -1132,14 +1132,14 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/api/items/7" \
+    "http://localhost/api/items/18" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
     \"todoTask\": {
-        \"name\": \"\",
-        \"start\": \"2022-01-27T14:19:51\",
-        \"end\": \"velit\",
+        \"name\": \"n\",
+        \"start\": \"2022-01-28T15:24:50\",
+        \"end\": \"aperiam\",
         \"state\": false
     },
     \"classification\": \"購物\",
@@ -1153,7 +1153,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/items/7"
+    "http://localhost/api/items/18"
 );
 
 const headers = {
@@ -1163,9 +1163,9 @@ const headers = {
 
 let body = {
     "todoTask": {
-        "name": "",
-        "start": "2022-01-27T14:19:51",
-        "end": "velit",
+        "name": "n",
+        "start": "2022-01-28T15:24:50",
+        "end": "aperiam",
         "state": false
     },
     "classification": "購物",
@@ -1252,7 +1252,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="PUTapi-items--id-"
-               value="7"
+               value="18"
                data-component="url" hidden>
     <br>
 <p>待辦事項ID.</p>
@@ -1262,7 +1262,7 @@ fetch(url, {
                 <input type="text"
                name="lang"
                data-endpoint="PUTapi-items--id-"
-               value="dolores"
+               value="aperiam"
                data-component="url" hidden>
     <br>
 <p>The language</p>
@@ -1280,7 +1280,7 @@ fetch(url, {
                 <input type="text"
                name="todoTask.name"
                data-endpoint="PUTapi-items--id-"
-               value=""
+               value="n"
                data-component="body" hidden>
     <br>
 <p>value 不能多於 150 個字元。 value 不能小於 2 個字元。.</p>
@@ -1290,7 +1290,7 @@ fetch(url, {
                 <input type="text"
                name="todoTask.start"
                data-endpoint="PUTapi-items--id-"
-               value="2022-01-27T14:19:51"
+               value="2022-01-28T15:24:50"
                data-component="body" hidden>
     <br>
 <p>value 不是有效的日期。.</p>
@@ -1300,7 +1300,7 @@ fetch(url, {
                 <input type="text"
                name="todoTask.end"
                data-endpoint="PUTapi-items--id-"
-               value="velit"
+               value="aperiam"
                data-component="body" hidden>
     <br>
 
@@ -1393,7 +1393,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/api/items/9" \
+    "http://localhost/api/items/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -1404,7 +1404,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/items/9"
+    "http://localhost/api/items/1"
 );
 
 const headers = {
@@ -1490,7 +1490,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEapi-items--id-"
-               value="9"
+               value="1"
                data-component="url" hidden>
     <br>
 <p>待辦項目ID</p>

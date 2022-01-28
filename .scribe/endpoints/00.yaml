@@ -53,7 +53,7 @@ endpoints:
         name: lang
         description: 'The language'
         required: false
-        example: suscipit
+        example: doloribus
         type: string
         custom: []
     queryParameters: []
@@ -69,7 +69,7 @@ endpoints:
         name: category.name
         description: 'value 不能多於 150 個字元。 value 不能小於 1 個字元。.'
         required: true
-        example: ''
+        example: w
         type: string
         custom: []
       name:

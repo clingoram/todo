@@ -38,10 +38,6 @@ class TaskController extends Controller
      *  "message": "todoTask.name不能為空",
      * }
      * 
-     * 
-     * @return 格式為JSON的回應
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -178,7 +174,7 @@ class TaskController extends Controller
                 'message' => 'Success',
                 'data_return' => $find
             ], 200);
-        }else{
+        } else {
             return response()->json([
                 'status' => false,
                 'message' => 'Something wrong.',
@@ -278,10 +274,13 @@ class TaskController extends Controller
             $findExist->delete();
             if ($findExist->trashed()) {
                 return response()->json(
-                    ['status' => true, 
-                    'message' => 'Success', 
-                    'data_return' => null],
-                200);
+                    [
+                        'status' => true,
+                        'message' => 'Success',
+                        'data_return' => null
+                    ],
+                    200
+                );
             }
         }
         return response()->json(['status' => false, 'message' => 'Fail', 'data_return' => null], 204);

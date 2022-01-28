@@ -66,7 +66,7 @@ endpoints:
         name: lang
         description: 'The language'
         required: false
-        example: libero
+        example: est
         type: string
         custom: []
     queryParameters: []
@@ -82,21 +82,21 @@ endpoints:
         name: todoTask.name
         description: 'value 不能多於 150 個字元。 value 不能小於 2 個字元。.'
         required: true
-        example: fd
+        example: zb
         type: string
         custom: []
       todoTask.start:
         name: todoTask.start
         description: 'value 不是有效的日期。.'
         required: true
-        example: '2022-01-27T14:19:51'
+        example: '2022-01-28T15:24:50'
         type: string
         custom: []
       todoTask.end:
         name: todoTask.end
         description: 'value 不是有效的日期。.'
         required: true
-        example: '2022-01-27T14:19:51'
+        example: '2022-01-28T15:24:50'
         type: string
         custom: []
       todoTask.state:
@@ -110,7 +110,7 @@ endpoints:
         name: classificationSelected
         description: ''
         required: true
-        example: 45634.818
+        example: 10890.206
         type: number
         custom: []
       name:
@@ -189,14 +189,14 @@ endpoints:
         name: id
         description: 待辦事項ID.
         required: true
-        example: 7
+        example: 19
         type: integer
         custom: []
       lang:
         name: lang
         description: 'The language.'
         required: false
-        example: in
+        example: qui
         type: string
         custom: []
     queryParameters: []
@@ -289,14 +289,14 @@ endpoints:
         name: id
         description: 待辦事項ID.
         required: true
-        example: 7
+        example: 18
         type: integer
         custom: []
       lang:
         name: lang
         description: 'The language'
         required: false
-        example: dolores
+        example: aperiam
         type: string
         custom: []
     queryParameters: []
@@ -312,21 +312,21 @@ endpoints:
         name: todoTask.name
         description: 'value 不能多於 150 個字元。 value 不能小於 2 個字元。.'
         required: true
-        example: ''
+        example: 'n'
         type: string
         custom: []
       todoTask.start:
         name: todoTask.start
         description: 'value 不是有效的日期。.'
         required: true
-        example: '2022-01-27T14:19:51'
+        example: '2022-01-28T15:24:50'
         type: string
         custom: []
       todoTask.end:
         name: todoTask.end
         description: ''
         required: true
-        example: velit
+        example: aperiam
         type: string
         custom: []
       todoTask.state:
@@ -410,7 +410,7 @@ endpoints:
         name: id
         description: 待辦項目ID
         required: true
-        example: 9
+        example: 1
         type: integer
         custom: []
     queryParameters: []
