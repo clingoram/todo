@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\Category;
-// use PHPUnit\Framework\TestCase;
 
 class CategoryControllerTest extends TestCase
 {
@@ -39,13 +38,6 @@ class CategoryControllerTest extends TestCase
             ]
         ]);
     }
-
-
-    // Seeder test
-    // public function test_seeder_works()
-    // {
-    //     $this->seed();
-    // }
 
     protected function tearDown(): void
     {

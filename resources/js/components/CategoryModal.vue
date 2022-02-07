@@ -125,6 +125,7 @@ export default {
       axios
         .get("api/items/categories")
         .then((response) => {
+          // console.log(response.data);
           this.categoryNameList = response.data;
         })
         .catch((error) => {

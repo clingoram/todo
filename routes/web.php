@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
 
+Route::get('/', function () {
     // 引導至views/index.blade
     return view('index');
 });
