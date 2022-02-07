@@ -73,7 +73,7 @@ class CategoryController extends Controller
      *
      * 
      */
-    public function store(Request $request)
+    public function store($request)
     {
         $validator = Validator::make($request->all(), [
             'category.name' => ['bail', 'required', 'max:150', 'min:1', 'string']
