@@ -9,6 +9,3 @@
 * PHPUnit Test
 * API文件
 
-<h3>更新後的外觀</h3>
-![Todo](/images/new_calendar_todo.jpg)
-
