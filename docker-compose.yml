@@ -1,9 +1,9 @@
-# version: "3.8"
-
 # services有哪些容器
 services:
+  # 根據Dockerfile製成的image，建立成容器
   # PHP容器
   app:
+    # build = 自建image
     build: .
     container_name: laravel_app
     volumes:
@@ -15,6 +15,7 @@ services:
 
   # nginx容器
   web:
+    # 從官方拉image
     image: nginx:alpine
     container_name: laravel_web
     ports:
@@ -25,6 +26,7 @@ services:
     depends_on:
       - app
 
+  # mysql容器
   mysql:
     image: mysql:8.0
     container_name: laravel_mysql
@@ -37,10 +39,12 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  # redis容器
   redis:
     image: redis:alpine
     container_name: laravel_redis
 
+  # Queue
   queue:
     build: .
     container_name: laravel_queue
@@ -51,6 +55,7 @@ services:
       - redis
       - mysql
 
+  # Scheduler
   scheduler:
     build: .
     container_name: laravel_scheduler
@@ -58,10 +63,10 @@ services:
     volumes:
       - .:/var/www
 
-  mailhog:
-    image: mailhog/mailhog
-    ports:
-      - "8025:8025"
+  # mailhog:
+  #   image: mailhog/mailhog
+  #   ports:
+  #     - "8025:8025"
 
 volumes:
   mysql_data:
