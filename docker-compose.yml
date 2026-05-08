@@ -32,10 +32,10 @@ services:
     container_name: laravel_mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: laravel
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -48,6 +48,7 @@ services:
   queue:
     build: .
     container_name: laravel_queue
+    working_dir: /var/www
     command: php artisan queue:work
     volumes:
       - .:/var/www
@@ -62,11 +63,6 @@ services:
     command: sh -c "while true; do php artisan schedule:run; sleep 60; done"
     volumes:
       - .:/var/www
-
-  # mailhog:
-  #   image: mailhog/mailhog
-  #   ports:
-  #     - "8025:8025"
 
 volumes:
   mysql_data:

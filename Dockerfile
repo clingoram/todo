@@ -1,14 +1,14 @@
-FROM php:8.0-fpm
+FROM php:8.3-fpm
 
 RUN apt-get update && apt-get install -y \
-    git curl zip unzip libpng-dev libonig-dev libxml2-dev \
+    git \
+    unzip \
     libzip-dev
 
-RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
-RUN docker-php-ext-install opcache
+RUN docker-php-ext-install pdo pdo_mysql zip
 
-# 安裝composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+RUN pecl install redis \
+    && docker-php-ext-enable redis
 
 # 設定工作目錄
 WORKDIR /var/www
