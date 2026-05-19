@@ -16,4 +16,3 @@
 - 將Laravel Sail轉成Docker
 - CI/CD with GitHub Actions + MySQL service
 - 由於許多套件是舊版或不再維護，因此新增或移除部份套件
-  Laravel: 10
