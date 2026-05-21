@@ -37,8 +37,8 @@ jobs:
         php-version: 8.2
         extensions: mbstring, pdo, mysql
         
-    - name: Copy CI env file
-      run: cp .env.ci .env
+    # - name: Copy CI env file
+    #   run: cp .env.ci .env
 
     - name: Check PHP version
       run: php -v
@@ -75,6 +75,7 @@ jobs:
       run:  php artisan migrate --force
       
     - name: Run tests (Unit and Feature tests) 
+      run: php artisan test
       env:
           DB_CONNECTION: mysql
           DB_HOST: mysql
@@ -82,4 +83,3 @@ jobs:
           DB_DATABASE: db_test
           DB_USERNAME: laravel
           DB_PASSWORD: secret
-      run: php artisan test
