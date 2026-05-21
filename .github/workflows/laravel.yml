@@ -1,4 +1,4 @@
-name: Laravel
+name: Laravel CI
 
 on:
   push:
@@ -67,14 +67,15 @@ jobs:
       run: php artisan optimize:clear
   
     - name: Run migrations
-      run:  php artisan migrate --force
       env:
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_DATABASE: db_test
           DB_USERNAME: laravel
+          DB_PASSWORD: secret
           # MYSQL_ROOT_PASSWORD: root
+      run:  php artisan migrate --force
 
     - name: Run tests (Unit and Feature tests) 
       env:
