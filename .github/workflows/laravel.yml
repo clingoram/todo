@@ -77,6 +77,9 @@ jobs:
           # MYSQL_ROOT_PASSWORD: root
       run:  php artisan migrate --force
 
+    - name: Migrate phpunit config
+      run: vendor/bin/phpunit --migrate-configuration
+      
     - name: Run tests (Unit and Feature tests) 
       env:
           DB_CONNECTION: mysql
