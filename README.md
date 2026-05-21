@@ -14,5 +14,5 @@
 ## 2026年更新：
 
 - 將Laravel Sail轉成Docker
-- CI/CD with GitHub Actions + MySQL service
+- CI/CD with GitHub Actions
 - 由於許多套件是舊版或不再維護，因此新增或移除部份套件
