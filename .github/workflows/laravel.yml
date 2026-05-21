@@ -37,8 +37,8 @@ jobs:
         php-version: 8.2
         extensions: mbstring, pdo, mysql
         
-    # - name: Copy CI env file
-    #   run: cp .env.ci .env
+    - name: Copy CI env file
+      run: cp .env.ci .env
 
     - name: Check PHP version
       run: php -v
