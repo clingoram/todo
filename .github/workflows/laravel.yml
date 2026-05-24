@@ -71,7 +71,7 @@ jobs:
           DB_DATABASE: db_test
           DB_USERNAME: laravel
           DB_PASSWORD: secret
-          # MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: root
       run:  php artisan migrate --force
       
     - name: Run tests (Unit and Feature tests) 
