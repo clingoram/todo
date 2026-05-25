@@ -62,7 +62,12 @@ jobs:
         
     - name: Clear Laravel cache
       run: php artisan optimize:clear
-  
+
+    - name: Debug Docker Status
+      run: |
+        docker compose ps
+        docker compose logs app
+        
     - name: Run migrations
       env:
           DB_CONNECTION: mysql
