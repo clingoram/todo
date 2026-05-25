@@ -16,12 +16,18 @@ jobs:
     - name: Create .env.ci file from GitHub Secrets
       run: echo "${{ secrets.ENV_CI_CONTENT }}" > .env.ci
 
+    - name: Create local .env for Laravel
+      run: cp .env.ci .env
+      
     - name: Start Docker Containers
       run: docker compose up -d --build
       
     - name: Install Composer Dependencies
       run: docker compose exec -T app composer install --no-interaction --prefer-dist
-      
+
+    - name: Setup environment inside container
+      run: docker compose exec -T app cp .env.ci .env
+        
     - name: Generate app key
       run: docker compose exec -T app php artisan key:generate
       
