@@ -71,7 +71,8 @@ jobs:
           DB_DATABASE: db_test
           DB_USERNAME: laravel
           DB_PASSWORD: secret
-      run:  php artisan migrate --force
+      run: docker compose exec -T app php artisan migrate --force  
+      # php artisan migrate --force
       
     - name: Run tests (Unit and Feature tests) 
       run: php artisan test
