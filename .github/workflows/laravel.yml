@@ -66,7 +66,7 @@ jobs:
     - name: Run migrations
       env:
           DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1  # host.docker.internal
+          DB_HOST: mysql  # 127.0.0.1
           DB_PORT: 3306
           DB_DATABASE: db_test
           DB_USERNAME: laravel
@@ -77,7 +77,7 @@ jobs:
       run: php artisan test
       env:
           DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1 #mysql
+          DB_HOST: mysql #127.0.0.1 
           DB_PORT: 3306
           DB_DATABASE: db_test
           DB_USERNAME: laravel
