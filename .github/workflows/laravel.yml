@@ -1,0 +1,52 @@
+name: Laravel CI (Pure Docker Mode)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Create .env.ci file from GitHub Secrets
+      run: echo '${{ secrets.ENV_CI_CONTENT }}' > .env.ci
+
+    - name: Create local .env for Laravel
+      run: cp .env.ci .env
+      
+    - name: Start Docker Containers
+      run: docker compose up -d --build
+
+    - name: Setup environment inside container
+      run: docker compose exec -T app cp .env.ci .env
+      
+    - name: Fix Git safe directory inside container
+      run: docker compose exec -T app git config --global --add safe.directory /var/www
+
+    - name: Install Dependencies
+      run: docker compose exec -T app composer install --no-interaction --prefer-dist
+        
+    - name: Generate app key
+      run: docker compose exec -T app php artisan key:generate
+      
+    - name: Clear Laravel cache
+      run: docker compose exec -T app php artisan optimize:clear
+
+    - name: Wait for Database Boot
+      run: sleep 15
+
+    - name: Debug Docker Status
+      run: |
+        docker compose ps
+        docker compose logs app
+        
+    - name: Run migrations
+      run: docker compose exec -T app php artisan migrate --force  
+      
+    - name: Run tests
+      run: docker compose exec -T app php artisan test
