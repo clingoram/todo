@@ -58,6 +58,7 @@ class TaskControllerTest extends TestCase
      * */
     public function test_show_a_task()
     {
+        $create = Task::factory()->create();
         $data = Task::first();
         $response = $this->get("api/items/{$data['id']}");
         $response->assertStatus(200);
