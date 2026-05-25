@@ -73,7 +73,7 @@ class CategoryController extends Controller
      *
      * 
      */
-    public function store($request)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'category.name' => ['bail', 'required', 'max:150', 'min:1', 'string']
@@ -92,7 +92,6 @@ class CategoryController extends Controller
         $data->created_at = Carbon::now();
         $data->save();
 
-        // return response()->json($data, 201);
         return response()->json([
             'message' => 'Success.',
             'status' => true,

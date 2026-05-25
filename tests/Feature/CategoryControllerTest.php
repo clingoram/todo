@@ -40,20 +40,23 @@ class CategoryControllerTest extends TestCase
      * */
     public function test_store_new_category()
     {
-
         // 目前有幾本資料(應該是0)
         $beforeCount = Category::count();
         // 產生一組假的陣列資料
         $payload = Category::factory()->raw();
 
-        $response = $this->post("api/items/categories", $payload);
+        $response = $this->post("api/items/categories",[
+            'category' => [
+                'name' => $payload['name']
+            ]
+        ]);
 
         // 印出API噴了什麼錯誤
         if ($response->status() !== 201 && $response->status() !== 200) {
             dump($response->json());
         }
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
         $this->assertDatabaseCount('category', $beforeCount + 1);
  
