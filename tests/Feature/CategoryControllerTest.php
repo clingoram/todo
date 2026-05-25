@@ -40,12 +40,26 @@ class CategoryControllerTest extends TestCase
      * */
     public function test_store_new_category()
     {
-        $data = Category::make();
-        $response = $this->post("api/items/categories", [
-            'name' => $data['name'],
-            'created_at' => $data['created_at']
+
+        // 目前有幾本資料(應該是0)
+        $beforeCount = Category::count();
+        // 產生一組假的陣列資料
+        $payload = Category::factory()->raw();
+
+        $response = $this->post("api/items/categories", $payload);
+
+        // 印出API噴了什麼錯誤
+        if ($response->status() !== 201 && $response->status() !== 200) {
+            dump($response->json());
+        }
+
+        $response->assertStatus(201);
+
+        $this->assertDatabaseCount('category', $beforeCount + 1);
+ 
+        $this->assertDatabaseHas('category', [
+            'name' => $payload['name']
         ]);
-        $this->assertDatabaseCount('category', 5);
     }
 
     /**
