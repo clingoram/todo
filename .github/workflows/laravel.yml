@@ -19,13 +19,13 @@ jobs:
     - name: Start Docker Containers
       run: docker compose up -d --build
       
-    - name: Install Composer Dependencies inside Container
+    - name: Install Composer Dependencies
       run: docker compose exec -T app composer install --no-interaction --prefer-dist
       
-    - name: Generate app key inside Container
+    - name: Generate app key
       run: docker compose exec -T app php artisan key:generate
       
-    - name: Clear Laravel cache inside Container
+    - name: Clear Laravel cache
       run: docker compose exec -T app php artisan optimize:clear
 
     - name: Wait for Database Boot
@@ -36,8 +36,8 @@ jobs:
         docker compose ps
         docker compose logs app
         
-    - name: Run migrations inside Container
+    - name: Run migrations
       run: docker compose exec -T app php artisan migrate --force  
       
-    - name: Run tests inside Container
+    - name: Run tests
       run: docker compose exec -T app php artisan test
