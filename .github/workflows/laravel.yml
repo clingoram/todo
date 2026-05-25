@@ -1,4 +1,4 @@
-name: Laravel CI
+name: Laravel CI (Pure Docker Mode)
 
 on:
   push:
@@ -8,83 +8,36 @@ on:
 
 jobs:
   laravel-tests:
-
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        # Docker Hub image with version
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: db_test
-          MYSQL_USER: laravel
-          MYSQL_PASSWORD: secret
-        ports:
-          - 3306:3306
-          # Set health checks to wait until mysql database has started (it takes some seconds to start)
-        options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-          
+
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: 8.2
-        extensions: mbstring, pdo, mysql
-
-    - name: Check PHP version
-      run: php -v
-    
-    - name: Check Composer version
-      run: composer --version
-        
     - name: Copy CI env file
       run: cp .env.ci .env
 
-    - name: Install Composer Dependencies
-      run: composer install --no-interaction --prefer-dist
+    - name: Start Docker Containers
+      run: docker compose up -d --build
       
-    - name: Generate app key
-      run: php artisan key:generate
+    - name: Install Composer Dependencies inside Container
+      run: docker compose exec -T app composer install --no-interaction --prefer-dist
       
-    - name: Directory Permissions
-      run: chmod -R 777 storage bootstrap/cache
+    - name: Generate app key inside Container
+      run: docker compose exec -T app php artisan key:generate
+      
+    - name: Clear Laravel cache inside Container
+      run: docker compose exec -T app php artisan optimize:clear
 
-    - name: Clear config cache
-      run: |
-        php artisan config:clear
-        php artisan cache:clear
-        
-    - name: Clear Laravel cache
-      run: php artisan optimize:clear
+    - name: Wait for Database Boot
+      run: sleep 15
 
     - name: Debug Docker Status
       run: |
         docker compose ps
         docker compose logs app
         
-    - name: Run migrations
-      env:
-          DB_CONNECTION: mysql
-          DB_HOST: mysql  # 127.0.0.1
-          DB_PORT: 3306
-          DB_DATABASE: db_test
-          DB_USERNAME: laravel
-          DB_PASSWORD: secret
+    - name: Run migrations inside Container
       run: docker compose exec -T app php artisan migrate --force  
-      # php artisan migrate --force
       
-    - name: Run tests (Unit and Feature tests) 
-      run: php artisan test
-      env:
-          DB_CONNECTION: mysql
-          DB_HOST: mysql #127.0.0.1 
-          DB_PORT: 3306
-          DB_DATABASE: db_test
-          DB_USERNAME: laravel
-          DB_PASSWORD: secret
+    - name: Run tests inside Container
+      run: docker compose exec -T app php artisan test
