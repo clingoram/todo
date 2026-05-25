@@ -13,8 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Copy CI env file
-      run: cp .env.ci .env
+    - name: Create .env.ci file from GitHub Secrets
+      run: echo "${{ secrets.ENV_CI_CONTENT }}" > .env.ci
 
     - name: Start Docker Containers
       run: docker compose up -d --build
