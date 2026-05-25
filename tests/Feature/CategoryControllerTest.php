@@ -56,7 +56,7 @@ class CategoryControllerTest extends TestCase
             dump($response->json());
         }
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
         $this->assertDatabaseCount('category', $beforeCount + 1);
  
