@@ -16,7 +16,7 @@
 - 將Laravel Sail轉成Docker，使用Laravel 10(由於許多套件是舊版或不再維護，因此新增或移除部份套件)
 - 為此新增：Dockerfile、docker-compose.yml以及laravel.yml(for CI)
 
-### 🧪 自動化測試與持續整合 (CI/CD) with GitHub Actions
+### 🧪 CI with GitHub Actions
 
 本專案導入了完整的 **DevOps 自動化工作流**。每次程式碼Push或Pull Request至`main`分支時，皆會觸發GitHub Actions進行自動化建置與測試。
 
