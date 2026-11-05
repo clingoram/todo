@@ -16,9 +16,77 @@
 - 將Laravel Sail轉成Docker，使用Laravel 10(由於許多套件是舊版或不再維護，因此新增或移除部份套件)
 - 為此新增：Dockerfile、docker-compose.yml以及laravel.yml(for CI)
 
+🛠️ 環境需求
+請確保本機已安裝以下工具：
+Docker
+Docker Compose
+
+🚀 專案啟動
+在專案根目錄（包含 docker-compose.yml 的資料夾）執行以下指令：
+
+1. 建立並背景啟動所有容器
+   Bash
+   docker compose up -d
+   提示：如果是第一次啟動或修改了Dockerfile / docker-compose.yml，請加上--build參數來重新建置映象檔：
+
+Bash
+docker compose up -d --build
+
+2. 安裝Composer依賴套件 (若是全新專案)
+   如果容器內沒有自動安裝套件，可以透過容器執行Composer：
+
+Bash
+docker compose exec app composer install
+
+3. 安裝Composer依賴套件與產生金鑰
+   容器啟動後，執行以下指令安裝套件並產生Laravel應用程式密鑰 (APP_KEY)：
+
+Bash
+
+# 安裝依賴套件
+
+docker compose exec app composer install
+
+# 產生應用程式金鑰
+
+docker compose exec app php artisan key:generate
+
+🛑 專案關閉
+
+1. 停止容器（保留容器狀態）
+   Bash
+   docker compose stop
+2. 停止並完全移除容器（建議）
+   這會釋放系統資源，但不會刪除資料庫資料（只要有正確設定Docker Volume）：
+
+Bash
+docker compose down
+
+📦 資料庫遷移 (Migration)
+透過exec在應用程式容器（假設服務名稱為app）內執行Laravel Artisan指令：
+
+Bash
+
+# 執行資料庫遷移
+
+docker compose exec app php artisan migrate
+提示：如果需要重置資料庫並重新執行所有Seeders，可以使用：
+
+Bash
+docker compose exec app php artisan migrate:fresh --seed
+
+🧪 執行測試 (Test)
+在Docker環境中執行專案的測試套件（如Pest或PHPUnit）：
+
+Bash
+
+# 執行所有測試
+
+docker compose exec app php artisan test
+
 ### 🧪 自動化測試與持續整合 (CI/CD) with GitHub Actions
 
-本專案導入了完整的 **DevOps 自動化工作流**。每次程式碼Push或Pull Request至`main`分支時，皆會觸發GitHub Actions進行自動化建置與測試。
+本專案導入了完整的 **DevOps 自動化工作流**。每次程式碼Push或Pull Request至`main`時，皆會觸發GitHub Actions進行自動化建置與測試。
 
 - **環境隔離**：測試流程完全運行於純Docker容器環境中，確保測試環境與生產環境高度一致。
 - **測試涵蓋**：包含Feature Tests與Unit Tests，確保API邏輯與資料庫關聯正確性。
