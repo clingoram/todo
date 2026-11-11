@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Tasks;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
+
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 
 // model
 use App\Models\Task;
@@ -89,23 +92,10 @@ class TaskController extends Controller
      * }
      *
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
         // 驗證
-        $validated = Validator::make($request->all(), [
-            'todoTask.name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
-            'todoTask.start' => ['required', 'date'],
-            'todoTask.end' => ['required', 'date'],
-            'todoTask.state' => ['Boolean'],
-            'classificationSelected' => ['required', 'numeric']
-        ]);
-        if ($validated->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => $validated->errors(),
-                'data_return' => null,
-            ], 400);
-        }
+        $validator = $request->validated();
 
         $newTask = new Task;
         $newTask->description = $request->todoTask['name'];
@@ -211,23 +201,10 @@ class TaskController extends Controller
      * }
      * 
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateTaskRequest $request, int $id)
     {
         // 驗證
-        $validator = Validator::make($request->all(), [
-            'todoTask.name' => ['bail', 'required', 'max:150', 'min:2', 'string'],
-            'todoTask.start' => ['required', 'date'],
-            'todoTask.end' => ['required'],
-            'todoTask.state' => ['Boolean'],
-            'classification' => ['required', 'numeric']
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => $validator->errors(),
-                'data_return' => null,
-            ], 404);
-        }
+        $validator = $request->validated();
 
         $findExist = Task::find($id);
         $findExist->description = $request->todoTask['name'];

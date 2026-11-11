@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Category;
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Validator;
+// use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
+
+use App\Http\Requests\StoreCategoryRequest;
 
 // Model
 use App\Models\Category;
@@ -73,19 +75,10 @@ class CategoryController extends Controller
      *
      * 
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'category.name' => ['bail', 'required', 'max:150', 'min:1', 'string']
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Parameters Error',
-                'data_return' => $validator->errors(),
-            ], 400);
-        }
+        $validator = $request->validated();
 
         $data = new Category();
         $data->name = $request->category['name'];
