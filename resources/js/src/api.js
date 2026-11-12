@@ -18,7 +18,7 @@ function resetModal(todoTask) {
   this.selected = null;
 };
 function handleOK() {
-
+  
 }
 
 // TaskModal
